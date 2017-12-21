@@ -2,6 +2,8 @@ const passport = require('passport');
 const profile = require('./app/profile');
 const changePassword = require('./app/changePassword');
 const signOut = require('./app/signOut');
+const help = require('./app/help');
+const terms = require('./app/terms');
 const logger = require('./infrastructure/logger');
 
 const routes = (app, csrf) => {
@@ -39,6 +41,8 @@ const routes = (app, csrf) => {
   app.use('/', profile(csrf));
   app.use('/change-password', changePassword(csrf));
   app.use('/signout', signOut(csrf));
+  app.use('/help', help(csrf));
+  app.use('/terms', terms(csrf));
 };
 
 module.exports = routes;
