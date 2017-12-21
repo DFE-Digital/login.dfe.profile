@@ -30,6 +30,7 @@
     "express-flash-2": "^1.0.1",
     "express-session": "^1.15.6",
     "login.dfe.jwt-strategies": "github:DFE-Digital/login.dfe.jwt-strategies#v1.0.4",
+    "login.dfe.config.schema": "git+https://github.com/DFE-Digital/login.dfe.config.schema.git#v1.8.1",
     "login.dfe.validation": "github:DFE-Digital/login.dfe.validation#v1.0.0",
     "lodash": "^4.17.4",
     "morgan": "^1.9.0",

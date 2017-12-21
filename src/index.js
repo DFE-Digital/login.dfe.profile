@@ -15,8 +15,11 @@ const config = require('./infrastructure/config');
 const getPassportStrategy = require('./infrastructure/oidc');
 
 const registerRoutes = require('./routes');
+const { profileSchema, validateConfigAndQuitOnError } = require('login.dfe.config.schema');
 
 const init = async () => {
+  validateConfigAndQuitOnError(profileSchema, config, logger);
+
   const app = express();
   const csrf = csurf({ cookie: true });
 
