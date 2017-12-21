@@ -20,14 +20,6 @@ const init = async () => {
   const app = express();
   const csrf = csurf({ cookie: true });
 
-  passport.use('oidc', await getPassportStrategy());
-  passport.serializeUser((user, done) => {
-    done(null, user);
-  });
-  passport.deserializeUser((user, done) => {
-    done(null, user);
-  });
-
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
   app.use(morgan('combined', { stream: fs.createWriteStream('./access.log', { flags: 'a' }) }));
@@ -41,9 +33,23 @@ const init = async () => {
     saveUninitialized: true,
     secret: config.hostingEnvironment.sessionSecret,
   }));
+  app.use(flash());
+  app.use((req, res, next) => {
+    logger.info(req.url);
+    next();
+  });
+
+
+  passport.use('oidc', await getPassportStrategy());
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(flash());
+
 
   registerRoutes(app, csrf);
 
