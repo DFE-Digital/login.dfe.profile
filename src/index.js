@@ -34,10 +34,6 @@ const init = async () => {
     secret: config.hostingEnvironment.sessionSecret,
   }));
   app.use(flash());
-  app.use((req, res, next) => {
-    logger.info(req.url);
-    next();
-  });
 
 
   passport.use('oidc', await getPassportStrategy());

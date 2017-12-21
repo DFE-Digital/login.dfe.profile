@@ -8,8 +8,6 @@ const routes = (app, csrf) => {
   // auth callbacks
   app.get('/auth', passport.authenticate('oidc'));
   app.get('/auth/cb', (req, res, next) => {
-    logger.info('in auth callback');
-
     passport.authenticate('oidc', (err, user) => {
       let redirectUrl = '/';
 
@@ -21,7 +19,6 @@ const routes = (app, csrf) => {
         return res.redirect('/');
       }
 
-      logger.info(`Authenticated user ${JSON.stringify(user)}`);
       if (req.session.redirectUrl) {
         redirectUrl = req.session.redirectUrl;
         req.session.redirectUrl = null;
