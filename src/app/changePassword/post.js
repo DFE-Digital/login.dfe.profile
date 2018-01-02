@@ -57,12 +57,13 @@ const action = async (req, res) => {
   }
 
   const account = Account.fromContext(req.user);
-  const oldPasswordIsCorrect = await account.validatePassword(oldPassword);
+  const oldPasswordIsCorrect = await account.validatePassword(oldPassword, req.id);
   if (!oldPasswordIsCorrect) {
     logger.audit(`Failed changed password for ${account.email} (id: ${account.id}) - Incorrect current password`, {
       type: 'change-password',
       success: false,
       userId: account.id,
+      reqId: req.id,
     });
 
     res.render('changePassword/views/change', {
@@ -79,11 +80,12 @@ const action = async (req, res) => {
     return;
   }
 
-  await account.setPassword(newPassword);
+  await account.setPassword(newPassword, req.id);
   logger.audit(`Successfully changed password for ${account.email} (id: ${account.id})`, {
     type: 'change-password',
     success: true,
     userId: account.id,
+    reqId: req.id,
   });
 
   res.flash('info', 'Your password has been changed');
