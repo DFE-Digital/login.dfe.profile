@@ -3,7 +3,7 @@ const rp = require('request-promise');
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
 
-const callDirectoriesApi = async (resource, body, method = 'POST') => {
+const callDirectoriesApi = async (resource, body, method = 'POST', reqId) => {
   const token = await jwtStrategy(config.directories.service).getBearerToken();
   try {
     const opts = {
@@ -11,6 +11,7 @@ const callDirectoriesApi = async (resource, body, method = 'POST') => {
       uri: `${config.directories.service.url}/${resource}`,
       headers: {
         authorization: `bearer ${token}`,
+        'x-correlation-id': reqId,
       },
       json: true,
     };
@@ -48,20 +49,20 @@ class DirectoriesApiAccount extends Account {
     return new DirectoriesApiAccount(response.result);
   }
 
-  async validatePassword(password) {
+  async validatePassword(password, reqId) {
     const username = this.claims.email;
     const response = await callDirectoriesApi('users/authenticate', {
       username,
       password,
-    });
+    }, 'POST', reqId);
     return response.success;
   }
 
-  async setPassword(password) {
+  async setPassword(password, reqId) {
     const uid = this.claims.sub;
     const response = await callDirectoriesApi(`users/${uid}/changepassword`, {
       password,
-    });
+    }, 'POST', reqId);
     if (!response.success) {
       throw new Error(response.errorMessage);
     }
