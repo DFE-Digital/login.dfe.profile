@@ -16,11 +16,13 @@ const getPassportStrategy = require('./infrastructure/oidc');
 
 const registerRoutes = require('./routes');
 const { profileSchema, validateConfigAndQuitOnError } = require('login.dfe.config.schema');
+const setCorrelationId = require('express-mw-correlation-id');
 
 const init = async () => {
   validateConfigAndQuitOnError(profileSchema, config, logger);
 
   const app = express();
+  app.use(setCorrelationId(true));
   const csrf = csurf({ cookie: true });
 
   app.use(bodyParser.urlencoded({ extended: true }));
