@@ -52,6 +52,10 @@ const init = async () => {
     resave: true,
     saveUninitialized: true,
     secret: config.hostingEnvironment.sessionSecret,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+    },
   }));
   app.use(flash());
 
