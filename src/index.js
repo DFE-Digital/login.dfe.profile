@@ -13,6 +13,8 @@ const csurf = require('csurf');
 const flash = require('express-flash-2');
 const config = require('./infrastructure/config');
 const getPassportStrategy = require('./infrastructure/oidc');
+const helmet = require('helmet');
+const sanitization = require('login.dfe.sanitization');
 
 const registerRoutes = require('./routes');
 const { profileSchema, validateConfigAndQuitOnError } = require('login.dfe.config.schema');
@@ -22,11 +24,24 @@ const init = async () => {
   validateConfigAndQuitOnError(profileSchema, config, logger);
 
   const app = express();
+  app.use(helmet({
+    noCache: true,
+    frameguard: {
+      action: 'deny',
+    },
+  }));
   app.use(setCorrelationId(true));
-  const csrf = csurf({ cookie: true });
+
+  const csrf = csurf({
+    cookie: {
+      secure: true,
+      httpOnly: true,
+    },
+  });
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
+  app.use(sanitization());
   app.use(morgan('combined', { stream: fs.createWriteStream('./access.log', { flags: 'a' }) }));
   app.use(morgan('dev'));
   app.set('view engine', 'ejs');
@@ -37,6 +52,10 @@ const init = async () => {
     resave: true,
     saveUninitialized: true,
     secret: config.hostingEnvironment.sessionSecret,
+    cookie: {
+      httpOnly: true,
+      secure: true,
+    },
   }));
   app.use(flash());
 
