@@ -7,12 +7,7 @@
       "auth": ""
     },
     "logLevel": "debug",
-    "colors": {
-      "info": "yellow",
-      "ok": "green",
-      "error": "red",
-      "audit": "magenta"
-    }
+    "applicationName": "Profile"
   },
   "hostingEnvironment": {
     "useDevViews": true,
