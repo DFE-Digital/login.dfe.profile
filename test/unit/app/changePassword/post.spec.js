@@ -10,6 +10,7 @@ jest.mock('./../../../../src/infrastructure/config', () => {
 });
 jest.mock('./../../../../src/infrastructure/logger');
 jest.mock('./../../../../src/infrastructure/account');
+jest.mock('login.dfe.audit.winston-sequelize-transport');
 jest.mock('login.dfe.validation');
 
 const userId = 'User1';
