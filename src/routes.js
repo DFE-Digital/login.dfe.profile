@@ -5,6 +5,8 @@ const signOut = require('./app/signOut');
 const help = require('./app/help');
 const terms = require('./app/terms');
 const logger = require('./infrastructure/logger');
+const config = require('./infrastructure/config');
+const healthCheck = require('login.dfe.healthcheck');
 
 const routes = (app, csrf) => {
   // auth callbacks
@@ -38,6 +40,7 @@ const routes = (app, csrf) => {
   });
 
   // app routes
+  app.use('/healthcheck', healthCheck({ config }));
   app.use('/', profile(csrf));
   app.use('/change-password', changePassword(csrf));
   app.use('/signout', signOut(csrf));
