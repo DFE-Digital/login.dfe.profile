@@ -5,7 +5,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressLayouts = require('express-ejs-layouts');
-const session = require('express-session');
+const session = require('cookie-session');
 const morgan = require('morgan');
 const logger = require('./infrastructure/logger');
 const https = require('https');
@@ -57,6 +57,9 @@ const init = async () => {
   app.set('views', path.resolve(__dirname, 'app'));
   app.use(expressLayouts);
   app.set('layout', 'layouts/layout');
+
+
+  const expiryDate = new Date(Date.now() + (60 * 30 * 1000));
   app.use(session({
     resave: true,
     saveUninitialized: true,
@@ -64,6 +67,7 @@ const init = async () => {
     cookie: {
       httpOnly: true,
       secure: true,
+      expires: expiryDate,
     },
   }));
   app.use(flash());
