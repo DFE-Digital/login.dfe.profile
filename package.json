@@ -24,6 +24,7 @@
     "applicationinsights": "^1.0.1",
     "body-parser": "^1.18.1",
     "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "csurf": "^1.9.0",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
