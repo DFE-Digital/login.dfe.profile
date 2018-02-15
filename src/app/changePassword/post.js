@@ -11,26 +11,26 @@ const validate = (oldPassword, newPassword, confirmPassword) => {
   let failed = false;
 
   if (!oldPassword) {
-    messages.oldPassword = 'Enter your current password';
+    messages.oldPassword = 'Please enter your current password';
     failed = true;
   }
 
   if (!newPassword) {
-    messages.newPassword = 'Enter a new password';
+    messages.newPassword = 'Please enter a password';
     failed = true;
   } else {
     if (!passwordPolicy.doesPasswordMeetPolicy(newPassword)) {
-      messages.newPassword = 'Your password does not meet the minimum requirements';
+      messages.newPassword = 'Please enter a password of at least 12 characters';
       failed = true;
     }
     if (!confirmPassword) {
-      messages.confirmPassword = 'Passwords do not match';
+      messages.confirmPassword = 'Please enter matching passwords';
       failed = true;
     }
   }
 
   if (newPassword && confirmPassword && newPassword !== confirmPassword) {
-    messages.confirmPassword = 'Passwords do not match';
+    messages.confirmPassword = 'Please enter matching passwords';
     failed = true;
   }
 

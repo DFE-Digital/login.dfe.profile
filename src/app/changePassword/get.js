@@ -3,11 +3,7 @@ const action = (req, res) => {
     csrfToken: req.csrfToken(),
     title: 'Change password',
     validationFailed: false,
-    validationMessages: {
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    },
+    validationMessages: {},
   });
 };
 
