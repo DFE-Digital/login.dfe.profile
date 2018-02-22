@@ -28,6 +28,14 @@ const init = async () => {
     appInsights.setup(config.hostingEnvironment.applicationInsights).start();
   }
 
+  let expiryInMinutes = 30;
+  const sessionExpiry = parseInt(config.hostingEnvironment.sessionCookieExpiryInMinutes);
+  if (!isNaN(sessionExpiry)) {
+    expiryInMinutes = sessionExpiry;
+  }
+
+  const expiryDate = new Date(Date.now() + (60 * expiryInMinutes * 1000));
+
   const app = express();
   app.use(helmet({
     noCache: true,
@@ -59,7 +67,6 @@ const init = async () => {
   app.set('layout', 'layouts/layout');
 
 
-  const expiryDate = new Date(Date.now() + (60 * 30 * 1000));
   app.use(session({
     resave: true,
     saveUninitialized: true,
