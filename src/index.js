@@ -66,7 +66,6 @@ const init = async () => {
   app.use(expressLayouts);
   app.set('layout', 'layouts/layout');
 
-
   app.use(session({
     resave: true,
     saveUninitialized: true,
@@ -90,6 +89,7 @@ const init = async () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.locals.gaTrackingId = config.hostingEnvironment.gaTrackingId;
 
   registerRoutes(app, csrf);
 

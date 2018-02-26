@@ -1,6 +1,7 @@
 const Account = require('./../../infrastructure/account');
 const logger = require('./../../infrastructure/logger');
 const { passwordPolicy } = require('login.dfe.validation');
+const { getUserDisplayName } = require('../../infrastructure/utils');
 
 const validate = (oldPassword, newPassword, confirmPassword) => {
   const messages = {
@@ -51,6 +52,8 @@ const action = async (req, res) => {
       csrfToken: req.csrfToken(),
       validationFailed: true,
       title: 'Change password',
+      displayName: req.user ? getUserDisplayName(req.user) : 'Unknown User',
+      user: req.user,
       validationMessages: validationResult.messages,
     });
     return;
@@ -70,6 +73,8 @@ const action = async (req, res) => {
       csrfToken: req.csrfToken(),
       validationFailed: true,
       title: 'Change password',
+      displayName: req.user ? getUserDisplayName(req.user) : 'Unknown User',
+      user: req.user,
       validationMessages: {
         oldPassword: 'We do not recognise the password you entered. Please check and try again.',
         newPassword: '',
