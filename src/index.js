@@ -84,7 +84,14 @@ const init = async () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.locals.gaTrackingId = config.hostingEnvironment.gaTrackingId;
+  // Setup global locals for layouts and views
+  Object.assign(app.locals, {
+    urls: {
+      interactions: config.hostingEnvironment.interactionsUrl,
+      help: config.hostingEnvironment.helpUrl,
+    },
+    gaTrackingId: config.hostingEnvironment.gaTrackingId,
+  });
 
   registerRoutes(app, csrf);
 
