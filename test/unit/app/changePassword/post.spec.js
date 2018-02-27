@@ -6,6 +6,8 @@ jest.mock('./../../../../src/infrastructure/config', () => {
     organisations: {
       type: 'static',
     },
+    hostingEnvironment: {
+    },
   };
 });
 jest.mock('./../../../../src/infrastructure/logger');

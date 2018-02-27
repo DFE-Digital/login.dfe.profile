@@ -1,5 +1,4 @@
 const config = require('./infrastructure/config');
-const appInsights = require('applicationinsights');
 const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -23,10 +22,6 @@ const setCorrelationId = require('express-mw-correlation-id');
 
 const init = async () => {
   validateConfigAndQuitOnError(profileSchema, config, logger);
-
-  if (config.hostingEnvironment.applicationInsights) {
-    appInsights.setup(config.hostingEnvironment.applicationInsights).start();
-  }
 
   let expiryInMinutes = 30;
   const sessionExpiry = parseInt(config.hostingEnvironment.sessionCookieExpiryInMinutes);
