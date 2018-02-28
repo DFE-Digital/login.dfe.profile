@@ -23,14 +23,6 @@ const setCorrelationId = require('express-mw-correlation-id');
 const init = async () => {
   validateConfigAndQuitOnError(profileSchema, config, logger);
 
-  let expiryInMinutes = 30;
-  const sessionExpiry = parseInt(config.hostingEnvironment.sessionCookieExpiryInMinutes);
-  if (!isNaN(sessionExpiry)) {
-    expiryInMinutes = sessionExpiry;
-  }
-
-  const expiryDate = new Date(Date.now() + (60 * expiryInMinutes * 1000));
-
   const app = express();
   app.use(helmet({
     noCache: true,
@@ -61,12 +53,22 @@ const init = async () => {
   app.use(expressLayouts);
   app.set('layout', 'layouts/layout');
 
+  let expiryInMinutes = 30;
+  const sessionExpiry = parseInt(config.hostingEnvironment.sessionCookieExpiryInMinutes);
+  if (!isNaN(sessionExpiry)) {
+    expiryInMinutes = sessionExpiry;
+  }
   app.use(session({
     keys: [config.hostingEnvironment.sessionSecret],
-    expires: expiryDate,
+    maxAge: expiryInMinutes * 60000, // Expiry in milliseconds
     httpOnly: true,
     secure: true,
   }));
+  app.use((req, res, next) => {
+    req.session.now = Date.now();
+    next();
+  });
+
   app.use(flash());
 
 
