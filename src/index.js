@@ -62,14 +62,10 @@ const init = async () => {
   app.set('layout', 'layouts/layout');
 
   app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: config.hostingEnvironment.sessionSecret,
-    cookie: {
-      httpOnly: true,
-      secure: true,
-      expires: expiryDate,
-    },
+    keys: [config.hostingEnvironment.sessionSecret],
+    expires: expiryDate,
+    httpOnly: true,
+    secure: true,
   }));
   app.use(flash());
 
