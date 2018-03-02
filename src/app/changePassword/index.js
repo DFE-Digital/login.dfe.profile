@@ -3,6 +3,7 @@
 const express = require('express');
 const { isLoggedIn } = require('../../infrastructure/utils');
 const logger = require('../../infrastructure/logger');
+const { asyncWrapper } = require('login.dfe.express-error-handling');
 
 const router = express.Router({ mergeParams: true });
 
@@ -14,8 +15,8 @@ const area = (csrf) => {
 
   router.use(isLoggedIn);
 
-  router.get('/', csrf, get);
-  router.post('/', csrf, post);
+  router.get('/', csrf, asyncWrapper(get));
+  router.post('/', csrf, asyncWrapper(post));
 
   return router;
 };
