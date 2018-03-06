@@ -34,7 +34,7 @@
     "express-session": "^1.15.6",
     "helmet": "^3.11.0",
     "lodash": "^4.17.5",
-    "login.dfe.audit.winston-sequelize-transport": "github:DFE-Digital/login.dfe.audit.winston-sequelize-transport#v1.1",
+    "login.dfe.audit.winston-sequelize-transport": "github:DFE-Digital/login.dfe.audit.winston-sequelize-transport#v2.0",
     "login.dfe.config.schema": "git+https://github.com/DFE-Digital/login.dfe.config.schema.git#v4.3",
     "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.2",
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.3",
