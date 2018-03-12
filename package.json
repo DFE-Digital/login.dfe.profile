@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/DFE-Digital/login.dfe.profile#readme",
   "dependencies": {
+    "agentkeepalive": "^3.4.1",
     "applicationinsights": "^1.0.2",
     "body-parser": "^1.18.1",
     "cookie-parser": "^1.4.3",
