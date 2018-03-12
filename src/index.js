@@ -7,6 +7,7 @@ const expressLayouts = require('express-ejs-layouts');
 const session = require('cookie-session');
 const morgan = require('morgan');
 const logger = require('./infrastructure/logger');
+const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
@@ -19,6 +20,20 @@ const { getErrorHandler, ejsErrorPages } = require('login.dfe.express-error-hand
 const registerRoutes = require('./routes');
 const { profileSchema, validateConfigAndQuitOnError } = require('login.dfe.config.schema');
 const setCorrelationId = require('express-mw-correlation-id');
+const KeepAliveAgent = require('agentkeepalive');
+
+http.GlobalAgent = new KeepAliveAgent({
+  maxSockets: 10,
+  maxFreeSockets: 2,
+  timeout: 60000,
+  keepAliveTimeout: 300000,
+});
+https.GlobalAgent = new KeepAliveAgent({
+  maxSockets: 10,
+  maxFreeSockets: 2,
+  timeout: 60000,
+  keepAliveTimeout: 300000,
+});
 
 const init = async () => {
   validateConfigAndQuitOnError(profileSchema, config, logger);
