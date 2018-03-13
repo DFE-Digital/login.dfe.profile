@@ -16,6 +16,10 @@ const routes = (app, csrf) => {
       let redirectUrl = '/';
 
       if (err) {
+        if (err.message === 'state mismatch') {
+          req.session = null;
+          return res.redirect('/');
+        }
         logger.error(`Error in auth callback - ${err}`);
         return next(err);
       }
