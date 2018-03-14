@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "settings='./config/login.dfe.profile.local.dev.json' node src/index.js",
+    "dev": "settings='./config/login.dfe.profile.dev.json' node src/index.js",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
