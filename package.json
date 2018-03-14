@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "settings='./config/login.dfe.profile.dev.json' node src/index.js",
+    "dev": "settings='./config/login.dfe.profile.local.dev.json' node src/index.js",
     "test": "./node_modules/.bin/jest"
   },
   "engines": {
@@ -37,7 +37,7 @@
     "lodash": "^4.17.5",
     "login.dfe.audit.winston-sequelize-transport": "github:DFE-Digital/login.dfe.audit.winston-sequelize-transport#v2.0",
     "login.dfe.config.schema": "git+https://github.com/DFE-Digital/login.dfe.config.schema.git#v4.3",
-    "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.2",
+    "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.3",
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.3",
     "login.dfe.jwt-strategies": "github:DFE-Digital/login.dfe.jwt-strategies#v2.0.1",
     "login.dfe.sanitization": "git+https://github.com/DFE-Digital/login.dfe.sanitization.git#v1.0",
