@@ -1,13 +1,14 @@
+<% if (locals.flash.info) { %>
+<div class="notification notification-success">
+    <%=locals.flash.info%>
+</div>
+<% } %>
+
 <div class="row">
     <div class="col-8">
         <h1 class="heading-xlarge">
             My profile
         </h1>
-        <% if (locals.flash.info) { %>
-        <div class="notification notification-success">
-            <%=locals.flash.info%>
-        </div>
-        <% } %>
         <dl class="inline">
             <dt>First name</dt>
             <dd><%= locals.user.given_name%></dd>
