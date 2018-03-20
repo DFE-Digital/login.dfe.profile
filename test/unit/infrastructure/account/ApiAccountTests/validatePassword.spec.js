@@ -9,7 +9,7 @@ jest.mock('./../../../../../src/infrastructure/config', () => {
     },
   };
 });
-
+const requestPromise = require('request-promise');
 describe('When validating a users password', () => {
   const user = { email: 'user.one@unit.test' };
   const password = 'password';
@@ -18,6 +18,10 @@ describe('When validating a users password', () => {
   let getBearerToken;
   let rp;
 
+  beforeAll(() => {
+    rp = jest.fn();
+    requestPromise.defaults.mockReturnValue(rp);
+  });
   beforeEach(() => {
     getBearerToken = jest.fn().mockReturnValue('token');
     const jwtStrategy = require('login.dfe.jwt-strategies');
@@ -25,9 +29,6 @@ describe('When validating a users password', () => {
       getBearerToken,
     }));
 
-    rp = jest.fn();
-    const requestPromise = require('request-promise');
-    requestPromise.mockImplementation(rp);
 
     const Account = require('./../../../../../src/infrastructure/account/DirectoriesApiAccount');
     account = Account.fromContext(user);

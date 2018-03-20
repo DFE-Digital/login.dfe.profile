@@ -3,7 +3,10 @@
 const Service = require('./Service');
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
-const rp = require('request-promise');
+const rp = require('request-promise').defaults({
+  forever: true,
+  keepAlive: true,
+});
 
 const ServiceUser = require('./ServiceUser');
 const UserServiceRequest = require('./UserServiceRequest');
