@@ -1,5 +1,8 @@
 const Account = require('./Account');
-const rp = require('request-promise');
+const rp = require('request-promise').defaults({
+  forever: true,
+  keepAlive: true,
+});
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
 
