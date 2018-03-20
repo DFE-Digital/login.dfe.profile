@@ -10,6 +10,8 @@ jest.mock('./../../../../../src/infrastructure/config', () => {
   };
 });
 
+const requestPromise = require('request-promise');
+
 describe('When getting a collection of users', () => {
   const user = { sub: 'user1', email: 'user.one@unit.test' };
   const users = [{ sub: 'user1', email: 'user.one@unit.test' }, { sub: 'user2', email: 'user.two@unit.test' }];
@@ -19,16 +21,16 @@ describe('When getting a collection of users', () => {
   let getBearerToken;
   let rp;
 
+  beforeAll(() => {
+    rp = jest.fn();
+    requestPromise.defaults.mockReturnValue(rp);
+  });
   beforeEach(() => {
     getBearerToken = jest.fn().mockReturnValue('token');
     const jwtStrategy = require('login.dfe.jwt-strategies');
     jwtStrategy.mockImplementation(() => ({
       getBearerToken,
     }));
-
-    rp = jest.fn();
-    const requestPromise = require('request-promise');
-    requestPromise.mockImplementation(rp);
 
     const Account = require('./../../../../../src/infrastructure/account/DirectoriesApiAccount');
     account = Account.fromContext(user);
