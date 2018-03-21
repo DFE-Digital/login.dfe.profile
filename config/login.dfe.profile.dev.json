@@ -21,7 +21,13 @@
     "sessionCookieExpiryInMinutes": 30,
     "gaTrackingId": "UA-114739594-1",
     "interactionsUrl": "https://signin-dev-int-as.azurewebsites.net",
-    "helpUrl": "https://signin-dev-hlp-as.azurewebsites.net"
+    "helpUrl": "https://signin-dev-hlp-as.azurewebsites.net",
+    "agentKeepAlive" : {
+      "maxSockets":160,
+      "maxFreeSockets":10,
+      "timeout":60000,
+      "keepAliveTimeout":30000
+    }
   },
   "directories": {
     "type": "static"
