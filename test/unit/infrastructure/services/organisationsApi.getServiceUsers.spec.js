@@ -5,7 +5,13 @@ jest.mock('request-promise');
 jest.mock('login.dfe.jwt-strategies', () => () => ({
   getBearerToken: () => 'token',
 }));
+jest.mock('agentkeepalive', () => ({
+  HttpsAgent: jest.fn(),
+}));
 jest.mock('./../../../../src/infrastructure/config', () => ({
+  hostingEnvironment: {
+    agentKeepAlive: {},
+  },
   organisations: {
     service: {
       url: 'http://orgs.api.test',
