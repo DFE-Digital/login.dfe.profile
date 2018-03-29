@@ -1,5 +1,7 @@
 const Account = require('./Account');
 const config = require('./../config');
+const KeepAliveAgent = require('agentkeepalive').HttpsAgent;
+
 const rp = require('request-promise').defaults({
   agent: new KeepAliveAgent({
     maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
@@ -9,7 +11,7 @@ const rp = require('request-promise').defaults({
   }),
 });
 const jwtStrategy = require('login.dfe.jwt-strategies');
-const config = require('./../config');
+
 
 const callDirectoriesApi = async (resource, body, method = 'POST', reqId) => {
   const token = await jwtStrategy(config.directories.service).getBearerToken();

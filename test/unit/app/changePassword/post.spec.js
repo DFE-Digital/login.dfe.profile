@@ -1,5 +1,9 @@
+jest.mock('agentkeepalive', () => ({
+  HttpsAgent: jest.fn(),
+}));
 jest.mock('./../../../../src/infrastructure/config', () => {
   return {
+
     directories: {
       type: 'static',
     },
@@ -7,6 +11,7 @@ jest.mock('./../../../../src/infrastructure/config', () => {
       type: 'static',
     },
     hostingEnvironment: {
+      agentKeepAlive: {},
     },
   };
 });

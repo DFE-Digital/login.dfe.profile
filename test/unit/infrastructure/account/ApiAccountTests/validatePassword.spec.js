@@ -1,7 +1,13 @@
 jest.mock('request-promise');
 jest.mock('login.dfe.jwt-strategies');
+jest.mock('agentkeepalive', () => ({
+  HttpsAgent: jest.fn(),
+}));
 jest.mock('./../../../../../src/infrastructure/config', () => {
   return {
+    hostingEnvironment: {
+      agentKeepAlive: {},
+    },
     directories: {
       service: {
         url: 'http://unit.test.local',

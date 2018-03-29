@@ -1,5 +1,6 @@
 'use strict';
 
+const KeepAliveAgent = require('agentkeepalive').HttpsAgent;
 const Service = require('./Service');
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
