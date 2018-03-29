@@ -1,5 +1,8 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base", "plugin:jest/recommended"],
+  "plugins": [
+    "jest"
+  ],
   "rules": {
     "no-empty": ["error", { "allowEmptyCatch": true }],
     "prefer-rest-params": "off",
