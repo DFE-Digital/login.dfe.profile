@@ -4,8 +4,12 @@ const Service = require('./Service');
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
 const rp = require('request-promise').defaults({
-  forever: true,
-  keepAlive: true,
+  agent: new KeepAliveAgent({
+    maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
+    maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,
+    timeout: config.hostingEnvironment.agentKeepAlive.timeout,
+    keepAliveTimeout: config.hostingEnvironment.agentKeepAlive.keepAliveTimeout,
+  }),
 });
 
 const ServiceUser = require('./ServiceUser');
