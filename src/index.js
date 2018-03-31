@@ -18,7 +18,7 @@ const helmet = require('helmet');
 const sanitization = require('login.dfe.sanitization');
 const { getErrorHandler, ejsErrorPages } = require('login.dfe.express-error-handling');
 const registerRoutes = require('./routes');
-const { profileSchema, validateConfigAndQuitOnError } = require('login.dfe.config.schema');
+const { profileSchema, validateConfig } = require('login.dfe.config.schema');
 const setCorrelationId = require('express-mw-correlation-id');
 const KeepAliveAgent = require('agentkeepalive');
 
@@ -36,7 +36,7 @@ https.GlobalAgent = new KeepAliveAgent({
 });
 
 const init = async () => {
-  validateConfigAndQuitOnError(profileSchema, config, logger);
+  validateConfig(profileSchema, config, logger, config.hostingEnvironment.env !== 'dev');
 
   const app = express();
   app.use(helmet({
