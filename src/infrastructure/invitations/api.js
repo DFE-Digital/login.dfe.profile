@@ -27,6 +27,7 @@ const createInvitation = async (firstName, lastName, email, clientId, redirectUr
         clientId,
         redirectUri,
       },
+      selfStarted: true,
     },
     json: true,
   });

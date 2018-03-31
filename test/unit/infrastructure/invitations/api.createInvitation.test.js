@@ -53,6 +53,7 @@ describe('when creating an invitation in directories api', () => {
           clientId,
           redirectUri,
         },
+        selfStarted: true,
       },
       json: true,
     });
