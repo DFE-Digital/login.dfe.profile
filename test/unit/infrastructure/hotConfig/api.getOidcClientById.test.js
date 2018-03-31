@@ -60,6 +60,12 @@ describe('When getting an OIDC client by id from hot config', () => {
     expect(actual).toBeUndefined();
   });
 
+  it('then it should return null when id parameter not defined', async () => {
+    const actual = await getOidcClientById(undefined);
+
+    expect(actual).toBeUndefined();
+  });
+
   it('then it should get all OIDC clients from api', async () => {
     await getOidcClientById('client1');
 

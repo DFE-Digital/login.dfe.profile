@@ -19,11 +19,15 @@ const getAllOidcClients = async () => {
     headers: {
       authorization: `bearer ${token}`,
     },
+    json: true,
   });
   return clients;
 };
 
 const getOidcClientById = async (id) => {
+  if (!id) {
+    return undefined;
+  }
   const clients = await getAllOidcClients();
   return clients.find(c => c.client_id.toLowerCase() === id.toLowerCase());
 };
