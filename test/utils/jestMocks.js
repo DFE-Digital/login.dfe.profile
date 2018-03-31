@@ -5,12 +5,9 @@ const mockRequest = () => {
     params: {
       uuid: '123-abc',
     },
-    session: {
-    },
-    body: {
-    },
-    query: {
-    },
+    session: {},
+    body: {},
+    query: {},
     csrfToken: jest.fn().mockReturnValue('token'),
   };
 };
@@ -21,7 +18,23 @@ const mockResponse = () => {
   };
 };
 
+const mockConfig = (customConfig) => {
+  const defaultConfig = {
+    hostingEnvironment: {
+      agentKeepAlive: {},
+    },
+    directories: {
+      type: 'static',
+    },
+    hotConfig: {
+      type: 'static',
+    },
+  };
+  return customConfig ? Object.assign(defaultConfig, customConfig) : defaultConfig;
+};
+
 module.exports = {
   mockRequest,
-  mockResponse
+  mockResponse,
+  mockConfig,
 };

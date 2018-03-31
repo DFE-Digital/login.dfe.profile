@@ -1,7 +1,10 @@
-const createInvitation = async (firstName, lastName, email, clientId, redirectUri) => {
-  return Promise.resolve('invitation-id');
-};
+const config = require('./../config');
 
-module.exports = {
-  createInvitation,
-};
+let adapter;
+if (config.directories.type.toLowerCase() === 'api') {
+  adapter = require('./api');
+} else {
+  adapter = require('./static');
+}
+
+module.exports = adapter;
