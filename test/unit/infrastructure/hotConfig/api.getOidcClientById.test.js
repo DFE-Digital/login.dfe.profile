@@ -3,18 +3,14 @@ jest.mock('login.dfe.jwt-strategies');
 jest.mock('agentkeepalive', () => ({
   HttpsAgent: jest.fn(),
 }));
-jest.mock('./../../../../src/infrastructure/config', () => {
-  return {
-    hostingEnvironment: {
-      agentKeepAlive: {},
+jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig({
+  hotConfig: {
+    type: 'api',
+    service: {
+      url: 'http://unit.test.local',
     },
-    hotConfig: {
-      service: {
-        url: 'http://unit.test.local',
-      },
-    },
-  };
-});
+  },
+}));
 
 const requestPromise = require('request-promise');
 const rp = jest.fn();

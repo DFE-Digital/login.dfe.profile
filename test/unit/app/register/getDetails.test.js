@@ -1,11 +1,5 @@
 jest.mock('./../../../../src/app/register/utils');
-jest.mock('./../../../../src/infrastructure/config', () => {
-  return {
-    hotConfig: {
-      type: 'static',
-    },
-  };
-});
+jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 
 const { validateRP } = require('./../../../../src/app/register/utils');
 const getDetails = require('./../../../../src/app/register/getDetails');
