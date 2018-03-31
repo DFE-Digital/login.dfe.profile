@@ -1,6 +1,7 @@
 jest.mock('./../../../../src/infrastructure/hotConfig');
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 
+const { mockRequest } = require('./../../../utils/jestMocks');
 const { getOidcClientById } = require('./../../../../src/infrastructure/hotConfig');
 const { validateRP } = require('./../../../../src/app/register/utils');
 
@@ -20,12 +21,12 @@ describe('when validating a relying party for registration', () => {
       ],
     });
 
-    req = {
+    req = mockRequest({
       query: {
         client_id: 'client1',
         redirect_uri: 'https://client.one/register/complete',
       },
-    };
+    });
   });
 
   it('then it should return clientId and redirectUri if client found and has redirect', async () => {

@@ -3,16 +3,13 @@ jest.mock('email-validator');
 jest.mock('./../../../../src/infrastructure/invitations');
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 
+const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { validateRP } = require('./../../../../src/app/register/utils');
 const emailValidator = require('email-validator');
 const { createInvitation } = require('./../../../../src/infrastructure/invitations');
 const postDetails = require('./../../../../src/app/register/postDetails');
 
-const res = {
-  render: jest.fn(),
-  status: jest.fn(),
-  redirect: jest.fn(),
-};
+const res = mockResponse();
 
 describe('when processing user details for registration', () => {
   let req;
@@ -27,8 +24,7 @@ describe('when processing user details for registration', () => {
 
     createInvitation.mockReset().mockReturnValue('invitation-one');
 
-    req = {
-      csrfToken: () => 'csrf-token',
+    req = mockRequest({
       query: {
         client_id: 'client1',
         redirect_uri: 'https://relying.party',
@@ -38,11 +34,9 @@ describe('when processing user details for registration', () => {
         lastName: 'Potter',
         email: 'harry.potter@hogwarts.magic',
       },
-    };
+    });
 
-    res.render.mockReset().mockReturnValue(res);
-    res.status.mockReset().mockReturnValue(res);
-    res.redirect.mockReset().mockReturnValue(res);
+    res.mockResetAll();
   });
 
   it('then it should create invitation record', async () => {

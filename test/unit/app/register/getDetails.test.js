@@ -1,13 +1,11 @@
 jest.mock('./../../../../src/app/register/utils');
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 
+const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { validateRP } = require('./../../../../src/app/register/utils');
 const getDetails = require('./../../../../src/app/register/getDetails');
 
-const res = {
-  render: jest.fn(),
-  status: jest.fn(),
-};
+const res = mockResponse();
 
 describe('when requesting user details for registration', () => {
   let req;
@@ -18,16 +16,14 @@ describe('when requesting user details for registration', () => {
       redirectUri: 'https://relying.party',
     });
 
-    req = {
-      csrfToken: () => 'csrf-token',
+    req = mockRequest({
       query: {
         client_id: 'client1',
         redirect_uri: 'https://relying.party',
       },
-    };
+    });
 
-    res.render.mockReset().mockReturnValue(res);
-    res.status.mockReset().mockReturnValue(res);
+    res.mockResetAll();
   });
 
   it('then it should render details page', async () => {
