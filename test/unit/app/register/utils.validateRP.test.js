@@ -1,4 +1,11 @@
 jest.mock('./../../../../src/infrastructure/hotConfig');
+jest.mock('./../../../../src/infrastructure/config', () => {
+  return {
+    hotConfig: {
+      type: 'static',
+    },
+  };
+});
 
 const { getOidcClientById } = require('./../../../../src/infrastructure/hotConfig');
 const { validateRP } = require('./../../../../src/app/register/utils');
