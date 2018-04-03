@@ -11,25 +11,27 @@ const rp = require('request-promise').defaults({
 });
 const jwtStrategy = require('login.dfe.jwt-strategies');
 
-const getAllOidcClients = async () => {
-  const token = await jwtStrategy(config.hotConfig.service).getBearerToken();
-  const clients = await rp({
-    method: 'GET',
-    uri: `${config.hotConfig.service.url}/oidcclients`,
-    headers: {
-      authorization: `bearer ${token}`,
-    },
-    json: true,
-  });
-  return clients;
-};
-
 const getOidcClientById = async (id) => {
   if (!id) {
     return undefined;
   }
-  const clients = await getAllOidcClients();
-  return clients.find(c => c.client_id.toLowerCase() === id.toLowerCase());
+  const token = await jwtStrategy(config.hotConfig.service).getBearerToken();
+  try {
+    const client = await rp({
+      method: 'GET',
+      uri: `${config.hotConfig.service.url}/oidcclients/${id}`,
+      headers: {
+        authorization: `bearer ${token}`,
+      },
+      json: true,
+    });
+    return client;
+  } catch (e) {
+    if (e.statusCode === 404) {
+      return undefined;
+    }
+    throw e;
+  }
 };
 
 module.exports = {

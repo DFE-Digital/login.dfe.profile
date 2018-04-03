@@ -21,17 +21,25 @@ const { getOidcClientById } = require('./../../../../src/infrastructure/hotConfi
 
 describe('When getting an OIDC client by id from hot config', () => {
   beforeEach(() => {
-    rp.mockReset().mockReturnValue([{
-      client_id: 'client1',
-      client_secret: 'some-secure-secret',
-      redirect_uris: [
-        'https://client.one/auth/cb',
-        'https://client.one/register/complete',
-      ],
-      post_logout_redirect_uris: [
-        'https://client.one/signout/complete',
-      ],
-    }]);
+    rp.mockReset().mockImplementation((opts) => {
+      if (opts.uri.endsWith('client1')) {
+        return {
+          client_id: 'client1',
+          client_secret: 'some-secure-secret',
+          redirect_uris: [
+            'https://client.one/auth/cb',
+            'https://client.one/register/complete',
+          ],
+          post_logout_redirect_uris: [
+            'https://client.one/signout/complete',
+          ],
+        };
+      }
+
+      const notFoundError = new Error('Not found');
+      notFoundError.statusCode = 404;
+      throw notFoundError;
+    });
 
     jwtStrategy.mockReset().mockImplementation(() => ({
       getBearerToken: () => 'bearer-token',
@@ -66,13 +74,13 @@ describe('When getting an OIDC client by id from hot config', () => {
     expect(actual).toBeUndefined();
   });
 
-  it('then it should get all OIDC clients from api', async () => {
+  it('then it should get client by id from api', async () => {
     await getOidcClientById('client1');
 
     expect(rp.mock.calls).toHaveLength(1);
     expect(rp.mock.calls[0][0]).toMatchObject({
       method: 'GET',
-      uri: 'http://unit.test.local/oidcclients',
+      uri: 'http://unit.test.local/oidcclients/client1',
     });
   });
 
