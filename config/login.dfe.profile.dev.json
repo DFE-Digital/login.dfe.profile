@@ -35,6 +35,9 @@
   "organisations": {
     "type": "static"
   },
+  "hotConfig": {
+    "type": "static"
+  },
   "identifyingParty": {
     "url": "https://localhost:4430",
     "clientId": "profile",
