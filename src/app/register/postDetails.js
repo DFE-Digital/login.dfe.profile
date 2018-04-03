@@ -46,7 +46,7 @@ const postDetails = async (req, res) => {
   }
 
   const invitationId = await sendInvitation(model, rpDetails);
-  return res.redirect(`/register/${invitationId}/verify`);
+  return res.redirect(`/register/${invitationId}`);
 };
 
 module.exports = postDetails;

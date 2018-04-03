@@ -6,6 +6,8 @@ const { asyncWrapper } = require('login.dfe.express-error-handling');
 
 const getDetails = require('./getDetails');
 const postDetails = require('./postDetails');
+const getVerify = require('./getVerify');
+const postVerify = require('./postVerify');
 
 const router = express.Router({ mergeParams: true });
 
@@ -14,6 +16,8 @@ const register = (csrf) => {
 
   router.get('/', csrf, asyncWrapper(getDetails));
   router.post('/', csrf, asyncWrapper(postDetails));
+  router.get('/:id', csrf, asyncWrapper(getVerify));
+  router.post('/:id', csrf, asyncWrapper(postVerify));
 
   return router;
 };

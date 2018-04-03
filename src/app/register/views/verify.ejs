@@ -1,0 +1,25 @@
+<div class="grid-row">
+    <div class="col-12">
+        <h1 class="heading-xlarge">
+            Enter your verification code
+        </h1>
+        <form method="post" id="form-verify-registration">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+
+            <div class="form-group <%= locals.validationMessages.code ? 'form-group-error' : '' %>">
+                <label class="form-label" for="code">Code</label>
+                <% if (locals.validationMessages.code) { %>
+                <p class="error-message" id="validation-code"><%=locals.validationMessages.code%></p>
+                <% } %>
+                <div>
+                    <input class="form-control" id="code" name="code" type="text" value="<%=code%>"
+                            <% if (locals.validationMessages.code) { %> aria-invalid="true" aria-describedby="validation-code" <% } %> />
+                </div>
+            </div>
+            <div class="submit-buttons">
+                <button type="submit" class="button">Continue</button>
+                <a href="/" class="button button-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
