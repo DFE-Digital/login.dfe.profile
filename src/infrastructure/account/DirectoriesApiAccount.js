@@ -58,6 +58,16 @@ class DirectoriesApiAccount extends Account {
     }
     return new DirectoriesApiAccount(response.result);
   }
+  static async getByEmail(email) {
+    const response = await callDirectoriesApi(`users/${email}`, null, 'GET');
+    if (!response.success) {
+      if (response.statusCode === 404) {
+        return null;
+      }
+      throw new Error(response.errorMessage);
+    }
+    return new DirectoriesApiAccount(response.result);
+  }
 
   async validatePassword(password, reqId) {
     const username = this.claims.email;

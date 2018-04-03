@@ -1,7 +1,9 @@
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 jest.mock('./../../../../src/infrastructure/invitations');
+jest.mock('./../../../../src/infrastructure/account');
 
 const { getInvitationById } = require('./../../../../src/infrastructure/invitations');
+const { getByEmail } = require('./../../../../src/infrastructure/account');
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const postVerify = require('./../../../../src/app/register/postVerify');
 
@@ -34,6 +36,8 @@ describe('when processing verification code for registration', () => {
       code: 'ABC123X',
       id: 'invitation-id',
     });
+
+    getByEmail.mockReset().mockReturnValue(null);
   });
 
   it('then it should redirect to new password', async () => {
@@ -93,5 +97,15 @@ describe('when processing verification code for registration', () => {
         code: 'Failed to verify code',
       },
     });
+  });
+
+  it('then it should redirect to email in use if invitation email already has an account', async () => {
+    getByEmail.mockReturnValue({});
+
+    await postVerify(req, res);
+
+    expect(res.redirect.mock.calls).toHaveLength(1);
+    expect(res.redirect.mock.calls[0][0]).toBe('/register/invitation-id/email-in-use');
+    expect(getByEmail.mock.calls[0][0]).toBe('user.one@unit.tests');
   });
 });

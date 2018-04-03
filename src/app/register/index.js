@@ -19,6 +19,10 @@ const register = (csrf) => {
   router.get('/:id', csrf, asyncWrapper(getVerify));
   router.post('/:id', csrf, asyncWrapper(postVerify));
 
+  router.get('/:id/email-in-use', csrf, (req, res) => {
+    res.render('register/views/emailInUse');
+  });
+
   return router;
 };
 
