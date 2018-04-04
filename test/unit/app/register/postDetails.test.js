@@ -52,7 +52,7 @@ describe('when processing user details for registration', () => {
     await postDetails(req, res);
 
     expect(res.redirect.mock.calls).toHaveLength(1);
-    expect(res.redirect.mock.calls[0][0]).toBe('/register/invitation-one/verify');
+    expect(res.redirect.mock.calls[0][0]).toBe('/register/invitation-one');
   });
 
   it('then it should render details page if input invalid', async () => {
