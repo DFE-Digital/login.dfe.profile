@@ -6,7 +6,12 @@ const getInvitationById = async (id) => {
   return Promise.resolve(null);
 };
 
+const convertInvitationToUser = async (id, password) => {
+  return Promise.resolve(null);
+};
+
 module.exports = {
   createInvitation,
   getInvitationById,
+  convertInvitationToUser,
 };
