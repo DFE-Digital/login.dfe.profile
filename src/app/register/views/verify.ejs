@@ -1,3 +1,14 @@
+<div class="notification notification-success" tabindex="0">
+    <h2>Email verification sent</h2>
+    <p>We&apos;ve sent you an email containing a verification code.</p>
+    <form method="post" class="inline" id="form-resend-register" action="/register?client_id=<%=clientId%>&redirect_uri=<%=redirectUri%>">
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+        <input type="hidden" name="firstName" id="firstName" value="<%=firstName%>"/>
+        <input type="hidden" name="lastName" id="lastName" value="<%=lastName%>"/>
+        <input type="hidden" name="email" id="email" value="<%=email%>"/>
+        <button type="submit" class="button-text">Resend code</button>
+    </form>
+</div>
 <div class="grid-row">
     <div class="col-12">
         <h1 class="heading-xlarge">
