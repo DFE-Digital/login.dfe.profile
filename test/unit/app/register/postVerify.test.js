@@ -20,6 +20,14 @@ describe('when processing verification code for registration', () => {
       body: {
         code: 'ABC123X',
       },
+      session: {
+        registration: {
+          invitationId: 'invitation-one',
+          firstName: 'Harry',
+          lastName: 'Potter',
+          email: 'harry.potter@hogwarts.magic',
+        },
+      },
     });
 
     res.mockResetAll();
@@ -50,8 +58,13 @@ describe('when processing verification code for registration', () => {
   it('then it should update session that code was verified', async () => {
     await postVerify(req, res);
 
-    expect(req.session.registration).toBeDefined();
-    expect(req.session.registration.codeVerified).toBe(true);
+    expect(req.session.registration).toMatchObject({
+      invitationId: 'invitation-one',
+      firstName: 'Harry',
+      lastName: 'Potter',
+      email: 'harry.potter@hogwarts.magic',
+      codeVerified: true,
+    });
   });
 
   it('then it should render view with error if code not entered', async () => {
@@ -69,13 +82,19 @@ describe('when processing verification code for registration', () => {
     });
   });
 
-  it('then it should render invitation not found view if invitation does not exist', async () => {
+  it('then it should render view with error if invitation does not exist', async () => {
     getInvitationById.mockReturnValue(null);
 
     await postVerify(req, res);
 
     expect(res.render.mock.calls).toHaveLength(1);
-    expect(res.render.mock.calls[0][0]).toBe('register/views/invitationNotFound');
+    expect(res.render.mock.calls[0][0]).toBe('register/views/verify');
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      code: 'ABC123X',
+      validationMessages: {
+        code: 'Failed to verify code',
+      },
+    });
   });
 
   it('then it should render view with error if entered code does not match invitation code', async () => {

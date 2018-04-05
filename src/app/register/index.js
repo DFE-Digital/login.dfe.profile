@@ -8,6 +8,7 @@ const getDetails = require('./getDetails');
 const postDetails = require('./postDetails');
 const getVerify = require('./getVerify');
 const postVerify = require('./postVerify');
+const postResend = require('./postResend');
 const getNewPassword = require('./getNewPassword');
 const postNewPassword = require('./postNewPassword');
 const getComplete = require('./getComplete');
@@ -21,6 +22,7 @@ const register = (csrf) => {
   router.post('/', csrf, asyncWrapper(postDetails));
   router.get('/:id', csrf, asyncWrapper(getVerify));
   router.post('/:id', csrf, asyncWrapper(postVerify));
+  router.post('/:id/resend', csrf, asyncWrapper(postResend));
   router.get('/:id/new-password', csrf, asyncWrapper(getNewPassword));
   router.post('/:id/new-password', csrf, asyncWrapper(postNewPassword));
   router.get('/:id/complete', asyncWrapper(getComplete));

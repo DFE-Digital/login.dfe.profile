@@ -68,15 +68,6 @@ describe('when handling confirmation of new password in registration', () => {
   });
 
 
-  it('then it should render invitation not found view if cannot find invitation', async () => {
-    getInvitationById.mockReturnValue(null);
-
-    await postNewPassword(req, res);
-
-    expect(res.render.mock.calls).toHaveLength(1);
-    expect(res.render.mock.calls[0][0]).toBe('register/views/invitationNotFound');
-  });
-
   it('then it should redirect to verify if code not verified', async () => {
     req.session.registration = undefined;
 
