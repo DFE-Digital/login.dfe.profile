@@ -2,11 +2,13 @@ jest.mock('./../../../../src/app/register/utils');
 jest.mock('email-validator');
 jest.mock('./../../../../src/infrastructure/invitations');
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
+jest.mock('uuid/v4');
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { validateRP } = require('./../../../../src/app/register/utils');
 const emailValidator = require('email-validator');
 const { createInvitation } = require('./../../../../src/infrastructure/invitations');
+const uuid = require('uuid/v4');
 const postDetails = require('./../../../../src/app/register/postDetails');
 
 const res = mockResponse();
@@ -23,6 +25,8 @@ describe('when processing user details for registration', () => {
     emailValidator.validate.mockReset().mockReturnValue(true);
 
     createInvitation.mockReset().mockReturnValue('invitation-one');
+
+    uuid.mockReset().mockReturnValue('00000000-0000-0000-0000-000000000000');
 
     req = mockRequest({
       query: {
@@ -137,6 +141,28 @@ describe('when processing user details for registration', () => {
       validationMessages: {
         email: 'Please enter a valid email address',
       },
+    });
+  });
+
+  it('then it should use sudo invitation id if account already exists', async () => {
+    createInvitation.mockReturnValue(undefined);
+
+    await postDetails(req, res);
+
+    expect(res.redirect.mock.calls).toHaveLength(1);
+    expect(res.redirect.mock.calls[0][0]).toBe('/register/00000000-0000-0000-0000-000000000000');
+  });
+
+  it('then it should store invitation id and entered details in session', async () => {
+    await postDetails(req, res);
+
+    expect(req.session.registration).toEqual({
+      invitationId: 'invitation-one',
+      firstName: 'Harry',
+      lastName: 'Potter',
+      email: 'harry.potter@hogwarts.magic',
+      clientId: 'client1',
+      redirectUri: 'https://relying.party',
     });
   });
 

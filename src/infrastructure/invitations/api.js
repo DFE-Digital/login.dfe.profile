@@ -31,7 +31,7 @@ const createInvitation = async (firstName, lastName, email, clientId, redirectUr
     },
     json: true,
   });
-  return invitation.id;
+  return invitation ? invitation.id : undefined;
 };
 
 const getInvitationById = async (id) => {
