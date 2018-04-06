@@ -61,48 +61,48 @@ const getAvailableServicesForUser = () => Promise.resolve([
   }),
 ]);
 const getServicesForUser = () =>
-  Promise.resolve([
-    new Service({
-      id: '4d46ed12-c4a9-462b-8c33-f323e5f4c4f9',
-      name: 'COLLECT',
-      description: 'Parrel schooner execution dock careen gun nipper salmagundi lee interloper black spot skysail transom Pieces of Eight lugsail strike colors rum stern Brethren of the Coast reef chase.',
-      organisation: new Organisation({
-        id: 1,
-        name: 'St Patricks Primary School',
-      }),
-      role: new Role({
-        id: 1,
-        name: 'Approver',
-      }),
+    Promise.resolve([
+      new Service({
+        id: '4d46ed12-c4a9-462b-8c33-f323e5f4c4f9',
+        name: 'COLLECT',
+        description: 'Parrel schooner execution dock careen gun nipper salmagundi lee interloper black spot skysail transom Pieces of Eight lugsail strike colors rum stern Brethren of the Coast reef chase.',
+        organisation: new Organisation({
+          id: 1,
+          name: 'St Patricks Primary School',
+        }),
+        role: new Role({
+          id: 1,
+          name: 'Approver',
+        }),
 
-    }),
-    new Service({
-      id: '0a0410ba-f896-4c2b-aa08-6337a0d3db2e',
-      name: 'Analyse School Performance',
-      description: 'Enables controlled school users to download their own pupil performance data allowing for the monitoring of progress at pupil level. The site also hosts the Ofsted Inspection Dashboard.',
-      organisation: new Organisation({
-        id: 1,
-        name: 'St Patricks Primary School',
       }),
-      role: new Role({
-        id: 0,
-        name: 'End User',
+      new Service({
+        id: '0a0410ba-f896-4c2b-aa08-6337a0d3db2e',
+        name: 'Analyse School Performance',
+        description: 'Enables controlled school users to download their own pupil performance data allowing for the monitoring of progress at pupil level. The site also hosts the Ofsted Inspection Dashboard.',
+        organisation: new Organisation({
+          id: 1,
+          name: 'St Patricks Primary School',
+        }),
+        role: new Role({
+          id: 0,
+          name: 'End User',
+        }),
       }),
-    }),
-    new Service({
-      id: '0a0410ba-f896-4c2b-aa08-6337a0d3db2e',
-      name: 'Analyse School Performance',
-      description: 'Enables controlled school users to download their own pupil performance data allowing for the monitoring of progress at pupil level. The site also hosts the Ofsted Inspection Dashboard.',
-      organisation: new Organisation({
-        id: 2,
-        name: 'George Fentham Endowed Primary School',
+      new Service({
+        id: '0a0410ba-f896-4c2b-aa08-6337a0d3db2e',
+        name: 'Analyse School Performance',
+        description: 'Enables controlled school users to download their own pupil performance data allowing for the monitoring of progress at pupil level. The site also hosts the Ofsted Inspection Dashboard.',
+        organisation: new Organisation({
+          id: 2,
+          name: 'George Fentham Endowed Primary School',
+        }),
+        role: new Role({
+          id: 0,
+          name: 'End User',
+        }),
       }),
-      role: new Role({
-        id: 0,
-        name: 'End User',
-      }),
-    }),
-  ])
+    ])
   // organisation: new Organisation(),
   // userService: new UserService(),
 
@@ -126,8 +126,16 @@ const getServiceUsers = async () => {
   });
   return Promise.resolve(
     [
-      new ServiceUser({ id: '6cb83f92-980f-4782-aa81-b63334dae995', role: { id: 999, name: 'Approver' }, organisation }),
-      new ServiceUser({ id: 'aa3c5dac-f53c-4db6-a3df-ff1339434c74', role: { id: 999, name: 'Approver' }, organisation }),
+      new ServiceUser({
+        id: '6cb83f92-980f-4782-aa81-b63334dae995',
+        role: { id: 999, name: 'Approver' },
+        organisation
+      }),
+      new ServiceUser({
+        id: 'aa3c5dac-f53c-4db6-a3df-ff1339434c74',
+        role: { id: 999, name: 'Approver' },
+        organisation
+      }),
       new ServiceUser({ id: '63401a04-745c-46fc-bdaf-2147ba71d214', role: { id: 0, name: 'End user' }, organisation }),
       new ServiceUser({ id: '86ee7a5f-1c2e-4edf-9812-7fa867cce122', role: { id: 0, name: 'End user' }, organisation }),
     ]);
@@ -138,7 +146,15 @@ const getUserServiceRequest = async () => {
     id: 2,
     name: 'George Fentham Endowed Primary School',
   });
-  return Promise.resolve(new ServiceUser({ id: '6cb83f92-980f-4782-aa81-b63334dae995', role: { id: 999, name: 'Approver' }, organisation }));
+  return Promise.resolve(new ServiceUser({
+    id: '6cb83f92-980f-4782-aa81-b63334dae995',
+    role: { id: 999, name: 'Approver' },
+    organisation
+  }));
+};
+
+const migrateInvitationServicesToUserServices = async (invitationId, userId) => {
+  return Promise.resolve();
 };
 
 
@@ -148,4 +164,5 @@ module.exports = {
   getServiceDetails,
   getServiceUsers,
   getUserServiceRequest,
+  migrateInvitationServicesToUserServices,
 };

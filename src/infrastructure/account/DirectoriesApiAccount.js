@@ -58,6 +58,7 @@ class DirectoriesApiAccount extends Account {
     }
     return new DirectoriesApiAccount(response.result);
   }
+
   static async getByEmail(email) {
     const response = await callDirectoriesApi(`users/${email}`, null, 'GET');
     if (!response.success) {
@@ -83,6 +84,13 @@ class DirectoriesApiAccount extends Account {
     const response = await callDirectoriesApi(`users/${uid}/changepassword`, {
       password,
     }, 'POST', reqId);
+    if (!response.success) {
+      throw new Error(response.errorMessage);
+    }
+  }
+
+  async assignDevice(type, serialNumber, reqId) {
+    const response = await callDirectoriesApi(`users/${this.id}/devices`, { type, serialNumber }, 'POST', reqId);
     if (!response.success) {
       throw new Error(response.errorMessage);
     }

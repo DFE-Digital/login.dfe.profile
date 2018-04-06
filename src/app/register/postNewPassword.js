@@ -1,4 +1,6 @@
-const { convertInvitationToUser } = require('./../../infrastructure/invitations');
+const { getInvitationById, convertInvitationToUser } = require('./../../infrastructure/invitations');
+const { migrateInvitationServicesToUserServices } = require('./../../infrastructure/services');
+const Account = require('./../../infrastructure/account');
 
 const validateInput = (req) => {
   const model = {
@@ -24,6 +26,21 @@ const validateInput = (req) => {
   return model;
 };
 
+const completeRegistration = async (invitationId, password) => {
+  const invitation = await getInvitationById(invitationId);
+
+  const claims = await convertInvitationToUser(invitationId, password);
+  const user = new Account(claims);
+
+  await migrateInvitationServicesToUserServices(invitationId, user.id);
+
+  if (invitation.device) {
+    await user.assignDevice(invitation.device.type, invitation.device.serialNumber)
+  }
+
+  return user.id;
+};
+
 const postNewPassword = async (req, res) => {
   if (!req.session.registration || !req.session.registration.codeVerified) {
     return res.redirect(`/register/${req.params.id}`);
@@ -35,8 +52,8 @@ const postNewPassword = async (req, res) => {
     return res.render('register/views/newPassword', model);
   }
 
-  const user = await convertInvitationToUser(req.params.id, model.newPassword);
-  req.session.registration.userId = user.id;
+  const userId = await completeRegistration(req.params.id, model.newPassword);
+  req.session.registration.userId = userId;
   return res.redirect(`/register/${req.params.id}/complete`);
 };
 
