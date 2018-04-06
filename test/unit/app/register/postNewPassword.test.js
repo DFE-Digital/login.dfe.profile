@@ -1,11 +1,16 @@
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 jest.mock('./../../../../src/infrastructure/invitations');
+jest.mock('./../../../../src/infrastructure/services');
+jest.mock('./../../../../src/infrastructure/account');
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { getInvitationById, convertInvitationToUser } = require('./../../../../src/infrastructure/invitations');
+const { migrateInvitationServicesToUserServices } = require('./../../../../src/infrastructure/services');
+const Account = require('./../../../../src/infrastructure/account');
 const postNewPassword = require('./../../../../src/app/register/postNewPassword');
 
 const res = mockResponse();
+const accountAssignDevice = jest.fn();
 
 describe('when handling confirmation of new password in registration', () => {
   let req;
@@ -26,6 +31,17 @@ describe('when handling confirmation of new password in registration', () => {
 
     convertInvitationToUser.mockReset().mockReturnValue({
       id: 'new-user-id',
+      sub: 'new-user-id',
+    });
+
+    migrateInvitationServicesToUserServices.mockReset();
+
+    accountAssignDevice.mockReset();
+    Account.mockReset().mockImplementation((claims) => {
+      return {
+        id: claims.sub,
+        assignDevice: accountAssignDevice,
+      };
     });
 
     req = mockRequest({
@@ -52,6 +68,49 @@ describe('when handling confirmation of new password in registration', () => {
     expect(convertInvitationToUser.mock.calls).toHaveLength(1);
     expect(convertInvitationToUser.mock.calls[0][0]).toBe('invitation-id');
     expect(convertInvitationToUser.mock.calls[0][1]).toBe('password1234');
+  });
+
+  it('it should migration invitation services to user', async () => {
+    await postNewPassword(req, res);
+
+    expect(migrateInvitationServicesToUserServices.mock.calls).toHaveLength(1);
+    expect(migrateInvitationServicesToUserServices.mock.calls[0][0]).toBe('invitation-id');
+    expect(migrateInvitationServicesToUserServices.mock.calls[0][1]).toBe('new-user-id');
+  });
+
+  it('it should add device if on invitation', async () => {
+    getInvitationById.mockReset().mockReturnValue({
+      firstName: 'User',
+      lastName: 'One',
+      email: 'user.one@unit.tests',
+      origin: {
+        clientId: 'client1',
+        redirectUri: 'https://relying.party/auth/cb',
+      },
+      device: {
+        type: 'digipass',
+        serialNumber: '1234567890',
+      },
+      selfStarted: true,
+      code: 'ABC123X',
+      id: 'invitation-id',
+    });
+
+    await postNewPassword(req, res);
+
+    expect(Account.mock.calls).toHaveLength(1);
+    expect(Account.mock.calls[0][0]).toMatchObject({
+      id: 'new-user-id',
+    });
+    expect(accountAssignDevice.mock.calls).toHaveLength(1);
+    expect(accountAssignDevice.mock.calls[0][0]).toBe('digipass');
+    expect(accountAssignDevice.mock.calls[0][1]).toBe('1234567890');
+  });
+
+  it('it should not try to add device if none on invitation', async () => {
+    await postNewPassword(req, res);
+
+    expect(accountAssignDevice.mock.calls).toHaveLength(0);
   });
 
   it('then it should update session with user id', async () => {
