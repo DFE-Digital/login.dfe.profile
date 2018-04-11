@@ -18,10 +18,12 @@ const mockResponse = () => {
     render: jest.fn(),
     redirect: jest.fn(),
     status: jest.fn(),
+    flash: jest.fn(),
     mockResetAll: function () {
       this.render.mockReset().mockReturnValue(this);
       this.redirect.mockReset().mockReturnValue(this);
       this.status.mockReset().mockReturnValue(this);
+      this.flash.mockReset();
     },
   };
 };
