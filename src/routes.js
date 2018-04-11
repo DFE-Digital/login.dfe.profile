@@ -9,6 +9,7 @@ const signOut = require('./app/signOut');
 const help = require('./app/help');
 const terms = require('./app/terms');
 const register = require('./app/register');
+const editDetails = require('./app/editDetails');
 
 const routes = (app, csrf) => {
   // auth callbacks
@@ -53,6 +54,7 @@ const routes = (app, csrf) => {
   app.use('/help', help(csrf));
   app.use('/terms', terms(csrf));
   app.use('/register', register(csrf));
+  app.use('/edit-details', editDetails(csrf));
 };
 
 module.exports = routes;

@@ -11,6 +11,20 @@ class Account {
     return this.claims.email;
   }
 
+  get givenName() {
+    return this.claims.given_name;
+  }
+  set givenName(given_name) {
+    this.claims.given_name = given_name;
+  }
+
+  get familyName() {
+    return this.claims.family_name;
+  }
+  set familyName(family_name) {
+    this.claims.family_name = family_name;
+  }
+
   get name() {
     let name = this.claims.name;
     if (!name) {
