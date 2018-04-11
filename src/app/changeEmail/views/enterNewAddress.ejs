@@ -1,0 +1,25 @@
+<div class="grid-row">
+    <div class="col-12">
+        <h1 class="heading-xlarge">
+            Change email address
+        </h1>
+        <form method="post" id="form-change-password">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+
+            <div class="form-group <%= locals.validationMessages.newEmail ? 'form-group-error' : '' %>">
+                <label class="form-label" for="newEmail">New email address</label>
+                <% if (locals.validationMessages.newEmail) { %>
+                <p class="error-message" id="validation-new-email"><%=locals.validationMessages.newEmail%></p>
+                <% } %>
+                <div>
+                    <input class="form-control" id="newEmail" name="newEmail" type="text" value="<%=newEmail%>"
+                            <% if (locals.validationMessages.newEmail) { %> aria-invalid="true" aria-describedby="validation-new-email" <% } %> />
+                </div>
+            </div>
+            <div class="submit-buttons">
+                <button type="submit" class="button">Continue</button>
+                <a href="/" class="button button-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
