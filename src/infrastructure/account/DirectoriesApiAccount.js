@@ -25,7 +25,7 @@ const callDirectoriesApi = async (resource, body, method = 'POST', reqId) => {
       },
       json: true,
     };
-    if (method === 'POST') {
+    if (method === 'POST' || method === 'PATCH' || method === 'PUT') {
       opts.body = body;
     }
     const result = await rp(opts);
@@ -84,6 +84,18 @@ class DirectoriesApiAccount extends Account {
     const response = await callDirectoriesApi(`users/${uid}/changepassword`, {
       password,
     }, 'POST', reqId);
+    if (!response.success) {
+      throw new Error(response.errorMessage);
+    }
+  }
+
+  async update(reqId) {
+    const uid = this.claims.sub;
+    const response = await callDirectoriesApi(`users/${uid}`, {
+      given_name: this.givenName,
+      family_name: this.familyName,
+      email: this.email,
+    }, 'PATCH', reqId);
     if (!response.success) {
       throw new Error(response.errorMessage);
     }

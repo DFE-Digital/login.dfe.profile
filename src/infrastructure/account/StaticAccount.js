@@ -42,6 +42,10 @@ class StaticAccount extends Account {
     return Promise.resolve();
   }
 
+  async update(reqId) {
+    return Promise.resolve();
+  }
+
   async getUsersById(ids) {
     return Promise.resolve(null);
   }
