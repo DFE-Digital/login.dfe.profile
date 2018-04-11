@@ -96,6 +96,10 @@ class DirectoriesApiAccount extends Account {
     }
   }
 
+  async generateChangeEmailCode(newEmailAddress, reqId) {
+    return Promise.resolve('ABC123');
+  }
+
   async getUsersById(ids) {
     const response = await callDirectoriesApi(`users/by-ids?id=${ids.toString()}`, null, 'GET');
     if (!response.success) {

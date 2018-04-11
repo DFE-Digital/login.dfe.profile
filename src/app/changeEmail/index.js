@@ -5,6 +5,9 @@ const { isLoggedIn } = require('../../infrastructure/utils');
 const logger = require('../../infrastructure/logger');
 const { asyncWrapper } = require('login.dfe.express-error-handling');
 
+const getNewEmailAddress = require('./getNewEmailAddress');
+const postNewEmailAddress = require('./postNewEmailAddress');
+
 const router = express.Router({ mergeParams: true });
 
 const area = (csrf) => {
@@ -12,16 +15,8 @@ const area = (csrf) => {
 
   router.use(isLoggedIn);
 
-  router.get('/', csrf, asyncWrapper((req, res) => {
-    res.render('changeEmail/views/enterNewAddress', {
-      csrfToken: req.csrfToken(),
-      newEmail: '',
-      validationMessages: {},
-    });
-  }));
-  router.post('/', csrf, asyncWrapper((req, res) => {
-    res.redirect('/change-email/verify');
-  }));
+  router.get('/', csrf, asyncWrapper(getNewEmailAddress));
+  router.post('/', csrf, asyncWrapper(postNewEmailAddress));
 
   router.get('/verify', csrf, asyncWrapper((req, res) => {
     res.render('changeEmail/views/verifyEmailAddress', {

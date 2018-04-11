@@ -2,6 +2,7 @@
 
 const mockRequest = (customRequest) => {
   const defaultRequest = {
+    id: 'correlation-id',
     params: {
       uuid: '123-abc',
     },
