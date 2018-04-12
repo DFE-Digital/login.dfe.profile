@@ -31,7 +31,7 @@ const action = async (req, res) => {
   account.familyName = model.familyName;
   await account.update(req.id);
 
-  res.flash('info', 'You details have been updated');
+  res.flash('info', 'Your details have been updated');
   return res.redirect('/');
 };
 
