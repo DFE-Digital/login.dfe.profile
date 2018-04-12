@@ -9,7 +9,7 @@ const getVerifyEmail = async (req, res) => {
 
   return res.render('changeEmail/views/verifyEmailAddress', {
     csrfToken: req.csrfToken(),
-    newEmail: code.newEmail,
+    newEmail: code.email,
     code: '',
     validationMessages: {},
   });

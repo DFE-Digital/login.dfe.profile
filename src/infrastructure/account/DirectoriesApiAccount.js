@@ -131,7 +131,7 @@ class DirectoriesApiAccount extends Account {
       }
       throw new Error(response.errorMessage);
     }
-    return new DirectoriesApiAccount(response.result);
+    return response.result;
   }
 
   async deleteChangeEmailCode(reqId) {

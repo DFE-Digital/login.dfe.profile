@@ -2,7 +2,7 @@ const Account = require('./../../infrastructure/account');
 
 const validateInput = (req, code) => {
   const model = {
-    newEmail: code.newEmail,
+    newEmail: code.email,
     code: req.body.code || '',
     validationMessages: {},
   };
@@ -18,7 +18,7 @@ const validateInput = (req, code) => {
 
 const postVerifyEmail = async (req, res) => {
   const account = Account.fromContext(req.user);
-  const code = account.getChangeEmailCode(req.id);
+  const code = await account.getChangeEmailCode(req.id);
   if (!code) {
     return res.redirect('/change-email');
   }
@@ -29,7 +29,7 @@ const postVerifyEmail = async (req, res) => {
     return res.render('changeEmail/views/verifyEmailAddress', model);
   }
 
-  account.email = code.newEmail;
+  account.email = code.email;
   await account.update(req.id);
   await account.deleteChangeEmailCode(req.id);
 

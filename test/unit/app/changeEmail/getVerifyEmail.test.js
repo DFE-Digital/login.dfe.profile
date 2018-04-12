@@ -18,7 +18,7 @@ describe('when user coming to verify their new email address', () => {
 
     getChangeEmailCode.mockReset().mockReturnValue({
       code: '123XYZ',
-      newEmail: 'user.one@unit.test',
+      email: 'user.one@unit.test',
     });
     Account.fromContext.mockReset().mockReturnValue({
       getChangeEmailCode,
