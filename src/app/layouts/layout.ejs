@@ -87,6 +87,10 @@
 
     <main id="content" tabindex="-1">
 
+        <% if (locals.backLink !== undefined) { %>
+            <div class="js-back-link"></div>
+        <% } %>
+
         <% if (locals.validationMessages !== undefined) { %>
 
         <% const validationKeys = Object.keys(locals.validationMessages)  %>

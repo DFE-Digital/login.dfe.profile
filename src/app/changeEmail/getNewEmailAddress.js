@@ -3,6 +3,7 @@ const getNewEmailAddress = (req, res) => {
     csrfToken: req.csrfToken(),
     newEmail: '',
     validationMessages: {},
+    backLink: true,
   });
 };
 

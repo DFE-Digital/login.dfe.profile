@@ -8,6 +8,7 @@ const action = (req, res) => {
     user: req.user,
     validationFailed: false,
     validationMessages: {},
+    backLink: true,
   });
 };
 

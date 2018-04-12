@@ -5,6 +5,7 @@ const validateInput = (req) => {
     givenName: req.body.givenName,
     familyName: req.body.familyName,
     validationMessages: {},
+    backLink: true,
   };
 
   if (!model.givenName || model.givenName.trim().length === 0) {
@@ -30,7 +31,7 @@ const action = async (req, res) => {
   account.familyName = model.familyName;
   await account.update(req.id);
 
-  res.flash('info', 'You details have been updated');
+  res.flash('info', 'Your details have been updated');
   return res.redirect('/');
 };
 

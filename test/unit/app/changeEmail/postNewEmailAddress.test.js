@@ -50,6 +50,7 @@ describe('when handing user entering new email address for change email', () => 
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('changeEmail/views/enterNewAddress');
     expect(res.render.mock.calls[0][1]).toEqual({
+      backLink: true,
       csrfToken: 'csrf-token',
       newEmail: '',
       validationMessages: {
@@ -66,6 +67,7 @@ describe('when handing user entering new email address for change email', () => 
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('changeEmail/views/enterNewAddress');
     expect(res.render.mock.calls[0][1]).toEqual({
+      backLink: true,
       csrfToken: 'csrf-token',
       newEmail: 'not-an-email-address',
       validationMessages: {
@@ -82,6 +84,7 @@ describe('when handing user entering new email address for change email', () => 
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('changeEmail/views/enterNewAddress');
     expect(res.render.mock.calls[0][1]).toEqual({
+      backLink: true,
       csrfToken: 'csrf-token',
       newEmail: 'user.one@unit.test',
       validationMessages: {

@@ -1,18 +1,24 @@
 <div class="notification notification-information" tabindex="0">
     <h2>Email confirmation sent</h2>
-    <p>We've sent an email to <%=newEmail%>. Your new email address will not be saved until you have completed this confirmation step.</p>
-    <form class="inline" method="post" action="/change-email">
-        <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-        <input type="hidden" name="newEmail" value="<%=newEmail%>" />
-        <button type="submit" class="button-text">Resend email</button>
-    </form>
+    <div class="inline-wrap">
+        <p>We've sent an email to <%=newEmail%>. Your new email address will not be saved until you have completed this confirmation step.</p>
+        <form class="inline" method="post" action="/change-email">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+            <input type="hidden" name="newEmail" value="<%=newEmail%>" />
+            <button type="submit" class="button-text">Resend email</button>
+        </form>
+    </div>
 </div>
 <div class="grid-row">
-    <div class="col-12">
+    <div class="col-8">
         <h1 class="heading-xlarge">
             Confirm your new email address
         </h1>
-        <p>Enter your verification code to confirm and save your new email address.</p>
+        <p class="lede">Enter your verification code to confirm and save your new email address.</p>
+    </div>
+</div>
+<div class="grid-row">
+    <div class="col-12">
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
@@ -21,14 +27,12 @@
                 <% if (locals.validationMessages.code) { %>
                 <p class="error-message" id="validation-code"><%=locals.validationMessages.code%></p>
                 <% } %>
-                <div>
-                    <input class="form-control" id="code" name="code" type="text" value="<%=code%>"
-                            <% if (locals.validationMessages.code) { %> aria-invalid="true" aria-describedby="validation-code" <% } %> />
-                </div>
+                <input class="form-control char-width-8" id="code" name="code" type="text" value="<%=code%>"
+                        <% if (locals.validationMessages.code) { %> aria-invalid="true" aria-describedby="validation-code" <% } %> />
+
             </div>
             <div class="submit-buttons">
                 <button type="submit" class="button">Continue</button>
-                <a href="/" class="button button-secondary">Cancel</a>
             </div>
         </form>
     </div>
