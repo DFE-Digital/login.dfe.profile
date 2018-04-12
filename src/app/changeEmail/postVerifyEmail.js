@@ -18,7 +18,7 @@ const validateInput = (req, code) => {
 
 const postVerifyEmail = async (req, res) => {
   const account = Account.fromContext(req.user);
-  const code = account.getChangeEmailCode();
+  const code = account.getChangeEmailCode(req.id);
   if (!code) {
     return res.redirect('/change-email');
   }
@@ -31,6 +31,7 @@ const postVerifyEmail = async (req, res) => {
 
   account.email = code.newEmail;
   await account.update(req.id);
+  await account.deleteChangeEmailCode(req.id);
 
   res.flash('info', 'Your email address has been changed');
   res.redirect('/');

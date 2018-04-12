@@ -8,6 +8,7 @@ const postVerifyEmail = require('./../../../../src/app/changeEmail/postVerifyEma
 const res = mockResponse();
 const getChangeEmailCode = jest.fn();
 const update = jest.fn();
+const deleteChangeEmailCode = jest.fn();
 
 describe('when user enters code to verify their new email address', () => {
   let req;
@@ -32,6 +33,7 @@ describe('when user enters code to verify their new email address', () => {
       email: 'user1@unit.test',
       getChangeEmailCode,
       update,
+      deleteChangeEmailCode,
     };
     Account.fromContext.mockReset().mockReturnValue(accountStub);
   });
@@ -42,6 +44,13 @@ describe('when user enters code to verify their new email address', () => {
     expect(accountStub.email).toBe('user.one@unit.test');
     expect(update.mock.calls).toHaveLength(1);
     expect(update.mock.calls[0][0]).toBe('correlation-id');
+  });
+
+  it('then it should delete the users change email code', async () => {
+    await postVerifyEmail(req, res);
+
+    expect(deleteChangeEmailCode.mock.calls).toHaveLength(1);
+    expect(deleteChangeEmailCode.mock.calls[0][0]).toBe('correlation-id');
   });
 
   it('then it should redirect to profile page', async () => {

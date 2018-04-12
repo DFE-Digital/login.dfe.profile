@@ -46,11 +46,15 @@ class StaticAccount extends Account {
     return Promise.resolve('ABC123');
   }
 
-  async getChangeEmailCode() {
+  async getChangeEmailCode(reqId) {
     return Promise.resolve({
       code: 'ABC123',
       newEmail: 'john.doe@stub.test',
     });
+  }
+
+  async deleteChangeEmailCode(reqId) {
+    return Promise.resolve();
   }
 
   async update(reqId) {
