@@ -26,6 +26,7 @@ const postVerifyEmail = async (req, res) => {
   const model = await validateInput(req, code);
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
+    model.backLink = true;
     return res.render('changeEmail/views/verifyEmailAddress', model);
   }
 

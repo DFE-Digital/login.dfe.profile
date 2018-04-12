@@ -22,6 +22,7 @@ const postNewEmailAddress = async (req, res) => {
   const model = await validateInput(req);
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
+    model.backLink = true;
     return res.render('changeEmail/views/enterNewAddress', model);
   }
 

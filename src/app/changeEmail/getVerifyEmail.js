@@ -12,6 +12,7 @@ const getVerifyEmail = async (req, res) => {
     newEmail: code.email,
     code: '',
     validationMessages: {},
+    backLink: true,
   });
 };
 

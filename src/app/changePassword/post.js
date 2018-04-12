@@ -55,6 +55,7 @@ const action = async (req, res) => {
       displayName: req.user ? getUserDisplayName(req.user) : 'Unknown User',
       user: req.user,
       validationMessages: validationResult.messages,
+      backLink: true,
     });
     return;
   }
@@ -80,6 +81,7 @@ const action = async (req, res) => {
         newPassword: '',
         confirmPassword: '',
       },
+      backLink: true,
     });
 
     return;

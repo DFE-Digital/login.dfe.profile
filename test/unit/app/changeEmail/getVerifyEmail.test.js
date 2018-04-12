@@ -31,6 +31,7 @@ describe('when user coming to verify their new email address', () => {
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('changeEmail/views/verifyEmailAddress');
     expect(res.render.mock.calls[0][1]).toEqual({
+      backLink: true,
       csrfToken: 'csrf-token',
       newEmail: 'user.one@unit.test',
       code: '',
