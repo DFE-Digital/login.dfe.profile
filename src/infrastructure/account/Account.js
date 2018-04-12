@@ -10,6 +10,9 @@ class Account {
   get email() {
     return this.claims.email;
   }
+  set email(email) {
+    this.claims.email = email;
+  }
 
   get givenName() {
     return this.claims.given_name;

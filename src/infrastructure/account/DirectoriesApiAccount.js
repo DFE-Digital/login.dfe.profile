@@ -108,6 +108,40 @@ class DirectoriesApiAccount extends Account {
     }
   }
 
+  async generateChangeEmailCode(newEmailAddress, reqId) {
+    const body = {
+      uid: this.claims.sub,
+      clientId: config.identifyingParty.clientId,
+      redirectUri: `${config.hostingEnvironment.protocol}://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}/change-password/verify`,
+      codeType: 'changeemail',
+      email: newEmailAddress,
+    };
+    const response = await callDirectoriesApi('usercodes/upsert', body, 'PUT', reqId);
+    if (!response.success) {
+      throw new Error(response.errorMessage);
+    }
+  }
+
+  async getChangeEmailCode(reqId) {
+    const uid = this.claims.sub;
+    const response = await callDirectoriesApi(`usercodes/${uid}/changeemail`, null, 'GET', reqId);
+    if (!response.success) {
+      if (response.statusCode === 404) {
+        return null;
+      }
+      throw new Error(response.errorMessage);
+    }
+    return response.result;
+  }
+
+  async deleteChangeEmailCode(reqId) {
+    const uid = this.claims.sub;
+    const response = await callDirectoriesApi(`usercodes/${uid}/changeemail`, undefined, 'DELETE', reqId);
+    if (!response.success) {
+      throw new Error(response.errorMessage);
+    }
+  }
+
   async getUsersById(ids) {
     const response = await callDirectoriesApi(`users/by-ids?id=${ids.toString()}`, null, 'GET');
     if (!response.success) {
