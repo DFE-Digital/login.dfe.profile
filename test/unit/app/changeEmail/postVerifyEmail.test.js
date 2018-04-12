@@ -7,9 +7,11 @@ const postVerifyEmail = require('./../../../../src/app/changeEmail/postVerifyEma
 
 const res = mockResponse();
 const getChangeEmailCode = jest.fn();
+const update = jest.fn();
 
 describe('when user enters code to verify their new email address', () => {
   let req;
+  let accountStub;
 
   beforeEach(() => {
     req = mockRequest({
@@ -24,9 +26,22 @@ describe('when user enters code to verify their new email address', () => {
       code: '123XYZ',
       newEmail: 'user.one@unit.test',
     });
-    Account.fromContext.mockReset().mockReturnValue({
+    update.mockReset();
+
+    accountStub = {
+      email: 'user1@unit.test',
       getChangeEmailCode,
-    });
+      update,
+    };
+    Account.fromContext.mockReset().mockReturnValue(accountStub);
+  });
+
+  it('then it should update users email address', async () => {
+    await postVerifyEmail(req, res);
+
+    expect(accountStub.email).toBe('user.one@unit.test');
+    expect(update.mock.calls).toHaveLength(1);
+    expect(update.mock.calls[0][0]).toBe('correlation-id');
   });
 
   it('then it should redirect to profile page', async () => {

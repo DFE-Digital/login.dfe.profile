@@ -29,6 +29,9 @@ const postVerifyEmail = async (req, res) => {
     return res.render('changeEmail/views/verifyEmailAddress', model);
   }
 
+  account.email = code.newEmail;
+  await account.update(req.id);
+
   res.flash('info', 'Your email address has been changed');
   res.redirect('/');
 };
