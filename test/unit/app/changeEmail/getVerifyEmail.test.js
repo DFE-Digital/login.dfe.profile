@@ -64,6 +64,26 @@ describe('when user coming to verify their new email address', () => {
       newEmail: 'user.one@unit.test',
       code: '',
       validationMessages: {},
+      includeResend: true,
+    });
+    expect(getChangeEmailCode.mock.calls).toHaveLength(1);
+  });
+
+  it('then it should render view with email address from change email code but exlude resend if user unauthenticated', async () => {
+    req.user = undefined;
+    req.params.uid = 'user2';
+
+    await getVerifyEmail(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][0]).toBe('changeEmail/views/verifyEmailAddress');
+    expect(res.render.mock.calls[0][1]).toEqual({
+      backLink: undefined,
+      csrfToken: 'csrf-token',
+      newEmail: 'user.one@unit.test',
+      code: '',
+      validationMessages: {},
+      includeResend: false,
     });
     expect(getChangeEmailCode.mock.calls).toHaveLength(1);
   });
