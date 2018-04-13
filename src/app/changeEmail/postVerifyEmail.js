@@ -17,7 +17,12 @@ const validateInput = (req, code) => {
 };
 
 const postVerifyEmail = async (req, res) => {
-  const account = Account.fromContext(req.user);
+  let account;
+  if (req.params.uid) {
+    account = await Account.getById(req.params.uid);
+  } else {
+    account = Account.fromContext(req.user);
+  }
   const code = await account.getChangeEmailCode(req.id);
   if (!code) {
     return res.redirect('/change-email');
@@ -34,8 +39,12 @@ const postVerifyEmail = async (req, res) => {
   await account.update(req.id);
   await account.deleteChangeEmailCode(req.id);
 
-  res.flash('info', 'Your email address has been changed');
-  res.redirect('/');
+  if (req.params.uid) {
+    res.redirect('/change-email/complete');
+  } else {
+    res.flash('info', 'Your email address has been changed');
+    res.redirect('/');
+  }
 };
 
 module.exports = postVerifyEmail;

@@ -5,6 +5,8 @@ const validateInput = async (req) => {
   const model = {
     newEmail: req.body.newEmail || '',
     validationMessages: {},
+    includeResend: !req.params.uid,
+    backLink: req.params.uid ? undefined : true,
   };
 
   if (!model.newEmail || model.newEmail.trim().length === 0) {
@@ -22,7 +24,6 @@ const postNewEmailAddress = async (req, res) => {
   const model = await validateInput(req);
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
-    model.backLink = true;
     return res.render('changeEmail/views/enterNewAddress', model);
   }
 

@@ -56,6 +56,7 @@ describe('when handing user entering new email address for change email', () => 
       validationMessages: {
         newEmail: 'Please enter your new email address',
       },
+      includeResend: true,
     });
   });
 
@@ -73,6 +74,7 @@ describe('when handing user entering new email address for change email', () => 
       validationMessages: {
         newEmail: 'Please enter a valid new email address',
       },
+      includeResend: true,
     });
   });
 
@@ -90,6 +92,7 @@ describe('when handing user entering new email address for change email', () => 
       validationMessages: {
         newEmail: 'Email address is already associated to an account',
       },
+      includeResend: true,
     });
   });
 });

@@ -16,6 +16,9 @@ describe('when user enters code to verify their new email address', () => {
 
   beforeEach(() => {
     req = mockRequest({
+      user: {
+        sub: 'user1',
+      },
       body: {
         code: '123XYZ',
       },
@@ -36,6 +39,28 @@ describe('when user enters code to verify their new email address', () => {
       deleteChangeEmailCode,
     };
     Account.fromContext.mockReset().mockReturnValue(accountStub);
+    Account.getById.mockReset().mockReturnValue(accountStub);
+  });
+
+  it('then it should use account details from logged in user', async () => {
+    await postVerifyEmail(req, res);
+
+    expect(Account.fromContext.mock.calls).toHaveLength(1);
+    expect(Account.fromContext.mock.calls[0][0]).toEqual({
+      sub: 'user1',
+    });
+    expect(Account.getById.mock.calls).toHaveLength(0);
+  });
+
+  it('then it should use account details for user with uid in params when present', async () => {
+    req.user = undefined;
+    req.params.uid = 'user2';
+
+    await postVerifyEmail(req, res);
+
+    expect(Account.getById.mock.calls).toHaveLength(1);
+    expect(Account.getById.mock.calls[0][0]).toEqual('user2');
+    expect(Account.fromContext.mock.calls).toHaveLength(0);
   });
 
   it('then it should update users email address', async () => {
@@ -53,7 +78,7 @@ describe('when user enters code to verify their new email address', () => {
     expect(deleteChangeEmailCode.mock.calls[0][0]).toBe('correlation-id');
   });
 
-  it('then it should redirect to profile page', async () => {
+  it('then it should redirect to profile page if user authenticated', async () => {
     await postVerifyEmail(req, res);
 
     expect(res.redirect.mock.calls).toHaveLength(1);
@@ -61,12 +86,23 @@ describe('when user enters code to verify their new email address', () => {
     expect(getChangeEmailCode.mock.calls).toHaveLength(1);
   });
 
-  it('then it should include flash message', async () => {
+  it('then it should include flash message if user authenticated', async () => {
     await postVerifyEmail(req, res);
 
     expect(res.flash.mock.calls).toHaveLength(1);
     expect(res.flash.mock.calls[0][0]).toBe('info');
     expect(res.flash.mock.calls[0][1]).toBe('Your email address has been changed');
+  });
+
+  it('then it should redirect to confirmation page if user unauthenticated', async () => {
+    req.user = undefined;
+    req.params.uid = 'user2';
+
+    await postVerifyEmail(req, res);
+
+    expect(res.redirect.mock.calls).toHaveLength(1);
+    expect(res.redirect.mock.calls[0][0]).toBe('/change-email/complete');
+    expect(getChangeEmailCode.mock.calls).toHaveLength(1);
   });
 
   it('then it should redirect to start of change email if no code found', async () => {
