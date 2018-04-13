@@ -39,8 +39,12 @@ const postVerifyEmail = async (req, res) => {
   await account.update(req.id);
   await account.deleteChangeEmailCode(req.id);
 
-  res.flash('info', 'Your email address has been changed');
-  res.redirect('/');
+  if (req.params.uid) {
+    res.redirect('/change-email/complete');
+  } else {
+    res.flash('info', 'Your email address has been changed');
+    res.redirect('/');
+  }
 };
 
 module.exports = postVerifyEmail;
