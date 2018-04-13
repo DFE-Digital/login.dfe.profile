@@ -1,7 +1,12 @@
 const Account = require('./../../infrastructure/account');
 
 const getVerifyEmail = async (req, res) => {
-  const account = Account.fromContext(req.user);
+  let account;
+  if (req.params.uid) {
+    account = await Account.getById(req.params.uid);
+  } else {
+    account = Account.fromContext(req.user);
+  }
   const code = await account.getChangeEmailCode(req.id);
   if (!code) {
     return res.redirect('/change-email');

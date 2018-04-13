@@ -12,7 +12,11 @@ describe('when user coming to verify their new email address', () => {
   let req;
 
   beforeEach(() => {
-    req = mockRequest();
+    req = mockRequest({
+      user: {
+        sub: 'user1',
+      },
+    });
 
     res.mockResetAll();
 
@@ -23,6 +27,30 @@ describe('when user coming to verify their new email address', () => {
     Account.fromContext.mockReset().mockReturnValue({
       getChangeEmailCode,
     });
+    Account.getById.mockReset().mockReturnValue({
+      getChangeEmailCode,
+    });
+  });
+
+  it('then it should use account details from logged in user', async () => {
+    await getVerifyEmail(req, res);
+
+    expect(Account.fromContext.mock.calls).toHaveLength(1);
+    expect(Account.fromContext.mock.calls[0][0]).toEqual({
+      sub: 'user1',
+    });
+    expect(Account.getById.mock.calls).toHaveLength(0);
+  });
+
+  it('then it should use account details for user with uid in params when present', async () => {
+    req.user = undefined;
+    req.params.uid = 'user2';
+
+    await getVerifyEmail(req, res);
+
+    expect(Account.getById.mock.calls).toHaveLength(1);
+    expect(Account.getById.mock.calls[0][0]).toEqual('user2');
+    expect(Account.fromContext.mock.calls).toHaveLength(0);
   });
 
   it('then it should render view with email address from change email code', async () => {

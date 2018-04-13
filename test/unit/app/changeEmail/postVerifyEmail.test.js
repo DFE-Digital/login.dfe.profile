@@ -16,6 +16,9 @@ describe('when user enters code to verify their new email address', () => {
 
   beforeEach(() => {
     req = mockRequest({
+      user: {
+        sub: 'user1',
+      },
       body: {
         code: '123XYZ',
       },
@@ -36,6 +39,28 @@ describe('when user enters code to verify their new email address', () => {
       deleteChangeEmailCode,
     };
     Account.fromContext.mockReset().mockReturnValue(accountStub);
+    Account.getById.mockReset().mockReturnValue(accountStub);
+  });
+
+  it('then it should use account details from logged in user', async () => {
+    await postVerifyEmail(req, res);
+
+    expect(Account.fromContext.mock.calls).toHaveLength(1);
+    expect(Account.fromContext.mock.calls[0][0]).toEqual({
+      sub: 'user1',
+    });
+    expect(Account.getById.mock.calls).toHaveLength(0);
+  });
+
+  it('then it should use account details for user with uid in params when present', async () => {
+    req.user = undefined;
+    req.params.uid = 'user2';
+
+    await postVerifyEmail(req, res);
+
+    expect(Account.getById.mock.calls).toHaveLength(1);
+    expect(Account.getById.mock.calls[0][0]).toEqual('user2');
+    expect(Account.fromContext.mock.calls).toHaveLength(0);
   });
 
   it('then it should update users email address', async () => {
