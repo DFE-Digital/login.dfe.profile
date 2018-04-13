@@ -115,6 +115,7 @@ class DirectoriesApiAccount extends Account {
       redirectUri: `${config.hostingEnvironment.protocol}://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}/change-password/verify`,
       codeType: 'changeemail',
       email: newEmailAddress,
+      selfInvoked: true,
     };
     const response = await callDirectoriesApi('usercodes/upsert', body, 'PUT', reqId);
     if (!response.success) {
