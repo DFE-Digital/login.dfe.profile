@@ -9,10 +9,10 @@ const getIndex = require('./profile');
 
 const router = express.Router({ mergeParams: true });
 
-const home = () => {
+const home = (csrf) => {
   logger.info('Mounting home routes');
 
-  router.get('/', isLoggedIn, asyncWrapper(getIndex));
+  router.get('/', isLoggedIn, csrf, asyncWrapper(getIndex));
 
   return router;
 };

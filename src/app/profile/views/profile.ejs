@@ -1,6 +1,18 @@
 <% if (locals.flash.info) { %>
 <div class="notification notification-success" tabindex="-1">
-    <%=locals.flash.info%>
+    <%= locals.flash.info %>
+</div>
+<% } %>
+<% if(locals.pendingEmail) { %>
+<div class="notification notification-information" tabindex="0">
+    <h2>Pending email address change</h2>
+    <p>Waiting for you to confirm the new email address of <%=pendingEmail%>.</p>
+    <p>
+    <form method="post" action="/change-email/cancel">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+        <button class="button-text">Cancel change email</button>
+    </form>
+    </p>
 </div>
 <% } %>
 
@@ -11,11 +23,11 @@
         </h1>
         <dl class="inline">
             <dt>First name</dt>
-            <dd><%= locals.user.given_name%></dd>
+            <dd><%= locals.user.given_name %></dd>
             <dt>Last name</dt>
-            <dd><%= locals.user.family_name%></dd>
+            <dd><%= locals.user.family_name %></dd>
             <dt>Email</dt>
-            <dd><%= locals.user.email%></dd>
+            <dd><%= locals.user.email %></dd>
         </dl>
     </div>
     <div class="col-4">

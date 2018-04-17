@@ -10,6 +10,7 @@ const postNewEmailAddress = require('./postNewEmailAddress');
 const getVerifyEmail = require('./getVerifyEmail');
 const postVerifyEmail = require('./postVerifyEmail');
 const getComplete = require('./getComplete');
+const postCancelChangeEmail = require('./postCancelChangeEmail');
 
 const router = express.Router({ mergeParams: true });
 
@@ -25,6 +26,8 @@ const area = (csrf) => {
   router.post('/:uid/verify', csrf, asyncWrapper(postVerifyEmail));
 
   router.get('/complete', asyncWrapper(getComplete));
+
+  router.post('/cancel', asyncWrapper(postCancelChangeEmail));
 
   return router;
 };
