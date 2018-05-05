@@ -97,6 +97,33 @@ describe('when processing verification code for registration', () => {
     });
   });
 
+  it('then the error is rendered if the invitation is deactivated', async () => {
+    getInvitationById.mockReset().mockReturnValue({
+      firstName: 'User',
+      lastName: 'One',
+      email: 'user.one@unit.tests',
+      origin: {
+        clientId: 'client1',
+        redirectUri: 'https://relying.party/auth/cb',
+      },
+      selfStarted: true,
+      code: 'ABC123X',
+      id: 'invitation-id',
+      deactivated: true,
+    });
+
+    await postVerify(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][0]).toBe('register/views/verify');
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      code: 'ABC123X',
+      validationMessages: {
+        code: 'Invitation has been deactivated',
+      },
+    });
+  });
+
   it('then it should render view with error if entered code does not match invitation code', async () => {
     req.body.code = 'X321CBA';
 
