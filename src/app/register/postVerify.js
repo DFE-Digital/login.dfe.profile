@@ -12,6 +12,8 @@ const validateInput = async (req, invitation) => {
     model.validationMessages.code = 'Please enter code';
   } else if (!invitation || model.code.toLowerCase() !== invitation.code.toLowerCase()) {
     model.validationMessages.code = 'Failed to verify code';
+  } else if (invitation && invitation.deactivated) {
+    model.validationMessages.code = 'Invitation has been deactivated';
   }
 
   return model;
