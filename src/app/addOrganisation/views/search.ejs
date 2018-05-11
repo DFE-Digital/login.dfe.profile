@@ -40,12 +40,23 @@
         data: [
             { key: 'criteria', value: locals.criteria }
         ]
+    };
+
+    if (locals.categories) {
+      const selectedCategories = locals.categories.filter(x=>x.isSelected);
+      selectedCategories.forEach((cat) => {
+        paginationModel.data.push({ key: 'category', value: cat.id })
+      });
     }
 %>
 
 <div class="grid-row">
     <div class="col-4">
-        <form>
+        <form method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+            <input type="hidden" name="criteria" value="<%=criteria%>" />
+            <input type="hidden" name="page" value="<%=page%>" />
+
             <div class="filter-box">
                 <div class="container-head js-container-head">
                     <div class="option-select-label">
@@ -54,59 +65,12 @@
                 </div>
                 <div role="group" aria-labelledby="option-select-title-organisation" class="options-container" id="organisations">
                     <div class="js-auto-height-inner">
+                        <% for (let i = 0; i < categories.length; i++) { %>
                         <label>
-                            <input value="1" type="checkbox">
-                            All
+                            <input name="category" value="<%=categories[i].id%>" type="checkbox" <%=(categories[i].isSelected ? 'checked="checked"' : '')%>>
+                            <%=categories[i].name%>
                         </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Academies
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Children's Centres
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Colleges
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Free Schools
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Independent Schools
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            One
-                        </label>
-
+                        <% } %>
                     </div>
 
                 </div>

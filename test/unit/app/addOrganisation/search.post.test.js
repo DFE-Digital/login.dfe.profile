@@ -1,9 +1,10 @@
 jest.mock('./../../../../src/infrastructure/services', () => ({
   searchOrganisations: jest.fn(),
+  getOrganisationCategories: jest.fn(),
 }));
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
-const { searchOrganisations } = require('./../../../../src/infrastructure/services');
+const { searchOrganisations, getOrganisationCategories } = require('./../../../../src/infrastructure/services');
 const { post } = require('./../../../../src/app/addOrganisation/search');
 
 const res = mockResponse();
@@ -29,6 +30,18 @@ const org1 = {
   closedOn: null,
   address: null,
 };
+const cat1 = {
+  id: '001',
+  name: 'Establishment',
+};
+const cat2 = {
+  id: '002',
+  name: 'Local Authority',
+};
+const cat3 = {
+  id: '010',
+  name: 'Multi-Academy Trust',
+};
 
 describe('when searching for an organisation to add to profile', () => {
   let req;
@@ -52,6 +65,8 @@ describe('when searching for an organisation to add to profile', () => {
       totalNumberOfPages: 5,
       totalNumberOfRecords: 100,
     });
+
+    getOrganisationCategories.mockReset().mockReturnValue([cat1, cat2, cat3]);
   });
 
   it('then it should use criteria and page to search for organisations', async () => {
@@ -67,13 +82,41 @@ describe('when searching for an organisation to add to profile', () => {
 
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('addOrganisation/views/search');
-    expect(res.render.mock.calls[0][1]).toEqual({
+    expect(res.render.mock.calls[0][1]).toMatchObject({
       csrfToken: 'csrf-token',
       criteria: 'organisation one',
       organisations: [org1],
       page: 2,
       totalNumberOfPages: 5,
       totalNumberOfRecords: 100,
+    });
+  });
+
+  it('then it should include organisation categories', async () => {
+    await post(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      categories: [
+        Object.assign({ isSelected: false }, cat1),
+        Object.assign({ isSelected: false }, cat2),
+        Object.assign({ isSelected: false }, cat3),
+      ],
+    });
+  });
+
+  it('then it should include persist category filter selection', async () => {
+    req.body.category = [cat1.id, cat3.id];
+
+    await post(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      categories: [
+        Object.assign({ isSelected: true }, cat1),
+        Object.assign({ isSelected: false }, cat2),
+        Object.assign({ isSelected: true }, cat3),
+      ],
     });
   });
 });

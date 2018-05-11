@@ -114,10 +114,17 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
   }
 };
 
-const searchOrganisations = async (criteria, page) => {
+const searchOrganisations = async (criteria, page, filterCategories) => {
   const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  let uri = `${config.organisations.service.url}/organisations?search=${criteria}&page=${page}`;
+  if (filterCategories && filterCategories.length > 0) {
+    uri += `&filtercategory=${filterCategories.join('&filtercategory=')}`;
+  }
+  console.log(`searching using ${uri}`);
+
   const results = await rp({
-    uri: `${config.organisations.service.url}/organisations?search=${criteria}&page=${page}`,
+    uri,
     headers: {
       authorization: `Bearer ${token}`,
     },
@@ -134,6 +141,19 @@ const searchOrganisations = async (criteria, page) => {
   };
 };
 
+const getOrganisationCategories = async () => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  const results = await rp({
+    uri: `${config.organisations.service.url}/organisations/categories`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+
+  return results;
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -143,4 +163,5 @@ module.exports = {
   getApproversForService,
   migrateInvitationServicesToUserServices,
   searchOrganisations,
+  getOrganisationCategories,
 };

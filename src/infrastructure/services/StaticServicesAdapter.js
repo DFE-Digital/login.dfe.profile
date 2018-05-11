@@ -166,6 +166,9 @@ const searchOrganisations = async (criteria, page) => {
   });
 };
 
+const getOrganisationCategories = async () => {
+  return Promise.resolve([]);
+};
 
 module.exports = {
   getServicesForUser,
@@ -175,4 +178,5 @@ module.exports = {
   getUserServiceRequest,
   migrateInvitationServicesToUserServices,
   searchOrganisations,
+  getOrganisationCategories,
 };
