@@ -15,6 +15,7 @@ const rp = require('request-promise').defaults({
 
 const ServiceUser = require('./ServiceUser');
 const UserServiceRequest = require('./UserServiceRequest');
+const Organisation = require('./Organisation');
 
 const getServicesForUser = async (userId) => {
   const token = await jwtStrategy(config.organisations.service).getBearerToken();
@@ -113,6 +114,26 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
   }
 };
 
+const searchOrganisations = async (criteria, page) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  const results = await rp({
+    uri: `${config.organisations.service.url}/organisations?search=${criteria}&page=${page}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+
+  const organisations = results.organisations.map(o => new Organisation(o));
+
+  return {
+    organisations,
+    page: results.page,
+    totalNumberOfPages: results.totalNumberOfPages,
+    totalNumberOfRecords: results.totalNumberOfRecords,
+  };
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -121,4 +142,5 @@ module.exports = {
   getUserServiceRequest,
   getApproversForService,
   migrateInvitationServicesToUserServices,
+  searchOrganisations,
 };

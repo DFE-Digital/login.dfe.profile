@@ -1,0 +1,191 @@
+<div class="js-back-link"></div>
+<div class="grid-row">
+    <div class="col-8">
+        <h1 class="heading-xlarge">
+            Search for your organisation
+        </h1>
+        <p class="lede"></p>
+    </div>
+</div>
+<div class="grid-row">
+    <div class="col-6">
+        <form method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+            <input type="hidden" name="page" value="1" />
+
+            <div class="search-field">
+                <fieldset class="search-input">
+                    <label for="criteria" class="vh">Search by name or reference number</label>
+                    <input type="text" id="criteria" name="criteria" value="<%=criteria%>" class="form-control"
+                           placeholder="Search by name or reference number">
+                </fieldset>
+                <fieldset class="search-submit">
+                    <button type="submit" class="button">Search</button>
+                </fieldset>
+            </div>
+        </form>
+    </div>
+</div>
+
+<% if (locals.organisations !== undefined) {%>
+<%
+    const paginationModel = {
+        objectName: 'organisations',
+        method: 'post',
+        csrfToken,
+        currentPage: page,
+        numberOfPages: totalNumberOfPages,
+        totalNumberOfResults: totalNumberOfRecords,
+        numberOfResultsOnPage: organisations.length,
+        data: [
+            { key: 'criteria', value: locals.criteria }
+        ]
+    }
+%>
+
+<div class="grid-row">
+    <div class="col-4">
+        <form>
+            <div class="filter-box">
+                <div class="container-head js-container-head">
+                    <div class="option-select-label">
+                        Organisation type
+                    </div>
+                </div>
+                <div role="group" aria-labelledby="option-select-title-organisation" class="options-container" id="organisations">
+                    <div class="js-auto-height-inner">
+                        <label>
+                            <input value="1" type="checkbox">
+                            All
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Academies
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Children's Centres
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Colleges
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Free Schools
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Independent Schools
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            One
+                        </label>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="filter-box">
+                <div class="container-head js-container-head">
+                    <div class="option-select-label">
+                        Status
+                    </div>
+                </div>
+                <div role="group" aria-labelledby="option-select-title-organisation" class="options-container" id="organisations">
+                    <div class="js-auto-height-inner">
+                        <label>
+                            <input value="1" type="checkbox">
+                            All
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Closed
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Open
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Open, but proposed to close
+                        </label>
+                        <label>
+                            <input value="1" type="checkbox">
+                            Proposed to open
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <input type="submit" class="button-secondary" value="Apply filter">
+        </form>
+    </div>
+    <div class="col-8">
+        <%- include('../../sharedViews/pagination', paginationModel); %>
+
+        <ol class="search-results">
+            <% for (let i = 0; i < organisations.length; i++) { %>
+            <%const org = organisations[i];%>
+            <li>
+                <article>
+                    <h2 class="heading-medium">
+                        <form method="post">
+                            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+                            <input type="hidden" name="selectedOrganisation" value="<%=org.id%>" />
+                            <button class="button-link"><%=org.name%></button>
+                        </form>
+                    </h2>
+                    <dl class="inline">
+                        <% if(org.urn) { %>
+                        <dt>URN</dt>
+                        <dd><%=org.urn%></dd>
+                        <% } %>
+
+                        <% if(org.uid) { %>
+                        <dt>UID</dt>
+                        <dd><%=org.uid%></dd>
+                        <% } %>
+
+                        <dt>Address</dt>
+                        <dd><%=org.address%></dd>
+
+                        <% if(org.type || org.category) { %>
+                        <dt>Type</dt>
+                        <dd><%=(org.type ? org.type.name : org.category.name)%></dd>
+                        <% } %>
+                    </dl>
+                </article>
+            </li>
+            <% } %>
+        </ol>
+
+        <%- include('../../sharedViews/pagination', paginationModel); %>
+    </div>
+</div>
+<% } %>

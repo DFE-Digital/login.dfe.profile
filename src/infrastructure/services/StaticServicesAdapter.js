@@ -157,6 +157,15 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
   return Promise.resolve();
 };
 
+const searchOrganisations = async (criteria, page) => {
+  return Promise.resolve({
+    organisations: [],
+    page: 0,
+    totalNumberOfPages: 0,
+    totalNumberOfRecords: 0,
+  });
+};
+
 
 module.exports = {
   getServicesForUser,
@@ -165,4 +174,5 @@ module.exports = {
   getServiceUsers,
   getUserServiceRequest,
   migrateInvitationServicesToUserServices,
+  searchOrganisations,
 };
