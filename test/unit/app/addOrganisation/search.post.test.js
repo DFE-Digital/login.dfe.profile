@@ -1,10 +1,11 @@
 jest.mock('./../../../../src/infrastructure/services', () => ({
   searchOrganisations: jest.fn(),
   getOrganisationCategories: jest.fn(),
+  getOrganisationStates: jest.fn(),
 }));
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
-const { searchOrganisations, getOrganisationCategories } = require('./../../../../src/infrastructure/services');
+const { searchOrganisations, getOrganisationCategories, getOrganisationStates } = require('./../../../../src/infrastructure/services');
 const { post } = require('./../../../../src/app/addOrganisation/search');
 
 const res = mockResponse();
@@ -42,6 +43,18 @@ const cat3 = {
   id: '010',
   name: 'Multi-Academy Trust',
 };
+const status1 = {
+  id: '001',
+  name: 'Establishment',
+};
+const status2 = {
+  id: '002',
+  name: 'Local Authority',
+};
+const status3 = {
+  id: '010',
+  name: 'Multi-Academy Trust',
+};
 
 describe('when searching for an organisation to add to profile', () => {
   let req;
@@ -67,6 +80,8 @@ describe('when searching for an organisation to add to profile', () => {
     });
 
     getOrganisationCategories.mockReset().mockReturnValue([cat1, cat2, cat3]);
+
+    getOrganisationStates.mockReset().mockReturnValue([status1, status2, status3]);
   });
 
   it('then it should use criteria and page to search for organisations', async () => {
@@ -116,6 +131,34 @@ describe('when searching for an organisation to add to profile', () => {
         Object.assign({ isSelected: true }, cat1),
         Object.assign({ isSelected: false }, cat2),
         Object.assign({ isSelected: true }, cat3),
+      ],
+    });
+  });
+
+  it('then it should include organisation states', async () => {
+    await post(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      states: [
+        Object.assign({ isSelected: false }, status1),
+        Object.assign({ isSelected: false }, status2),
+        Object.assign({ isSelected: false }, status3),
+      ],
+    });
+  });
+
+  it('then it should include persist status filter selection', async () => {
+    req.body.status = [status1.id, status3.id];
+
+    await post(req, res);
+
+    expect(res.render.mock.calls).toHaveLength(1);
+    expect(res.render.mock.calls[0][1]).toMatchObject({
+      states: [
+        Object.assign({ isSelected: true }, status1),
+        Object.assign({ isSelected: false }, status2),
+        Object.assign({ isSelected: true }, status3),
       ],
     });
   });

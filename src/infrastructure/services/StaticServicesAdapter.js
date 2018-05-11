@@ -170,6 +170,10 @@ const getOrganisationCategories = async () => {
   return Promise.resolve([]);
 };
 
+const getOrganisationStates = async () => {
+  return Promise.resolve([]);
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -179,4 +183,5 @@ module.exports = {
   migrateInvitationServicesToUserServices,
   searchOrganisations,
   getOrganisationCategories,
+  getOrganisationStates,
 };

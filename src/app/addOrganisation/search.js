@@ -1,4 +1,4 @@
-const { searchOrganisations, getOrganisationCategories } = require('./../../infrastructure/services');
+const { searchOrganisations, getOrganisationCategories, getOrganisationStates } = require('./../../infrastructure/services');
 
 const fixMultiSelect = (value) => {
   if (!value) {
@@ -13,7 +13,7 @@ const fixMultiSelect = (value) => {
 const doSearch = async (req) => {
   const criteria = req.body.criteria || '';
   const page = req.body.page || 1;
-  const results = await searchOrganisations(criteria, page, fixMultiSelect(req.body.category));
+  const results = await searchOrganisations(criteria, page, fixMultiSelect(req.body.category), fixMultiSelect(req.body.status));
 
   return results;
 };
@@ -38,6 +38,15 @@ const getModel = async (req, searchResults) => {
         id: item.id,
         name: item.name,
         isSelected: selectedCategories.find(x => x.toLowerCase() === item.id.toLowerCase()) !== undefined,
+      };
+    });
+
+    const selectedStates = fixMultiSelect(input.status);
+    model.states = (await getOrganisationStates()).map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        isSelected: selectedStates.find(x => x.toLowerCase() === item.id.toString().toLowerCase()) !== undefined,
       };
     });
   }

@@ -43,10 +43,17 @@
     };
 
     if (locals.categories) {
-      const selectedCategories = locals.categories.filter(x=>x.isSelected);
+      const selectedCategories = locals.categories.filter(x => x.isSelected);
       selectedCategories.forEach((cat) => {
         paginationModel.data.push({ key: 'category', value: cat.id })
       });
+    }
+
+    if (locals.states) {
+        const selectedStates = locals.states.filter(x => x.isSelected);
+        selectedStates.forEach((cat) => {
+            paginationModel.data.push({ key: 'status', value: cat.id })
+        });
     }
 %>
 
@@ -72,7 +79,6 @@
                         </label>
                         <% } %>
                     </div>
-
                 </div>
             </div>
             <div class="filter-box">
@@ -83,28 +89,13 @@
                 </div>
                 <div role="group" aria-labelledby="option-select-title-organisation" class="options-container" id="organisations">
                     <div class="js-auto-height-inner">
+                        <% for (let i = 0; i < states.length; i++) { %>
                         <label>
-                            <input value="1" type="checkbox">
-                            All
+                            <input name="status" value="<%=states[i].id%>" type="checkbox" <%=(states[i].isSelected ? 'checked="checked"' : '')%>>
+                            <%=states[i].name%>
                         </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Closed
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Open
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Open, but proposed to close
-                        </label>
-                        <label>
-                            <input value="1" type="checkbox">
-                            Proposed to open
-                        </label>
+                        <% } %>
                     </div>
-
                 </div>
             </div>
             <input type="submit" class="button-secondary" value="Apply filter">
