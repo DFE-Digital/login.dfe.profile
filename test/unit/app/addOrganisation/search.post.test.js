@@ -162,4 +162,19 @@ describe('when searching for an organisation to add to profile', () => {
       ],
     });
   });
+
+  it('then it should store org is in session and redirect to review page if an organisation has been selected', async () => {
+    req.body.selectedOrganisation = 'org1';
+
+    await post(req, res);
+
+    expect(res.redirect.mock.calls).toHaveLength(1);
+    expect(res.redirect.mock.calls[0][0]).toBe('review');
+    expect(req.session.organisationId).toBe('org1');
+
+    expect(res.render.mock.calls).toHaveLength(0);
+    expect(searchOrganisations.mock.calls).toHaveLength(0);
+    expect(getOrganisationCategories.mock.calls).toHaveLength(0);
+    expect(getOrganisationStates.mock.calls).toHaveLength(0);
+  });
 });

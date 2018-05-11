@@ -60,6 +60,11 @@ const get = async (req, res) => {
 };
 
 const post = async (req, res) => {
+  if (req.body.selectedOrganisation) {
+    req.session.organisationId = req.body.selectedOrganisation;
+    return res.redirect('review');
+  }
+
   const searchResults = await doSearch(req);
   const model = await getModel(req, searchResults);
   return res.render('addOrganisation/views/search', model);
