@@ -1,0 +1,24 @@
+<div class="js-back-link"></div>
+<div class="grid-row">
+    <div class="col-8">
+        <h1 class="heading-xlarge">
+            Review request
+        </h1>
+        <p>Check you have the correct organisation before submitting. An approver at your organisation will need to review your request before your are granted access.</p>
+        <h2 class="heading-medium">Organisation </h2>
+        <dl class="rows spacer">
+            <dt>Name</dt>
+            <dd><%=locals.name%></dd>
+
+            <dt>Address</dt>
+            <% if (locals.Address) {%>
+                <dd><%=locals.Address%></dd>
+            <% } else { %>
+                <dd>Not recorded</dd>
+            <% }%>
+        </dl>
+        <div class="form-submit">
+            <a href="#" class="button">Submit</a>
+        </div>
+    </div>
+</div>
