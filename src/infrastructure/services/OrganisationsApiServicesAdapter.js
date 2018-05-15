@@ -169,6 +169,18 @@ const getOrganisationStates = async () => {
   return results;
 };
 
+const getOrganisation = async (orgId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  return await rp({
+    uri: `${config.organisations.service.url}/organisations/${orgId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -180,4 +192,5 @@ module.exports = {
   searchOrganisations,
   getOrganisationCategories,
   getOrganisationStates,
+  getOrganisation,
 };
