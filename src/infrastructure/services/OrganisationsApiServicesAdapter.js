@@ -181,6 +181,19 @@ const getOrganisation = async (orgId) => {
   });
 };
 
+const putUserInOrganisation = async (orgId, userId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  await rp({
+    method: 'PUT',
+    uri: `${config.organisations.service.url}/organisations/${orgId}/users/${userId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -193,4 +206,5 @@ module.exports = {
   getOrganisationCategories,
   getOrganisationStates,
   getOrganisation,
+  putUserInOrganisation,
 };

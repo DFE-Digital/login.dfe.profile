@@ -168,6 +168,8 @@ const getOrganisationStates = async () => Promise.resolve([]);
 
 const getOrganisation = async () => Promise.resolve({ organisation: { name: 'test org', id: '123' } });
 
+const putUserInOrganisation = async () => Promise.resolve([]);
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -179,4 +181,5 @@ module.exports = {
   getOrganisationCategories,
   getOrganisationStates,
   getOrganisation,
+  putUserInOrganisation,
 };
