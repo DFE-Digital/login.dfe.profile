@@ -1,4 +1,5 @@
 const { getOrganisation, putUserInOrganisation } = require('./../../infrastructure/services');
+const logger = require('./../../infrastructure/logger');
 
 const get = async (req, res) => {
   const orgId = req.session.organisationId;
@@ -18,6 +19,13 @@ const get = async (req, res) => {
 
 const post = async (req, res) => {
   await putUserInOrganisation(req.body.organisationId, req.user.sub);
+
+  logger.audit(`Request made by user ${req.user.email} to add organisation '${req.body.organisationName}' (id: ${req.body.organisationId}) - To their user account`, {
+    type: 'user-add-organisation',
+    success: true,
+    userId: req.user.sub,
+    reqId: req.id,
+  });
 
   req.session.organisationId = undefined;
 
