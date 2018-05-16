@@ -17,6 +17,7 @@ const area = (csrf) => {
   router.post('/search', isLoggedIn, csrf, asyncWrapper(search.post));
 
   router.get('/review', isLoggedIn, csrf, asyncWrapper(review.get));
+  router.post('/review', isLoggedIn, csrf, asyncWrapper(review.post));
 
   return router;
 };

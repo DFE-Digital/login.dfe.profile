@@ -62,7 +62,7 @@ describe('when reviewing an organisation to add to a profile', () => {
 
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][0]).toBe('addOrganisation/views/review');
-    expect(res.render.mock.calls[0][1]).toMatchObject(org1);
+    expect(res.render.mock.calls[0][1]).toMatchObject({organisation: org1});
   });
 
   it('then if the organisation id is missing from the session it is redirected back to search', async () => {

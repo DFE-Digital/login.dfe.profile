@@ -8,17 +8,22 @@
         <h2 class="heading-medium">Organisation </h2>
         <dl class="rows spacer">
             <dt>Name</dt>
-            <dd><%=locals.name%></dd>
+            <dd><%=locals.organisation.name%></dd>
 
             <dt>Address</dt>
-            <% if (locals.Address) {%>
-                <dd><%=locals.Address%></dd>
+            <% if (locals.organisation.Address) {%>
+                <dd><%=locals.organisation.Address%></dd>
             <% } else { %>
                 <dd>Not recorded</dd>
             <% }%>
         </dl>
-        <div class="form-submit">
-            <a href="#" class="button">Submit</a>
-        </div>
+        <form method="post">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+            <input type="hidden" value="<%=locals.organisation.id%>" name="organisationId"/>
+            <input type="hidden" value="<%=locals.organisation.name%>" name="organisationName"/>
+            <div class="submit-buttons">
+                <button type="submit" class="button">Submit</button>
+            </div>
+        </form>
     </div>
 </div>
