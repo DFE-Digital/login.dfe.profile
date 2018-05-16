@@ -66,7 +66,7 @@ const init = async () => {
   app.set('view engine', 'ejs');
   app.set('views', path.resolve(__dirname, 'app'));
   app.use(expressLayouts);
-  app.set('layout', 'layouts/layout');
+  app.set('layout', 'sharedViews/layout');
 
   let expiryInMinutes = 30;
   const sessionExpiry = parseInt(config.hostingEnvironment.sessionCookieExpiryInMinutes);

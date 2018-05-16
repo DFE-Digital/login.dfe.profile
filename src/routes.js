@@ -11,6 +11,7 @@ const terms = require('./app/terms');
 const register = require('./app/register');
 const changeEmail = require('./app/changeEmail');
 const editDetails = require('./app/editDetails');
+const addOrganisation = require('./app/addOrganisation');
 
 const routes = (app, csrf) => {
   // auth callbacks
@@ -57,6 +58,7 @@ const routes = (app, csrf) => {
   app.use('/register', register(csrf));
   app.use('/edit-details', editDetails(csrf));
   app.use('/change-email', changeEmail(csrf));
+  app.use('/add-organisation', addOrganisation(csrf));
 };
 
 module.exports = routes;

@@ -15,6 +15,7 @@ const rp = require('request-promise').defaults({
 
 const ServiceUser = require('./ServiceUser');
 const UserServiceRequest = require('./UserServiceRequest');
+const Organisation = require('./Organisation');
 
 const getServicesForUser = async (userId) => {
   const token = await jwtStrategy(config.organisations.service).getBearerToken();
@@ -113,6 +114,86 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
   }
 };
 
+const searchOrganisations = async (criteria, page, filterCategories, filterStates) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  let uri = `${config.organisations.service.url}/organisations?search=${criteria}&page=${page}`;
+  if (filterCategories && filterCategories.length > 0) {
+    uri += `&filtercategory=${filterCategories.join('&filtercategory=')}`;
+  }
+  if (filterStates && filterStates.length > 0) {
+    uri += `&filterstatus=${filterStates.join('&filterstatus=')}`;
+  }
+
+  const results = await rp({
+    uri,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+
+  const organisations = results.organisations.map(o => new Organisation(o));
+
+  return {
+    organisations,
+    page: results.page,
+    totalNumberOfPages: results.totalNumberOfPages,
+    totalNumberOfRecords: results.totalNumberOfRecords,
+  };
+};
+
+const getOrganisationCategories = async () => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  const results = await rp({
+    uri: `${config.organisations.service.url}/organisations/categories`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+
+  return results;
+};
+
+const getOrganisationStates = async () => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  const results = await rp({
+    uri: `${config.organisations.service.url}/organisations/states`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+
+  return results;
+};
+
+const getOrganisation = async (orgId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  return await rp({
+    uri: `${config.organisations.service.url}/organisations/${orgId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+};
+
+const putUserInOrganisation = async (orgId, userId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+
+  await rp({
+    method: 'PUT',
+    uri: `${config.organisations.service.url}/organisations/${orgId}/users/${userId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+    json: true,
+  });
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -121,4 +202,9 @@ module.exports = {
   getUserServiceRequest,
   getApproversForService,
   migrateInvitationServicesToUserServices,
+  searchOrganisations,
+  getOrganisationCategories,
+  getOrganisationStates,
+  getOrganisation,
+  putUserInOrganisation,
 };
