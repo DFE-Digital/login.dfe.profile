@@ -1,6 +1,13 @@
 jest.mock('./../../../../src/infrastructure/services', () => ({
   getOrganisation: jest.fn(),
 }));
+jest.mock('./../../../../src/infrastructure/config', () => ({
+  hostingEnvironment: {
+    agentKeepAlive: {},
+  },
+}));
+jest.mock('./../../../../src/infrastructure/logger');
+jest.mock('login.dfe.audit.winston-sequelize-transport');
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { getOrganisation } = require('./../../../../src/infrastructure/services');
