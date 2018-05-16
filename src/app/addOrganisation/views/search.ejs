@@ -1,4 +1,4 @@
-<div class="js-back-link"></div>
+<a href="/" class="link-back">Back</a>
 <div class="grid-row">
     <div class="col-8">
         <h1 class="heading-xlarge">
@@ -59,7 +59,7 @@
 
 <div class="grid-row">
     <div class="col-4">
-        <form method="post">
+        <form method="post" class="filter-form">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
             <input type="hidden" name="criteria" value="<%=criteria%>" />
             <input type="hidden" name="page" value="<%=page%>" />
@@ -105,6 +105,11 @@
         <%- include('../../sharedViews/pagination', paginationModel); %>
 
         <ol class="search-results">
+
+            <% if (organisations.length === 0) { %>
+                <li><span class="empty-state">No organisations found</span></li>
+            <% } %>
+
             <% for (let i = 0; i < organisations.length; i++) { %>
             <%const org = organisations[i];%>
             <li>
