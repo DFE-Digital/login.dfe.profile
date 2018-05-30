@@ -1,8 +1,13 @@
 <div class="grid-row">
-    <div class="col-12">
+    <div class="col-8">
         <h1 class="heading-xlarge">
-            Enter your details
+            Create a DfE Sign-in account
         </h1>
+        <p class="lede">Enter your details, then we'll send you a confirmation email.</p>
+    </div>
+</div>
+<div class="grid-row">
+    <div class="col-12">
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
@@ -38,7 +43,6 @@
             </div>
             <div class="submit-buttons">
                 <button type="submit" class="button">Continue</button>
-                <a href="/" class="button button-secondary">Cancel</a>
             </div>
         </form>
     </div>
