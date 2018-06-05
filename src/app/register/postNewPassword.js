@@ -35,7 +35,11 @@ const completeRegistration = async (invitationId, password) => {
   await migrateInvitationServicesToUserServices(invitationId, user.id);
 
   if (invitation.device) {
-    await user.assignDevice(invitation.device.type, invitation.device.serialNumber)
+    await user.assignDevice(invitation.device.type, invitation.device.serialNumber);
+  } else if (invitation.oldCredentials && invitation.oldCredentials.tokenSerialNumber) {
+    await user.assignDevice('digipass', invitation.oldCredentials.tokenSerialNumber);
+  } else if (invitation.tokenSerialNumber) {
+    await user.assignDevice('digipass', invitation.tokenSerialNumber);
   }
 
   return user.id;
