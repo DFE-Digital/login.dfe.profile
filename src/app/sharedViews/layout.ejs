@@ -47,7 +47,6 @@
 </div>
 
 <div class="wrapper">
-
     <header id="global-header">
         <div class="header-wrapper">
             <div class="header-global">
@@ -60,35 +59,30 @@
             </div>
         </div>
     </header>
-
-    <div class="header-user">
-        <div class="header-inner">
-            <div class="service-info">
-                <div class="phase-banner-beta">
-                    <p>
-                        <strong class="phase-tag">BETA</strong>
-                        <span>This is a new service – your <a href="https://www.smartsurvey.co.uk/s/DfESign-in_feedback/" target="_blank" title="This is a new service, your feedback will help us to improve it">feedback</a> will help us to improve it. </span>
-                    </p>
-                </div>
-            </div>
-            <% if (locals.user !== undefined) { %>
-            <div class="account-information" role="navigation">
-                <p class="signed-in-as"><span class="vh">You are signed in as</span> <%= locals.displayName %></p>
-                <nav id="user-nav">
-                    <ul role="menubar">
-                        <li><a href="/" role="menuitem">Profile</a></li>
-                        <li><a href="/signout" role="menuitem">Sign out</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <% } %>
+    <div class="service-status">
+        <div class="phase-banner phase-banner-beta">
+            <p>
+                <strong class="phase-tag">BETA</strong>
+                <span>This is a new service – your <a href="https://www.smartsurvey.co.uk/s/DfESign-in_feedback/" target="_blank" title="This is a new service, your feedback will help us to improve it">feedback</a> will help us to improve it. </span>
+            </p>
         </div>
     </div>
-
+    <div class="global-navigation">
+        <nav>
+            <ul>
+                <li><a href="<%=locals.urls.services%>">Services</a></li>
+                <li><a href="/" class="<%= locals.currentPage === 'profile' ? 'current' : '' %>">Profile</a></li>
+                <li class="pull-right"><a href="/signout">Sign out</a> </li>
+            </ul>
+        </nav>
+    </div>
     <main id="content" tabindex="-1">
-
         <% if (locals.backLink !== undefined) { %>
-            <div class="js-back-link"></div>
+            <% if (locals.backLink === true) { %>
+                <div class="js-back-link"></div>
+            <% } else { %>
+                <a href="<%-locals.backLink%>" class="link-back">Back</a>
+            <% } %>
         <% } %>
 
         <% if (locals.validationMessages !== undefined) { %>
@@ -112,9 +106,7 @@
         <% } %>
         <%- body %>
     </main>
-
 </div>
-
 <footer class="group" id="footer">
     <div class="footer-wrapper">
         <nav>
