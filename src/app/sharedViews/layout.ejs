@@ -67,6 +67,7 @@
             </p>
         </div>
     </div>
+    <% if (!locals.hideNav) { %>
     <div class="global-navigation">
         <nav>
             <ul>
@@ -76,6 +77,7 @@
             </ul>
         </nav>
     </div>
+    <% } %>
     <main id="content" tabindex="-1">
         <% if (locals.backLink !== undefined) { %>
             <% if (locals.backLink === true) { %>

@@ -8,6 +8,7 @@ const getNewPassword = async (req, res) => {
     newPassword: '',
     confirmPassword: '',
     validationMessages: {},
+    hideNav: true,
   });
 };
 
