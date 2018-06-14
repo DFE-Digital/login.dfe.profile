@@ -100,6 +100,7 @@ const init = async () => {
   // Setup global locals for layouts and views
   Object.assign(app.locals, {
     urls: {
+      services: config.hostingEnvironment.servicesUrl,
       interactions: config.hostingEnvironment.interactionsUrl,
       help: config.hostingEnvironment.helpUrl,
     },

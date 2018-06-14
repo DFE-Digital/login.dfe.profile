@@ -11,6 +11,7 @@ const profile = async (req, res) => {
     csrfToken: req.csrfToken(),
     displayName: req.user ? getUserDisplayName(req.user) : 'Unknown User',
     user: req.user,
+    currentPage: 'profile',
     pendingEmail: changeEmailCode ? changeEmailCode.email : undefined,
   });
 };
