@@ -7,6 +7,7 @@ const validateInput = (req) => {
     newPassword: req.body.newPassword,
     confirmPassword: req.body.confirmPassword,
     validationMessages: {},
+    hideNav: true,
   };
 
   if (!model.newPassword || model.newPassword.trim().length === 0) {

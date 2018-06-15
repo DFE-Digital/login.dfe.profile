@@ -4,6 +4,7 @@ const getVerify = async (req, res) => {
     invitationId: req.params.id,
     code: '',
     validationMessages: {},
+    hideNav: true,
   });
 };
 

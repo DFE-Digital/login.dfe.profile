@@ -15,6 +15,7 @@ const getComplete = async (req, res) => {
   res.render('register/views/complete', {
     clientName: client.friendlyName,
     redirectUri: invitation.origin.redirectUri,
+    hideNav: true,
   });
 };
 

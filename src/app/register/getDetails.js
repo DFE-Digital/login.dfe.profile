@@ -12,6 +12,7 @@ const getDetails = async (req, res) => {
     lastName: '',
     email: '',
     validationMessages: {},
+    hideNav: true,
   });
 };
 
