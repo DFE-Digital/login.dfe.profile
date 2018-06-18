@@ -5,6 +5,7 @@ const getVerify = async (req, res) => {
     code: '',
     validationMessages: {},
     email: req.session.registration.email,
+    hideNav: true,
   });
 };
 

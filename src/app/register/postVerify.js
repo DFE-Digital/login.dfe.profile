@@ -7,6 +7,7 @@ const validateInput = async (req, invitation) => {
     code: req.body.code,
     validationMessages: {},
     email: req.session.registration.email,
+    hideNav: true,
   };
 
   if (!model.code || model.code.trim().length === 0) {

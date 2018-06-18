@@ -9,6 +9,7 @@ const validateInput = (req) => {
     lastName: req.body.lastName,
     email: req.body.email,
     validationMessages: {},
+    hideNav: true,
   };
 
   if (!model.firstName || model.firstName.trim().length === 0) {
