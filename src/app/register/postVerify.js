@@ -6,12 +6,13 @@ const validateInput = async (req, invitation) => {
     invitationId: req.params.id,
     code: req.body.code,
     validationMessages: {},
+    email: req.session.registration.email,
   };
 
   if (!model.code || model.code.trim().length === 0) {
-    model.validationMessages.code = 'Please enter code';
+    model.validationMessages.code = 'Please enter your verification code';
   } else if (!invitation || model.code.toLowerCase() !== invitation.code.toLowerCase()) {
-    model.validationMessages.code = 'Failed to verify code';
+    model.validationMessages.code = 'The verification code is incorrect';
   } else if (invitation && invitation.deactivated) {
     model.validationMessages.code = 'Invitation has been deactivated';
   }
@@ -22,6 +23,7 @@ const validateInput = async (req, invitation) => {
 const postVerify = async (req, res) => {
   const invitation = await getInvitationById(req.params.id);
   const model = await validateInput(req, invitation);
+
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
     return res.render('register/views/verify', model);
