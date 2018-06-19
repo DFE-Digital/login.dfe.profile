@@ -1,8 +1,13 @@
 <div class="grid-row">
-    <div class="col-12">
+    <div class="col-8">
         <h1 class="heading-xlarge">
-            Enter your details
+            Create a DfE Sign-in account
         </h1>
+    </div>
+</div>
+<div class="grid-row">
+    <div class="col-6">
+        <p class="lede">Enter your name and email address, then we'll send an email to verify your details.</p>
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
@@ -12,7 +17,7 @@
                 <p class="error-message" id="validation-firstName"><%=locals.validationMessages.firstName%></p>
                 <% } %>
                 <div>
-                    <input class="form-control" id="firstName" name="firstName" type="text" value="<%=firstName%>"
+                    <input class="form-control full-width" id="firstName" name="firstName" type="text" value="<%=firstName%>"
                             <% if (locals.validationMessages.firstName) { %> aria-invalid="true" aria-describedby="validation-firstName" <% } %> />
                 </div>
             </div>
@@ -22,7 +27,7 @@
                 <p class="error-message" id="validation-lastName"><%=locals.validationMessages.lastName%></p>
                 <% } %>
                 <div>
-                    <input class="form-control" id="lastName" name="lastName" type="text" value="<%=lastName%>"
+                    <input class="form-control full-width" id="lastName" name="lastName" type="text" value="<%=lastName%>"
                             <% if (locals.validationMessages.lastName) { %> aria-invalid="true" aria-describedby="validation-lastName" <% } %> />
                 </div>
             </div>
@@ -32,13 +37,12 @@
                 <p class="error-message" id="validation-email"><%=locals.validationMessages.email%></p>
                 <% } %>
                 <div>
-                    <input class="form-control" id="email" name="email" type="text" value="<%=email%>"
+                    <input class="form-control full-width" id="email" name="email" type="text" value="<%=email%>"
                             <% if (locals.validationMessages.email) { %> aria-invalid="true" aria-describedby="validation-email" <% } %> />
                 </div>
             </div>
             <div class="submit-buttons">
                 <button type="submit" class="button">Continue</button>
-                <a href="/" class="button button-secondary">Cancel</a>
             </div>
         </form>
     </div>

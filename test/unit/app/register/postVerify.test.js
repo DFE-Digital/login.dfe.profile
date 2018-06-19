@@ -77,7 +77,7 @@ describe('when processing verification code for registration', () => {
     expect(res.render.mock.calls[0][1]).toMatchObject({
       code: undefined,
       validationMessages: {
-        code: 'Please enter code',
+        code: 'Please enter your verification code',
       },
     });
   });
@@ -92,7 +92,7 @@ describe('when processing verification code for registration', () => {
     expect(res.render.mock.calls[0][1]).toMatchObject({
       code: 'ABC123X',
       validationMessages: {
-        code: 'Failed to verify code',
+        code: 'The verification code is incorrect',
       },
     });
   });
@@ -134,7 +134,7 @@ describe('when processing verification code for registration', () => {
     expect(res.render.mock.calls[0][1]).toMatchObject({
       code: 'X321CBA',
       validationMessages: {
-        code: 'Failed to verify code',
+        code: 'The verification code is incorrect',
       },
     });
   });
