@@ -4,7 +4,7 @@ const getVerify = async (req, res) => {
     invitationId: req.params.id,
     code: '',
     validationMessages: {},
-    email: req.session.registration.email,
+    email: req.session.registration ? req.session.registration.email : null,
     hideNav: true,
   });
 };

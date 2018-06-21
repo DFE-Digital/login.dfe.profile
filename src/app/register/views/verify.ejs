@@ -1,13 +1,15 @@
+<% if (locals.email) { %>
 <div class="notification notification-success" tabindex="0">
     <h2>Email confirmation sent</h2>
     <div class="inline-wrap">
-        <p>We've sent an email to <%=email%> &ndash;</p>
+        <p>We've sent an email to <%=locals.email%> &ndash;</p>
         <form method="post" class="inline" id="form-resend-register" action="/register/<%=invitationId%>/resend">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
             <button type="submit" class="button-text">Resend email</button>
         </form>
     </div>
 </div>
+<% } %>
 <div class="grid-row">
     <div class="col-12">
         <h1 class="heading-xlarge">
