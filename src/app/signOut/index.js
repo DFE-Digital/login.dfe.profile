@@ -12,7 +12,7 @@ const router = express.Router({ mergeParams: true });
 
 const signout = () => {
   logger.info('Mounting signOut route');
-  router.get('/', asyncWrapper(signOutUser));
+  router.get('/', isLoggedIn, asyncWrapper(signOutUser));
   router.get('/complete', asyncWrapper(complete));
   return router;
 };
