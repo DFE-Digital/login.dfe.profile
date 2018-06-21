@@ -6,7 +6,7 @@ const validateInput = async (req, invitation) => {
     invitationId: req.params.id,
     code: req.body.code,
     validationMessages: {},
-    email: req.session.registration.email,
+    email: req.session.registration ? req.session.registration.email : null,
     hideNav: true,
   };
 
