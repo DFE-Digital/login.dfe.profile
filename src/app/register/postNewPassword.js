@@ -1,5 +1,6 @@
 const { getInvitationById, convertInvitationToUser } = require('./../../infrastructure/invitations');
-const { migrateInvitationServicesToUserServices } = require('./../../infrastructure/services');
+const { migrateInvitation } = require('./../../infrastructure/services');
+const { migrateInvitationServicesToUserServices } = require('./../../infrastructure/access');
 const Account = require('./../../infrastructure/account');
 
 const validateInput = (req) => {
@@ -33,6 +34,7 @@ const completeRegistration = async (invitationId, password) => {
   const claims = await convertInvitationToUser(invitationId, password);
   const user = new Account(claims);
 
+  await migrateInvitation(invitationId, user.id);
   await migrateInvitationServicesToUserServices(invitationId, user.id);
 
   if (invitation.device) {

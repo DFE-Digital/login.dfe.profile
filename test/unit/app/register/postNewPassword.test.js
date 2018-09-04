@@ -5,7 +5,7 @@ jest.mock('./../../../../src/infrastructure/account');
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { getInvitationById, convertInvitationToUser } = require('./../../../../src/infrastructure/invitations');
-const { migrateInvitationServicesToUserServices } = require('./../../../../src/infrastructure/services');
+const { migrateInvitation } = require('./../../../../src/infrastructure/services');
 const Account = require('./../../../../src/infrastructure/account');
 const postNewPassword = require('./../../../../src/app/register/postNewPassword');
 
@@ -34,7 +34,7 @@ describe('when handling confirmation of new password in registration', () => {
       sub: 'new-user-id',
     });
 
-    migrateInvitationServicesToUserServices.mockReset();
+    migrateInvitation.mockReset();
 
     accountAssignDevice.mockReset();
     Account.mockReset().mockImplementation((claims) => {
@@ -73,9 +73,9 @@ describe('when handling confirmation of new password in registration', () => {
   it('it should migration invitation services to user', async () => {
     await postNewPassword(req, res);
 
-    expect(migrateInvitationServicesToUserServices.mock.calls).toHaveLength(1);
-    expect(migrateInvitationServicesToUserServices.mock.calls[0][0]).toBe('invitation-id');
-    expect(migrateInvitationServicesToUserServices.mock.calls[0][1]).toBe('new-user-id');
+    expect(migrateInvitation.mock.calls).toHaveLength(1);
+    expect(migrateInvitation.mock.calls[0][0]).toBe('invitation-id');
+    expect(migrateInvitation.mock.calls[0][1]).toBe('new-user-id');
   });
 
   it('it should add device if on invitation', async () => {

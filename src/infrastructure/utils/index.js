@@ -1,6 +1,6 @@
 'use strict';
 
-const { getServicesForUser } = require('../../infrastructure/services/index');
+const { getServicesForUser } = require('../../infrastructure/access');
 
 const APPROVER = 10000;
 
@@ -16,7 +16,7 @@ const setApproverContext = async (req, res, next) => {
   res.locals.isApprover = false;
   if (req.user) {
     const user = req.user;
-    const services = await getServicesForUser(user.sub);
+    const services = await getServicesForUser(user.sub, req.header('x-correlation-id'));
     res.locals.isApprover = services.some(s => s.role.id >= APPROVER && s.status > 0);
   }
   next();
