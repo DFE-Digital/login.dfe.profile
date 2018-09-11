@@ -91,7 +91,7 @@ const getUserServiceRequest = async (organisationId, serviceId, userId) => {
   return new UserServiceRequest(userServiceRequest);
 };
 
-const migrateInvitationServicesToUserServices = async (invitationId, userId) => {
+const migrateInvitation = async (invitationId, userId) => {
   try {
     const token = await jwtStrategy(config.organisations.service).getBearerToken();
 
@@ -201,7 +201,7 @@ module.exports = {
   getServiceUsers,
   getUserServiceRequest,
   getApproversForService,
-  migrateInvitationServicesToUserServices,
+  migrateInvitation,
   searchOrganisations,
   getOrganisationCategories,
   getOrganisationStates,
