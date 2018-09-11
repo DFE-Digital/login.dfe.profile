@@ -2,10 +2,12 @@
 const config = require('../config');
 const { Strategy, Issuer } = require('openid-client');
 const logger = require('../logger');
+const asyncRetry = require('login.dfe.async-retry');
 
 const getPassportStrategy = async () => {
-  const issuer = await Issuer.discover(config.identifyingParty.url);
   Issuer.defaultHttpOptions = { timeout: 10000 };
+  const issuer = await asyncRetry(async () => await Issuer.discover(config.identifyingParty.url), asyncRetry.strategies.apiStrategy);
+
   const client = new issuer.Client({
     client_id: config.identifyingParty.clientId,
     client_secret: config.identifyingParty.clientSecret,
