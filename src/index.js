@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressLayouts = require('express-ejs-layouts');
 const session = require('cookie-session');
-const morgan = require('morgan');
 const logger = require('./infrastructure/logger');
 const http = require('http');
 const https = require('https');
@@ -60,9 +59,16 @@ const init = async () => {
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
-  app.use(sanitization());
-  app.use(morgan('combined', { stream: fs.createWriteStream('./access.log', { flags: 'a' }) }));
-  app.use(morgan('dev'));
+  app.use(sanitization({
+    sanitizer: (key, value) => {
+      const fieldToNotSanitize = ['givenName', 'familyName', 'newEmail', 'oldPassword', 'newPassword', 'confirmPassword'];
+      if (fieldToNotSanitize.find(x => x.toLowerCase() === key.toLowerCase())) {
+        return value;
+      }
+      return sanitization.defaultSanitizer(key, value);
+    },
+  }));
+
   app.set('view engine', 'ejs');
   app.set('views', path.resolve(__dirname, 'app'));
   app.use(expressLayouts);

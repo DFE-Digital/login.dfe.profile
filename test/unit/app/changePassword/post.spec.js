@@ -10,6 +10,9 @@ jest.mock('./../../../../src/infrastructure/config', () => {
     organisations: {
       type: 'static',
     },
+    access: {
+      type: 'static',
+    },
     hostingEnvironment: {
       agentKeepAlive: {},
     },

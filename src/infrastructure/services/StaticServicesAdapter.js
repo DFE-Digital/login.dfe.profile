@@ -153,7 +153,7 @@ const getUserServiceRequest = async () => {
   }));
 };
 
-const migrateInvitationServicesToUserServices = async (invitationId, userId) => Promise.resolve();
+const migrateInvitation = async (invitationId, userId) => Promise.resolve();
 
 const searchOrganisations = async (criteria, page) => Promise.resolve({
   organisations: [],
@@ -176,7 +176,7 @@ module.exports = {
   getServiceDetails,
   getServiceUsers,
   getUserServiceRequest,
-  migrateInvitationServicesToUserServices,
+  migrateInvitation,
   searchOrganisations,
   getOrganisationCategories,
   getOrganisationStates,
