@@ -41,7 +41,7 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
         authorization: `Bearer ${token}`,
       },
       body: {
-        user_id: userId,
+        userId,
       },
       json: true,
     });
