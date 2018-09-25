@@ -1,4 +1,5 @@
 'use strict';
+
 const config = require('./../../infrastructure/config');
 
 const complete = (req, res) => {
