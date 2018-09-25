@@ -1,9 +1,8 @@
 'use strict';
+const config = require('./../../infrastructure/config');
 
 const complete = (req, res) => {
-  res.render('signOut/views/complete', {
-      hideNav: true,
-  });
+  res.redirect(config.hostingEnvironment.servicesUrl);
 };
 
 module.exports = complete;
