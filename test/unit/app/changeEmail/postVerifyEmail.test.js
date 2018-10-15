@@ -1,6 +1,7 @@
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 jest.mock('./../../../../src/infrastructure/account');
-
+jest.mock('login.dfe.audit.winston-sequelize-transport');
+jest.mock('./../../../../src/infrastructure/logger');
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const Account = require('./../../../../src/infrastructure/account');
 const postVerifyEmail = require('./../../../../src/app/changeEmail/postVerifyEmail');

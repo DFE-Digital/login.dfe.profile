@@ -1,4 +1,5 @@
 const Account = require('./../../infrastructure/account');
+const logger = require('../../infrastructure/logger');
 
 const validateInput = (req, code) => {
   const model = {
@@ -32,13 +33,28 @@ const postVerifyEmail = async (req, res) => {
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
     model.backLink = true;
+    logger.audit(`Failed changed email to ${account.email} (id: ${account.id}) - invalid code`, {
+      type: 'change-email',
+      success: false,
+      userId: account.id,
+      reqId: req.id,
+    });
     return res.render('changeEmail/views/verifyEmailAddress', model);
   }
 
   account.email = code.email;
   await account.update(req.id);
   await account.deleteChangeEmailCode(req.id);
-
+  logger.audit(`Successfully changed email to ${account.email} (id: ${account.id})`, {
+    type: 'change-email',
+    success: true,
+    userId: account.id,
+    reqId: req.id,
+    editedFields: [{
+      name: 'new_email',
+      newValue: account.email,
+    }],
+  });
   if (req.params.uid) {
     res.redirect('/change-email/complete');
   } else {
