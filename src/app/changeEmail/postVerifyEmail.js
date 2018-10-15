@@ -33,6 +33,12 @@ const postVerifyEmail = async (req, res) => {
   if (Object.keys(model.validationMessages).length > 0) {
     model.csrfToken = req.csrfToken();
     model.backLink = true;
+    logger.audit(`Failed changed email to ${account.email} (id: ${account.id}) - invalid code`, {
+      type: 'change-email',
+      success: false,
+      userId: account.id,
+      reqId: req.id,
+    });
     return res.render('changeEmail/views/verifyEmailAddress', model);
   }
 
