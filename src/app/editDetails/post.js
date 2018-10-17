@@ -1,4 +1,5 @@
 const Account = require('./../../infrastructure/account');
+const logger = require('./../../infrastructure/logger');
 
 const validateInput = (req) => {
   const model = {
@@ -30,7 +31,12 @@ const action = async (req, res) => {
   account.givenName = model.givenName;
   account.familyName = model.familyName;
   await account.update(req.id);
-
+  logger.audit(`Successfully changed name to ${account.givenName} ${account.familyName} (id: ${account.id})`, {
+    type: 'change-name',
+    success: true,
+    userId: account.id,
+    reqId: req.id,
+  });
   res.flash('info', 'Your details have been updated');
   return res.redirect('/');
 };
