@@ -5,9 +5,17 @@
 const url = require('url');
 const passport = require('passport');
 const config = require('./../../infrastructure/config');
+const logger = require('../../infrastructure/logger');
 
 const signUserOut = (req, res) => {
   if (req.user && req.user.id_token) {
+    logger.audit('User logged out', {
+      type: 'Sign-out',
+      subType: 'profile',
+      userId: req.user.sub,
+      email: req.user.email,
+      client: 'profiles',
+    });
     const idToken = req.user.id_token;
     const issuer = passport._strategies.oidc._issuer;
     let returnUrl = `${config.hostingEnvironment.protocol}://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}/signout/complete`;
