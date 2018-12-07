@@ -1,6 +1,7 @@
 'use strict';
 
 const { getServicesForUser } = require('../../infrastructure/access');
+const { getOrganisationsAssociatedWithUser } = require('../../infrastructure/services');
 
 const APPROVER = 10000;
 
@@ -26,10 +27,19 @@ const getUserEmail = user => user.email || '';
 
 const getUserDisplayName = user => `${user.given_name || ''} ${user.family_name || ''}`.trim();
 
-const setUserContext = (req, res, next) => {
+const setUserContext = async (req, res, next) => {
   if (req.user) {
     res.locals.user = req.user;
     res.locals.displayName = getUserDisplayName(req.user);
+    const organisations = await getOrganisationsAssociatedWithUser(req.user.sub, req.id);
+    req.userOrganisations = organisations;
+    try {
+      if (req.userOrganisations) {
+        res.locals.isApprover = req.userOrganisations.filter(x => x.role.id === 10000).length > 0;
+      }
+    } catch (e) {
+      return e;
+    }
   }
   next();
 };
