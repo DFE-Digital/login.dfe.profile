@@ -20,6 +20,8 @@ const registerRoutes = require('./routes');
 const { profileSchema, validateConfig } = require('login.dfe.config.schema');
 const setCorrelationId = require('express-mw-correlation-id');
 const KeepAliveAgent = require('agentkeepalive');
+const { setUserContext } = require('./infrastructure/utils');
+
 
 http.GlobalAgent = new KeepAliveAgent({
   maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
@@ -102,6 +104,7 @@ const init = async () => {
   });
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(setUserContext);
 
   // Setup global locals for layouts and views
   Object.assign(app.locals, {
