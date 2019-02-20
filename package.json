@@ -38,7 +38,7 @@
     "helmet": "^3.12.0",
     "lodash": "^4.17.5",
     "login.dfe.audit.winston-sequelize-transport": "github:DFE-Digital/login.dfe.audit.winston-sequelize-transport#v2.4",
-    "login.dfe.config.schema": "git+https://github.com/DFE-Digital/login.dfe.config.schema.git#v12.0",
+    "login.dfe.config.schema.common": "git+https://github.com/DFE-Digital/login.dfe.config.schema.common.git#v1.0.1",
     "login.dfe.express-error-handling": "git+https://github.com/DFE-Digital/login.dfe.express-error-handling.git#v1.4",
     "login.dfe.healthcheck": "git+https://github.com/DFE-Digital/login.dfe.healthcheck.git#v1.4.5",
     "login.dfe.jwt-strategies": "github:DFE-Digital/login.dfe.jwt-strategies#v2.0.1",
@@ -50,6 +50,7 @@
     "passport": "^0.4.0",
     "request-promise": "^4.2.2",
     "uuid": "^3.2.1",
+    "simpl-schema": "^1.5.3",
     "winston": "^2.4.1"
   },
   "devDependencies": {
