@@ -81,6 +81,9 @@
                 <% if (locals.isApprover) { %>
                     <li><a href ="<%=locals.urls.services%>/approvals/users">Users</a></li>
                 <% } %>
+                <% if (locals.isManageUser) { %>
+                    <li><a href="<%=locals.urls.manage%>">Service management</a></li>
+                <% } %>
                 <li class="pull-right"><a href="/signout">Sign out</a> </li>
             </ul>
         </nav>

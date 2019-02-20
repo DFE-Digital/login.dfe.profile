@@ -112,6 +112,7 @@ const init = async () => {
       services: config.hostingEnvironment.servicesUrl,
       interactions: config.hostingEnvironment.interactionsUrl,
       help: config.hostingEnvironment.helpUrl,
+      manage: config.hostingEnvironment.manageUrl,
     },
     gaTrackingId: config.hostingEnvironment.gaTrackingId,
   });

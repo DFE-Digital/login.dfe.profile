@@ -31,6 +31,26 @@ const getServicesForUser = async (id, correlationId) => {
   }
 };
 
+const getSingleUserService = async (id, sid, oid, correlationId) => {
+  const token = await jwtStrategy(config.access.service).getBearerToken();
+  try {
+    return await rp({
+      method: 'GET',
+      uri: `${config.access.service.url}/users/${id}/services/${sid}/organisations/${oid}`,
+      headers: {
+        authorization: `bearer ${token}`,
+        'x-correlation-id': correlationId,
+      },
+      json: true,
+    });
+  } catch (e) {
+    if (e.statusCode === 404) {
+      return undefined;
+    }
+    throw e;
+  }
+};
+
 const migrateInvitationServicesToUserServices = async (invitationId, userId) => {
   try {
     const token = await jwtStrategy(config.access.service).getBearerToken();
@@ -56,4 +76,5 @@ const migrateInvitationServicesToUserServices = async (invitationId, userId) => 
 module.exports = {
   getServicesForUser,
   migrateInvitationServicesToUserServices,
+  getSingleUserService,
 };

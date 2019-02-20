@@ -1,7 +1,8 @@
 'use strict';
 
-const { getServicesForUser } = require('../../infrastructure/access');
+const { getServicesForUser, getSingleUserService } = require('../../infrastructure/access');
 const { getOrganisationsAssociatedWithUser } = require('../../infrastructure/services');
+const config = require('../../infrastructure/config');
 
 const APPROVER = 10000;
 
@@ -39,6 +40,11 @@ const setUserContext = async (req, res, next) => {
       }
     } catch (e) {
       return e;
+    }
+
+    const isManageUser = await getSingleUserService(req.user.sub, config.access.identifiers.service, config.access.identifiers.organisation, req.id);
+    if (isManageUser && isManageUser.roles.length > 0) {
+      res.locals.isManageUser = true;
     }
   }
   next();
