@@ -106,8 +106,11 @@ const init = async () => {
   app.use(setUserContext);
 
   // Setup global locals for layouts and views
+  let assetsUrl = config.hostingEnvironment.assetsUrl || 'https://rawgit.com/DFE-Digital/dfe.ui.toolkit/master/dist/';
+  assetsUrl = assetsUrl.endsWith('/') ? assetsUrl.substr(0, assetsUrl.length - 1) : assetsUrl;
   Object.assign(app.locals, {
     urls: {
+      assetsUrl,
       services: config.hostingEnvironment.servicesUrl,
       interactions: config.hostingEnvironment.interactionsUrl,
       help: config.hostingEnvironment.helpUrl,
