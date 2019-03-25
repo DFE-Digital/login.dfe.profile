@@ -17,11 +17,12 @@ const helmet = require('helmet');
 const sanitization = require('login.dfe.sanitization');
 const { getErrorHandler, ejsErrorPages } = require('login.dfe.express-error-handling');
 const registerRoutes = require('./routes');
-const { profileSchema, validateConfig } = require('login.dfe.config.schema');
 const setCorrelationId = require('express-mw-correlation-id');
 const KeepAliveAgent = require('agentkeepalive');
 const { setUserContext } = require('./infrastructure/utils');
+const configSchema = require('./infrastructure/config/schema');
 
+configSchema.validate();
 
 http.GlobalAgent = new KeepAliveAgent({
   maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
@@ -37,8 +38,6 @@ https.GlobalAgent = new KeepAliveAgent({
 });
 
 const init = async () => {
-  validateConfig(profileSchema, config, logger, config.hostingEnvironment.env !== 'dev');
-
   const app = express();
   app.use(helmet({
     noCache: true,
