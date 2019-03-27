@@ -115,6 +115,9 @@ const init = async () => {
       interactions: config.hostingEnvironment.interactionsUrl,
       help: config.hostingEnvironment.helpUrl,
     },
+    app: {
+      environmentBannerMessage: config.hostingEnvironment.environmentBannerMessage,
+    },
     gaTrackingId: config.hostingEnvironment.gaTrackingId,
   });
 
