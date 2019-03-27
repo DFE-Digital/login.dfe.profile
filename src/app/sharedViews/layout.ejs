@@ -45,6 +45,12 @@
 </div>
 
 <div class="wrapper">
+    <%if(app.environmentBannerMessage) {%>
+    <div class="environment-banner">
+        <div><%-app.environmentBannerMessage%></div>
+    </div>
+    <%}%>
+
     <header id="global-header">
         <div class="header-wrapper">
             <div class="header-global">
@@ -86,7 +92,8 @@
         </nav>
     </div>
     <% } %>
-    <main id="content" tabindex="-1">
+
+   <main id="content" tabindex="-1">
         <% if (locals.backLink !== undefined) { %>
             <% if (locals.backLink === true) { %>
                 <div class="js-back-link"></div>
