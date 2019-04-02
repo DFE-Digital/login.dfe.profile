@@ -132,7 +132,7 @@ const init = async () => {
     errorPageRenderer,
   }));
 
-  if (config.hostingEnvironment.env === 'dev') {
+  if (config.hostingEnvironment.env === 'dev' || config.hostingEnvironment.env === 'docker') {
     app.proxy = true;
 
     const options = {
