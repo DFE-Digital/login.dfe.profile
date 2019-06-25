@@ -63,7 +63,7 @@ const routes = (app, csrf) => {
   app.use('/register', register(csrf));
   app.use('/edit-details', editDetails(csrf));
   app.use('/change-email', changeEmail(csrf));
-  app.use('/add-organisation', addOrganisation(csrf));
+  // app.use('/add-organisation', addOrganisation(csrf));
   app.get('*', (req, res) => {
     res.status(404).render('errors/views/notFound');
   });
