@@ -20,7 +20,18 @@ const getPassportStrategy = async () => {
     client,
     params: { redirect_uri: `${config.hostingEnvironment.protocol}://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}/auth/cb`, scope: 'openid profile email' },
   }, (tokenset, authUserInfo, done) => {
-    done(null, { ...tokenset.claims, id_token: tokenset.id_token, id: tokenset.claims.sub, name: tokenset.sub });
+    client.userinfo(tokenset.access_token)
+      .then((userInfo) => {
+        userInfo.id = userInfo.sub;
+        userInfo.name = userInfo.sub;
+        userInfo.id_token = tokenset.id_token;
+
+        done(null, userInfo);
+      })
+      .catch((err) => {
+        logger.error(err);
+        done(err);
+      });
   });
 };
 
