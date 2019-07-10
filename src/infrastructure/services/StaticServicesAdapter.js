@@ -170,6 +170,8 @@ const getOrganisation = async () => Promise.resolve({ organisation: { name: 'tes
 
 const putUserInOrganisation = async () => Promise.resolve([]);
 
+const getOrganisationsAssociatedWithUser = async () => Promise.resolve([]);
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -182,4 +184,5 @@ module.exports = {
   getOrganisationStates,
   getOrganisation,
   putUserInOrganisation,
+  getOrganisationsAssociatedWithUser,
 };

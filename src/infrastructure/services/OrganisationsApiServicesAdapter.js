@@ -194,6 +194,18 @@ const putUserInOrganisation = async (orgId, userId) => {
   });
 };
 
+const getOrganisationsAssociatedWithUser = async (userId, correlationId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  return await rp({
+    uri: `${config.organisations.service.url}/organisations/v2/associated-with-user/${userId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'x-correlation-id': correlationId,
+    },
+    json: true,
+  });
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -207,4 +219,5 @@ module.exports = {
   getOrganisationStates,
   getOrganisation,
   putUserInOrganisation,
+  getOrganisationsAssociatedWithUser,
 };

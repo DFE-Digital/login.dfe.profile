@@ -2,6 +2,7 @@ const { getInvitationById, convertInvitationToUser } = require('./../../infrastr
 const { migrateInvitation } = require('./../../infrastructure/services');
 const { migrateInvitationServicesToUserServices } = require('./../../infrastructure/access');
 const Account = require('./../../infrastructure/account');
+const { createIndex, deleteFromIndex } = require('./../../infrastructure/search');
 
 const validateInput = (req) => {
   const model = {
@@ -60,6 +61,10 @@ const postNewPassword = async (req, res) => {
   }
 
   const userId = await completeRegistration(req.params.id, model.newPassword);
+
+  await deleteFromIndex(`inv-${req.params.id}`, req.id);
+  await createIndex(userId, req.id);
+
   req.session.registration.userId = userId;
   return res.redirect(`/register/${req.params.id}/complete`);
 };
