@@ -1,24 +1,26 @@
-jest.mock('./../../../../src/infrastructure/hotConfig');
+jest.mock('./../../../../src/infrastructure/applications');
 jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
 
 const { mockRequest } = require('./../../../utils/jestMocks');
-const { getOidcClientById } = require('./../../../../src/infrastructure/hotConfig');
+const { getApplication } = require('./../../../../src/infrastructure/applications');
 const { validateRP } = require('./../../../../src/app/register/utils');
 
 describe('when validating a relying party for registration', () => {
   let req;
 
   beforeEach(() => {
-    getOidcClientById.mockReset().mockReturnValue({
+    getApplication.mockReset().mockReturnValue({
       client_id: 'client1',
       client_secret: 'some-secure-secret',
-      redirect_uris: [
-        'https://client.one/auth/cb',
-        'https://client.one/register/complete',
-      ],
-      post_logout_redirect_uris: [
-        'https://client.one/signout/complete',
-      ],
+      relyingParty: {
+        redirect_uris: [
+          'https://client.one/auth/cb',
+          'https://client.one/register/complete',
+        ],
+        post_logout_redirect_uris: [
+          'https://client.one/signout/complete',
+        ],
+      },
     });
 
     req = mockRequest({
@@ -39,7 +41,7 @@ describe('when validating a relying party for registration', () => {
   });
 
   it('then it should return null if client not found', async () => {
-    getOidcClientById.mockReturnValue(null);
+    getApplication.mockReturnValue(null);
 
     const actual = await validateRP(req);
 
@@ -47,15 +49,17 @@ describe('when validating a relying party for registration', () => {
   });
 
   it('then it should return null if client found but does not have redirect', async () => {
-    getOidcClientById.mockReturnValue({
+    getApplication.mockReturnValue({
       client_id: 'client1',
       client_secret: 'some-secure-secret',
-      redirect_uris: [
-        'https://client.one/auth/cb',
-      ],
-      post_logout_redirect_uris: [
-        'https://client.one/signout/complete',
-      ],
+      relyingParty: {
+        redirect_uris: [
+          'https://client.one/auth/cb',
+        ],
+        post_logout_redirect_uris: [
+          'https://client.one/signout/complete',
+        ],
+      },
     });
 
     const actual = await validateRP(req);

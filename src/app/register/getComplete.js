@@ -1,5 +1,5 @@
 const { getInvitationById } = require('./../../infrastructure/invitations');
-const { getOidcClientById } = require('./../../infrastructure/hotConfig');
+const { getApplication } = require('./../../infrastructure/applications');
 
 const getComplete = async (req, res) => {
   const invitation = await getInvitationById(req.params.id);
@@ -11,9 +11,9 @@ const getComplete = async (req, res) => {
     return res.redirect(`/register/${req.params.id}`);
   }
 
-  const client = await getOidcClientById(invitation.origin.clientId);
+  const client = await getApplication(invitation.origin.clientId, req.id);
   res.render('register/views/complete', {
-    clientName: client.friendlyName,
+    clientName: client.name,
     redirectUri: invitation.origin.redirectUri,
     hideNav: true,
   });

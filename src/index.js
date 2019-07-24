@@ -124,13 +124,13 @@ const init = async () => {
   registerRoutes(app, csrf);
 
 
-  const errorPageRenderer = ejsErrorPages.getErrorPageRenderer({
-    help: config.hostingEnvironment.helpUrl,
-  }, config.hostingEnvironment.env === 'dev');
-  app.use(getErrorHandler({
-    logger,
-    errorPageRenderer,
-  }));
+  // const errorPageRenderer = ejsErrorPages.getErrorPageRenderer({
+  //   help: config.hostingEnvironment.helpUrl,
+  // }, config.hostingEnvironment.env === 'dev');
+  // app.use(getErrorHandler({
+  //   logger,
+  //   errorPageRenderer,
+  // }));
 
   if (config.hostingEnvironment.env === 'dev') {
     app.proxy = true;
