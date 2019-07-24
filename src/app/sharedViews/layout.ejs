@@ -83,11 +83,12 @@
             <ul>
                 <li><a href="<%=locals.urls.services%>/my-services">Services</a></li>
                 <li><a href="<%=locals.urls.services%>/organisations">Organisations</a></li>
-                <li><a href="/" class="<%= locals.currentPage === 'profile' ? 'current' : '' %>">Profile</a></li>
                 <% if (locals.isApprover) { %>
-                    <li><a href ="<%=locals.urls.services%>/approvals/users">Users</a></li>
+                    <li><a href ="<%=locals.urls.services%>/approvals/users">Manage users</a></li>
                 <% } %>
                 <li class="pull-right"><a href="/signout">Sign out</a> </li>
+                <li class="pull-right"><a href="<%=locals.urls.help%>/contact">Help</a></li>
+                <li class="pull-right"><a href="/" class="<%= locals.currentPage === 'profile' ? 'current' : '' %>">Profile</a></li>
             </ul>
         </nav>
     </div>
