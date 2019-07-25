@@ -7,7 +7,6 @@
 </div>
 <div class="grid-row">
     <div class="col-6">
-        <p class="lede">Enter your name and email address, then we'll send an email to verify your details.</p>
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
@@ -32,7 +31,9 @@
                 </div>
             </div>
             <div class="form-group <%= locals.validationMessages.email ? 'form-group-error' : '' %>">
-                <label class="form-label" for="email">Email address</label>
+                <label class="form-label" for="email">Email address
+                    <span class="form-hint">We will send you an email to verify this address</span>
+                </label>
                 <% if (locals.validationMessages.email) { %>
                 <p class="error-message" id="validation-email"><%=locals.validationMessages.email%></p>
                 <% } %>
@@ -41,6 +42,11 @@
                             <% if (locals.validationMessages.email) { %> aria-invalid="true" aria-describedby="validation-email" <% } %> />
                 </div>
             </div>
+
+            <div class="panel panel-border-wide">
+                <p>By continuing you accept the <a target="_blank" href="<%=locals.urls.interactions%>/terms">terms and conditions</a>.</p>
+            </div>
+
             <div class="submit-buttons">
                 <button type="submit" class="button">Continue</button>
             </div>

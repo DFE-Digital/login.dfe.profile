@@ -100,7 +100,7 @@ describe('when processing user details for registration', () => {
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        firstName: 'Please enter your first name',
+        firstName: 'Enter a first name',
       },
     });
   });
@@ -113,7 +113,7 @@ describe('when processing user details for registration', () => {
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        lastName: 'Please enter your last name',
+        lastName: 'Enter a last name',
       },
     });
   });
@@ -126,7 +126,7 @@ describe('when processing user details for registration', () => {
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        email: 'Please enter your email address',
+        email: 'Enter an email address',
       },
     });
   });
@@ -139,7 +139,7 @@ describe('when processing user details for registration', () => {
     expect(res.render.mock.calls).toHaveLength(1);
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        email: 'Please enter a valid email address',
+        email: 'Enter a valid email address',
       },
     });
   });

@@ -1,6 +1,6 @@
 const config = require('./../config');
 const KeepAliveAgent = require('agentkeepalive').HttpsAgent;
-const rp = require('request-promise').defaults({
+const rp = require('login.dfe.request-promise-retry').defaults({
   agent: new KeepAliveAgent({
     maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
     maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,
@@ -78,8 +78,30 @@ const convertInvitationToUser = async (id, password) => {
   }
 };
 
+const getInvitationByEmail = async (email, correlationId) => {
+  const token = await jwtStrategy(config.directories.service).getBearerToken();
+  try {
+    const invitation = await rp({
+      method: 'GET',
+      uri: `${config.directories.service.url}/invitations/by-email/${email}`,
+      headers: {
+        authorization: `bearer ${token}`,
+        'x-correlation-id': correlationId,
+      },
+      json: true,
+    });
+    return invitation;
+  } catch (e) {
+    if (e.statusCode === 404) {
+      return undefined;
+    }
+    throw e;
+  }
+};
+
 module.exports = {
   createInvitation,
   getInvitationById,
   convertInvitationToUser,
+  getInvitationByEmail,
 };

@@ -1,12 +1,8 @@
 <% if (locals.email) { %>
 <div class="notification notification-success" tabindex="0">
-    <h2>Email confirmation sent</h2>
+    <h2>Verification email sent</h2>
     <div class="inline-wrap">
-        <p>We've sent an email to <%=locals.email%> &ndash;</p>
-        <form method="post" class="inline" id="form-resend-register" action="/register/<%=invitationId%>/resend">
-            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-            <button type="submit" class="button-text">Resend email</button>
-        </form>
+        <p>A verification email has been sent to <%=locals.email%></p>
     </div>
 </div>
 <% } %>
@@ -30,6 +26,10 @@
                 <input class="form-control char-width-8" id="code" name="code" type="text" value="<%=code%>"
                         <% if (locals.validationMessages.code) { %> aria-invalid="true" aria-describedby="validation-code" <% } %> />
             </div>
+
+            <p>
+                <a href="">I have not received a verification email</a>
+            </p>
             <div class="submit-buttons">
                 <button type="submit" class="button">Continue</button>
             </div>

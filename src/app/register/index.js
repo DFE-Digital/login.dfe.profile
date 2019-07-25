@@ -22,6 +22,7 @@ const register = (csrf) => {
   router.post('/', csrf, asyncWrapper(postDetails));
   router.get('/:id', csrf, asyncWrapper(getVerify));
   router.post('/:id', csrf, asyncWrapper(postVerify));
+  router.get('/:id/resend', csrf, asyncWrapper());
   router.post('/:id/resend', csrf, asyncWrapper(postResend));
   router.get('/:id/new-password', csrf, asyncWrapper(getNewPassword));
   router.post('/:id/new-password', csrf, asyncWrapper(postNewPassword));

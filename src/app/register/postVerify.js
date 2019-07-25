@@ -8,6 +8,7 @@ const validateInput = async (req, invitation) => {
     validationMessages: {},
     email: req.session.registration ? req.session.registration.email : null,
     hideNav: true,
+    backLink: true,
   };
 
   if (!model.code || model.code.trim().length === 0) {

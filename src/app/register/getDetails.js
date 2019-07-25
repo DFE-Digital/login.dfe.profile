@@ -13,6 +13,7 @@ const getDetails = async (req, res) => {
     email: '',
     validationMessages: {},
     hideNav: true,
+    backLink: true,
   });
 };
 
