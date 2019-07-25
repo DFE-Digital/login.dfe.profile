@@ -4,7 +4,7 @@ const KeepAliveAgent = require('agentkeepalive').HttpsAgent;
 const Service = require('./Service');
 const jwtStrategy = require('login.dfe.jwt-strategies');
 const config = require('./../config');
-const rp = require('request-promise').defaults({
+const rp = require('login.dfe.request-promise-retry').defaults({
   agent: new KeepAliveAgent({
     maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
     maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,

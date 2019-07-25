@@ -1,29 +1,38 @@
 const { validateRP } = require('./utils');
-const emailValidator = require('email-validator');
+const { emailPolicy } = require('login.dfe.validation');
 const { createInvitation } = require('./../../infrastructure/invitations');
 const uuid = require('uuid/v4');
+const Account = require('./../../infrastructure/account');
+const { getInvitationByEmail } = require('./../../infrastructure/invitations');
 
-const validateInput = (req) => {
+const validateInput = async (req) => {
   const model = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email ? req.body.email.trim() : null,
     validationMessages: {},
     hideNav: true,
+    backLink: true,
   };
 
   if (!model.firstName || model.firstName.trim().length === 0) {
-    model.validationMessages.firstName = 'Please enter your first name';
+    model.validationMessages.firstName = 'Enter a first name';
   }
 
   if (!model.lastName || model.lastName.trim().length === 0) {
-    model.validationMessages.lastName = 'Please enter your last name';
+    model.validationMessages.lastName = 'Enter a last name';
   }
 
   if (!model.email || model.email.trim().length === 0) {
-    model.validationMessages.email = 'Please enter your email address';
-  } else if (!emailValidator.validate(model.email)) {
-    model.validationMessages.email = 'Please enter a valid email address';
+    model.validationMessages.email = 'Enter an email address';
+  } else if (!emailPolicy.doesEmailMeetPolicy(model.email)) {
+    model.validationMessages.email = 'Enter a valid email address';
+  } else {
+    const existingUser = await Account.getById(model.email);
+    const existingInvitation = await getInvitationByEmail(model.email, req.id);
+    if (existingUser || existingInvitation) {
+      model.validationMessages.email = 'An account already exists for this email address';
+    }
   }
 
   model.isValid = Object.keys(model.validationMessages).length === 0;
@@ -44,7 +53,7 @@ const postDetails = async (req, res) => {
     return res.status(400).render('register/views/invalidRedirectUri');
   }
 
-  const model = validateInput(req);
+  const model = await validateInput(req);
   if (!model.isValid) {
     model.csrfToken = req.csrfToken();
     return res.render('register/views/details', model);

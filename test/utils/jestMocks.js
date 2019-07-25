@@ -36,7 +36,7 @@ const mockConfig = (customConfig) => {
     directories: {
       type: 'static',
     },
-    hotConfig: {
+    applications: {
       type: 'static',
     },
     organisations: {

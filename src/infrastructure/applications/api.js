@@ -1,7 +1,6 @@
 const config = require('./../config');
 const KeepAliveAgent = require('agentkeepalive').HttpsAgent;
-
-const rp = require('request-promise').defaults({
+const rp = require('login.dfe.request-promise-retry').defaults({
   agent: new KeepAliveAgent({
     maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
     maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,
@@ -11,21 +10,19 @@ const rp = require('request-promise').defaults({
 });
 const jwtStrategy = require('login.dfe.jwt-strategies');
 
-const getOidcClientById = async (id) => {
-  if (!id) {
-    return undefined;
-  }
-  const token = await jwtStrategy(config.hotConfig.service).getBearerToken();
+const getApplication = async (idOrClientId, correlationId) => {
+  const token = await jwtStrategy(config.applications.service).getBearerToken();
   try {
-    const client = await rp({
+    return await rp({
       method: 'GET',
-      uri: `${config.hotConfig.service.url}/oidcclients/${id}`,
+      uri: `${config.applications.service.url}/services/${idOrClientId}`,
       headers: {
         authorization: `bearer ${token}`,
+        'x-correlation-id': correlationId,
       },
       json: true,
     });
-    return client;
+
   } catch (e) {
     if (e.statusCode === 404) {
       return undefined;
@@ -34,6 +31,7 @@ const getOidcClientById = async (id) => {
   }
 };
 
+
 module.exports = {
-  getOidcClientById,
+  getApplication,
 };
