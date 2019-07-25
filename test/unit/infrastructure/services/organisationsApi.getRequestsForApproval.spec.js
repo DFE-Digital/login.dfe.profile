@@ -1,7 +1,7 @@
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const Service = require('./../../../../src/infrastructure/services/Service');
 
-jest.mock('request-promise');
+jest.mock('login.dfe.request-promise-retry');
 jest.mock('login.dfe.jwt-strategies', () => () => ({
   getBearerToken: () => 'token',
 }));
@@ -45,7 +45,7 @@ describe('when getting requests for approval', () => {
         },
       },
     );
-    const requestPromise = require('request-promise');
+    const requestPromise = require('login.dfe.request-promise-retry');
     requestPromise.defaults.mockReturnValue(rp);
   });
   beforeEach(() => {
