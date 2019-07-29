@@ -1,4 +1,4 @@
-const { getInvitationById, getInvitationByEmail } = require('./../../infrastructure/invitations');
+const { getInvitationById, getInvitationByEmail, updateInvite, resendInvitation } = require('./../../infrastructure/invitations');
 const Account = require('./../../infrastructure/account');
 const { emailPolicy } = require('login.dfe.validation');
 const logger = require('./../../infrastructure/logger');
@@ -59,14 +59,14 @@ const postResend = async (req, res) => {
 
   if (!model.isExistingUser) {
     if (model.noChangedEmail) {
-      await Account.resendInvitation(req.params.id);
+      await resendInvitation(req.params.id, req.id);
       logger.audit(`Resent invitation email to ${model.email} (id: ${model.invitationId})`, {
         type: 'resent-invitation',
         invitedUserEmail: model.email,
         invitationId: model.invitationId,
       });
     } else {
-      await Account.updateInvite(req.params.id, model.email);
+      await updateInvite(req.params.id, model.email, req.id);
       logger.audit(`updated invitation email to ${model.email} (id: ${model.invitationId})`, {
         type: 'changed-invitation-email',
         invitedUserEmail: model.email,
