@@ -9,6 +9,7 @@ const getNewPassword = async (req, res) => {
     confirmPassword: '',
     validationMessages: {},
     hideNav: true,
+    title: 'Create password - DfE Sign-in',
   });
 };
 
