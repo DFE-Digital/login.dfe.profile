@@ -56,6 +56,7 @@ const action = async (req, res) => {
       user: req.user,
       validationMessages: validationResult.messages,
       backLink: true,
+      currentPage: 'profile',
     });
     return;
   }
@@ -82,6 +83,7 @@ const action = async (req, res) => {
         confirmPassword: '',
       },
       backLink: true,
+      currentPage: 'profile',
     });
 
     return;
