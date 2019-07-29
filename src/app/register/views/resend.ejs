@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-8">
+        <h1 class="heading-xlarge">
+            Resend verification email
+        </h1>
+
+        <p>A verification email was send to <%= locals.existingEmail %>.</p>
+        <p>If this email address is incorrect then you can change it below.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form method="post" id="form-resend-invitation">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+            <fieldset>
+                <legend class="vh">Edit <%= locals.existingEmail %></legend>
+                <div class="form-group <%= (locals.validationMessages.email !== undefined) ? 'form-group-error' : '' %>">
+                    <label class="form-label" for="email">Email address </label>
+                    <% if (locals.validationMessages.email !== undefined) { %>
+                    <p class="error-message" id="validation-email"><%=locals.validationMessages.email %></p>
+                    <% } %>
+                    <input class="form-control" id="email" name="email" type="text" <% if (locals.validationMessages.email !== undefined) { %> aria-invalid="true" aria-describedby="validation-email" <% } %> value="<%=email%>">
+                </div>
+            </fieldset>
+            <div class="form-submit submit-buttons">
+                <button type="submit" class="button">Submit</button>
+                <a href="/register/<%= locals.invitationId %>" class="button button-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

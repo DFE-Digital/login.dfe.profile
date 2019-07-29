@@ -64,6 +64,14 @@ class StaticAccount extends Account {
   async getUsersById(ids) {
     return Promise.resolve(null);
   }
+
+  static async updateInvite(id, email) {
+    return Promise.resolve(null);
+  }
+
+  static async resendInvitation(id) {
+    return Promise.resolve(null);
+  }
 }
 
 module.exports = StaticAccount;

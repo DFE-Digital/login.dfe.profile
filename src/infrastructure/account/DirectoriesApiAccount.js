@@ -153,6 +153,31 @@ class DirectoriesApiAccount extends Account {
     }
     return response.result;
   }
+
+  static async updateInvite(id, email) {
+    const response = await callDirectoriesApi(`invitations/${id}`, {
+      email,
+    }, 'PATCH');
+    if (!response.success) {
+      if (response.statusCode === 404) {
+        return null;
+      }
+      throw new Error(response.errorMessage);
+    }
+    return true;
+  }
+
+  static async resendInvitation(id) {
+    const response = await callDirectoriesApi(`invitations/${id}/resend`);
+
+    if(!response.success){
+      if (response.statusCode === 404) {
+        return null;
+      }
+      throw new Error(response.errorMessage);
+    }
+    return true;
+  }
 }
 
 module.exports = DirectoriesApiAccount;

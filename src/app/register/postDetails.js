@@ -2,8 +2,6 @@ const { validateRP } = require('./utils');
 const { emailPolicy } = require('login.dfe.validation');
 const { createInvitation } = require('./../../infrastructure/invitations');
 const uuid = require('uuid/v4');
-const Account = require('./../../infrastructure/account');
-const { getInvitationByEmail } = require('./../../infrastructure/invitations');
 
 const validateInput = async (req) => {
   const model = {
@@ -27,12 +25,6 @@ const validateInput = async (req) => {
     model.validationMessages.email = 'Enter an email address';
   } else if (!emailPolicy.doesEmailMeetPolicy(model.email)) {
     model.validationMessages.email = 'Enter a valid email address';
-  } else {
-    const existingUser = await Account.getById(model.email);
-    const existingInvitation = await getInvitationByEmail(model.email, req.id);
-    if (existingUser || existingInvitation) {
-      model.validationMessages.email = 'An account already exists for this email address';
-    }
   }
 
   model.isValid = Object.keys(model.validationMessages).length === 0;

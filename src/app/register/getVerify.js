@@ -6,7 +6,6 @@ const getVerify = async (req, res) => {
     validationMessages: {},
     email: req.session.registration ? req.session.registration.email : null,
     hideNav: true,
-    backLink: true,
     title: 'Confirm your email address - DfE Sign-in',
   });
 };

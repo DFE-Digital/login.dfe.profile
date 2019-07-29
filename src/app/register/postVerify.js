@@ -8,7 +8,7 @@ const validateInput = async (req, invitation) => {
     validationMessages: {},
     email: req.session.registration ? req.session.registration.email : null,
     hideNav: true,
-    backLink: true,
+    title: 'Confirm your email address - DfE Sign-in',
   };
 
   if (!model.code || model.code.trim().length === 0) {
