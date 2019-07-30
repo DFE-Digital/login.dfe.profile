@@ -7,6 +7,7 @@ const validateInput = (req) => {
     familyName: req.body.familyName,
     validationMessages: {},
     backLink: true,
+    currentPage: 'profile',
   };
 
   if (!model.givenName || model.givenName.trim().length === 0) {
