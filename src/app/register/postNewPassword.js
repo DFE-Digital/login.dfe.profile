@@ -3,6 +3,7 @@ const { migrateInvitation } = require('./../../infrastructure/services');
 const { migrateInvitationServicesToUserServices } = require('./../../infrastructure/access');
 const Account = require('./../../infrastructure/account');
 const { createIndex, deleteFromIndex } = require('./../../infrastructure/search');
+const logger = require('./../../infrastructure/logger');
 
 const validateInput = (req) => {
   const model = {
@@ -10,20 +11,21 @@ const validateInput = (req) => {
     confirmPassword: req.body.confirmPassword,
     validationMessages: {},
     hideNav: true,
+    title: 'Create password - DfE Sign-in',
   };
 
   if (!model.newPassword || model.newPassword.trim().length === 0) {
-    model.validationMessages.newPassword = 'Please enter new password';
+    model.validationMessages.newPassword = 'Enter a password';
   } else if (model.newPassword.length < 12) {
-    model.validationMessages.newPassword = 'Please enter new password that is at least 12 characters long';
+    model.validationMessages.newPassword = 'Password must be at least 12 characters';
   }
 
   if (!model.confirmPassword || model.confirmPassword.trim().length === 0) {
-    model.validationMessages.confirmPassword = 'Please enter confirm password';
+    model.validationMessages.confirmPassword = 'Re-type password';
   } else if (model.confirmPassword.length < 12) {
-    model.validationMessages.confirmPassword = 'Please enter confirm password that is at least 12 characters long';
+    model.validationMessages.confirmPassword = 'Password must be at least 12 characters';
   } else if (model.newPassword && model.newPassword !== model.confirmPassword) {
-    model.validationMessages.confirmPassword = 'Passwords must match';
+    model.validationMessages.confirmPassword = 'Passwords do not match';
   }
 
   return model;
@@ -64,6 +66,12 @@ const postNewPassword = async (req, res) => {
 
   await deleteFromIndex(`inv-${req.params.id}`, req.id);
   await createIndex(userId, req.id);
+
+  logger.audit(`Invitation ${req.params.id} accepted user created ${userId})`, {
+    type: 'invitation-accepted',
+    invitationId: req.params.id,
+    userId,
+  });
 
   req.session.registration.userId = userId;
   return res.redirect(`/register/${req.params.id}/complete`);

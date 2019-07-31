@@ -2,12 +2,14 @@ jest.mock('./../../../../src/infrastructure/config', () => require('./../../../u
 jest.mock('./../../../../src/infrastructure/invitations');
 jest.mock('./../../../../src/infrastructure/services');
 jest.mock('./../../../../src/infrastructure/account');
+jest.mock('./../../../../src/infrastructure/logger', () => require('./../../../utils/jestMocks').mockLogger());
 
 const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
 const { getInvitationById, convertInvitationToUser } = require('./../../../../src/infrastructure/invitations');
 const { migrateInvitation } = require('./../../../../src/infrastructure/services');
 const Account = require('./../../../../src/infrastructure/account');
 const postNewPassword = require('./../../../../src/app/register/postNewPassword');
+const logger = require('./../../../../src/infrastructure/logger');
 
 const res = mockResponse();
 const accountAssignDevice = jest.fn();
@@ -145,7 +147,7 @@ describe('when handling confirmation of new password in registration', () => {
     expect(res.render.mock.calls[0][0]).toBe('register/views/newPassword');
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        newPassword: 'Please enter new password',
+        newPassword: 'Enter a password',
       },
     });
   });
@@ -159,7 +161,7 @@ describe('when handling confirmation of new password in registration', () => {
     expect(res.render.mock.calls[0][0]).toBe('register/views/newPassword');
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        newPassword: 'Please enter new password that is at least 12 characters long',
+        newPassword: 'Password must be at least 12 characters',
       },
     });
   });
@@ -173,7 +175,7 @@ describe('when handling confirmation of new password in registration', () => {
     expect(res.render.mock.calls[0][0]).toBe('register/views/newPassword');
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        confirmPassword: 'Please enter confirm password',
+        confirmPassword: 'Re-type password',
       },
     });
   });
@@ -187,7 +189,7 @@ describe('when handling confirmation of new password in registration', () => {
     expect(res.render.mock.calls[0][0]).toBe('register/views/newPassword');
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        confirmPassword: 'Please enter confirm password that is at least 12 characters long',
+        confirmPassword: 'Password must be at least 12 characters',
       },
     });
   });
@@ -201,7 +203,7 @@ describe('when handling confirmation of new password in registration', () => {
     expect(res.render.mock.calls[0][0]).toBe('register/views/newPassword');
     expect(res.render.mock.calls[0][1]).toMatchObject({
       validationMessages: {
-        confirmPassword: 'Passwords must match',
+        confirmPassword: 'Passwords do not match',
       },
     });
   });

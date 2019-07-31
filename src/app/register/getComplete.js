@@ -16,6 +16,7 @@ const getComplete = async (req, res) => {
     clientName: client.name,
     redirectUri: invitation.origin.redirectUri,
     hideNav: true,
+    title: 'Registration complete - DfE Sign-in',
   });
 };
 
