@@ -99,9 +99,56 @@ const getInvitationByEmail = async (email, correlationId) => {
   }
 };
 
+const updateInvite = async (id, email, correlationId) => {
+  const token = await jwtStrategy(config.directories.service).getBearerToken();
+  try {
+    const invitation = await rp({
+      method: 'PATCH',
+      uri: `${config.directories.service.url}/invitations/${id}`,
+      headers: {
+        authorization: `bearer ${token}`,
+        'x-correlation-id': correlationId,
+      },
+      body: {
+        email,
+      },
+      json: true,
+    });
+    return invitation;
+  } catch (e) {
+    if (e.statusCode === 404) {
+      return undefined;
+    }
+    throw e;
+  }
+};
+
+const resendInvitation = async (id, correlationId) => {
+  const token = await jwtStrategy(config.directories.service).getBearerToken();
+  try {
+    const invitation = await rp({
+      method: 'POST',
+      uri: `${config.directories.service.url}/invitations/${id}/resend`,
+      headers: {
+        authorization: `bearer ${token}`,
+        'x-correlation-id': correlationId,
+      },
+      json: true,
+    });
+    return invitation;
+  } catch (e) {
+    if (e.statusCode === 404) {
+      return undefined;
+    }
+    throw e;
+  }
+};
+
 module.exports = {
   createInvitation,
   getInvitationById,
   convertInvitationToUser,
   getInvitationByEmail,
+  updateInvite,
+  resendInvitation,
 };

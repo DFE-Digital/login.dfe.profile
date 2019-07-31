@@ -14,9 +14,19 @@ const getInvitationByEmail = async (id) => {
   return Promise.resolve(null);
 };
 
+const updateInvite = async (id, email, correlationId) => {
+  return Promise.resolve(null);
+};
+
+const resendInvitation = async (id, correlationId) => {
+  return Promise.resolve(null);
+};
+
 module.exports = {
   createInvitation,
   getInvitationById,
   convertInvitationToUser,
   getInvitationByEmail,
+  updateInvite,
+  resendInvitation,
 };

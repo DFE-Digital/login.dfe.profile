@@ -28,6 +28,15 @@ const mockResponse = () => {
   };
 };
 
+const mockLogger = () => {
+  return {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    audit: jest.fn(),
+  };
+};
+
 const mockConfig = (customConfig) => {
   const defaultConfig = {
     hostingEnvironment: {
@@ -56,4 +65,5 @@ module.exports = {
   mockRequest,
   mockResponse,
   mockConfig,
+  mockLogger,
 };
