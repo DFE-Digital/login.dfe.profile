@@ -7,6 +7,7 @@ const validateInput = async (req) => {
     validationMessages: {},
     includeResend: !req.params.uid,
     backLink: req.params.uid ? undefined : true,
+    currentPage: 'profile',
   };
 
   if (!model.newEmail || model.newEmail.trim().length === 0) {

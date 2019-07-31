@@ -6,6 +6,7 @@ const validateInput = (req, code) => {
     newEmail: code.email,
     code: req.body.code || '',
     validationMessages: {},
+    currentPage: 'profile',
   };
 
   if (!model.code || model.code.trim().length === 0) {
