@@ -4,6 +4,7 @@ const getNewEmailAddress = (req, res) => {
     newEmail: '',
     validationMessages: {},
     backLink: true,
+    currentPage: 'profile',
   });
 };
 

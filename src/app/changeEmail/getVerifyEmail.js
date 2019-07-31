@@ -19,6 +19,7 @@ const getVerifyEmail = async (req, res) => {
     validationMessages: {},
     backLink: req.params.uid ? undefined : true,
     includeResend: !req.params.uid,
+    currentPage: 'profile',
   });
 };
 

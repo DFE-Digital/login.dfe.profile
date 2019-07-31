@@ -10,6 +10,7 @@ const action = (req, res) => {
     familyName: account.familyName,
     validationMessages: {},
     backLink: true,
+    currentPage: 'profile',
   });
 };
 

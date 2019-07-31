@@ -9,6 +9,7 @@ const action = (req, res) => {
     validationFailed: false,
     validationMessages: {},
     backLink: true,
+    currentPage: 'profile',
   });
 };
 
