@@ -10,9 +10,15 @@ const identifyingPartySchema = new SimpleSchema({
   clockTolerance: SimpleSchema.Integer,
 });
 
+const hostingEnvironmentSchema = new SimpleSchema({
+  defaultRegisterServiceUrl: patterns.url,
+  defaultRegisterService: String,
+});
+hostingEnvironmentSchema.extend(schemas.hostingEnvironment);
+
 const schema = new SimpleSchema({
   loggerSettings: schemas.loggerSettings,
-  hostingEnvironment: schemas.hostingEnvironment,
+  hostingEnvironment: hostingEnvironmentSchema,
   directories: schemas.apiClient,
   organisations: schemas.apiClient,
   access: schemas.apiClient,
