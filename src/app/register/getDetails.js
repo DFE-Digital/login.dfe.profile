@@ -14,6 +14,7 @@ const getDetails = async (req, res) => {
     validationMessages: {},
     hideNav: true,
     backLink: true,
+    redirectUri: isRequestValid.redirectUri,
   });
 };
 

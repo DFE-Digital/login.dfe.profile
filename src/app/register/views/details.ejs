@@ -3,6 +3,7 @@
         <h1 class="heading-xlarge">
             Create a DfE Sign-in account
         </h1>
+        <p>If you already have a DfE Sign-in account <a href="<%= locals.redirectUri %>">sign in</a>.</p>
     </div>
 </div>
 <div class="grid-row">
@@ -32,7 +33,7 @@
             </div>
             <div class="form-group <%= locals.validationMessages.email ? 'form-group-error' : '' %>">
                 <label class="form-label" for="email">Email address
-                    <span class="form-hint">We will send you an email to verify this address</span>
+                    <span class="form-hint">You will receive an email to verify this address</span>
                 </label>
                 <% if (locals.validationMessages.email) { %>
                 <p class="error-message" id="validation-email"><%=locals.validationMessages.email%></p>
