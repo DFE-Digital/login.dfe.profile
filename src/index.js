@@ -114,6 +114,7 @@ const init = async () => {
       services: config.hostingEnvironment.servicesUrl,
       interactions: config.hostingEnvironment.interactionsUrl,
       help: config.hostingEnvironment.helpUrl,
+      survey: config.hostingEnvironment.surveyUrl,
     },
     app: {
       environmentBannerMessage: config.hostingEnvironment.environmentBannerMessage,
