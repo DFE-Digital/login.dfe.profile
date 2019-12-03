@@ -16,6 +16,14 @@ const hostingEnvironmentSchema = new SimpleSchema({
 });
 hostingEnvironmentSchema.extend(schemas.hostingEnvironment);
 
+const togglesSchema = new SimpleSchema({
+  useSelfRegister: {
+    type: Boolean,
+    optional: true,
+    defaultValue: false,
+  },
+});
+
 const schema = new SimpleSchema({
   loggerSettings: schemas.loggerSettings,
   hostingEnvironment: hostingEnvironmentSchema,
@@ -25,6 +33,7 @@ const schema = new SimpleSchema({
   search: schemas.apiClient,
   applications: schemas.apiClient,
   identifyingParty: identifyingPartySchema,
+  toggles: togglesSchema,
 });
 
 module.exports.validate = () => {
