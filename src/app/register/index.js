@@ -2,6 +2,7 @@
 
 const express = require('express');
 const logger = require('../../infrastructure/logger');
+const config = require('../../infrastructure/config');
 const { asyncWrapper } = require('login.dfe.express-error-handling');
 
 const getDetails = require('./getDetails');
@@ -18,8 +19,13 @@ const router = express.Router({ mergeParams: true });
 
 const register = (csrf) => {
   logger.info('Mounting register routes');
-
-  router.get('/', csrf, asyncWrapper(getDetails));
+  if (config.toggles && config.toggles.useSelfRegister) {
+    router.get('/', (req, res) => {
+      return res.redirect('https://help.signin.education.gov.uk/contact/create-account');
+    });
+  } else {
+    router.get('/', csrf, asyncWrapper(getDetails));
+  }
   router.post('/', csrf, asyncWrapper(postDetails));
   router.get('/:id', csrf, asyncWrapper(getVerify));
   router.post('/:id', csrf, asyncWrapper(postVerify));
