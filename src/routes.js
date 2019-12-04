@@ -60,13 +60,7 @@ const routes = (app, csrf) => {
   app.use('/signout', signOut(csrf));
   app.use('/help', help(csrf));
   app.use('/terms', terms(csrf));
-  if (config.toggles && config.toggles.useSelfRegister) {
-    app.use('/register', register(csrf));
-  } else {
-    app.get('/register', (req, res) => {
-      return res.redirect('https://help.signin.education.gov.uk/contact/create-account');
-    });
-  }
+  app.use('/register', register(csrf));
   app.use('/edit-details', editDetails(csrf));
   app.use('/change-email', changeEmail(csrf));
   // app.use('/add-organisation', addOrganisation(csrf));
