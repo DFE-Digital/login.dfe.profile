@@ -19,13 +19,8 @@ const router = express.Router({ mergeParams: true });
 
 const register = (csrf) => {
   logger.info('Mounting register routes');
-  if (config.toggles && config.toggles.useSelfRegister) {
-    router.get('/', csrf, asyncWrapper(getDetails));
-  } else {
-    router.get('/', (req, res) => {
-      return res.redirect('https://help.signin.education.gov.uk/contact/create-account');
-    });
-  }
+
+  router.get('/', csrf, asyncWrapper(getDetails));
   router.post('/', csrf, asyncWrapper(postDetails));
   router.get('/:id', csrf, asyncWrapper(getVerify));
   router.post('/:id', csrf, asyncWrapper(postVerify));
