@@ -2,6 +2,7 @@
 
 const Account = require('./../../infrastructure/account');
 const { getUserDisplayName } = require('./../../infrastructure/utils');
+const config = require('./../../infrastructure/config');
 
 const profile = async (req, res) => {
   const account = Account.fromContext(req.user);
@@ -13,6 +14,8 @@ const profile = async (req, res) => {
     user: req.user,
     currentPage: 'profile',
     pendingEmail: changeEmailCode ? changeEmailCode.email : undefined,
+    approverRequests: req.approverRequests || [],
+    servicesUrl: config.hostingEnvironment.servicesUrl,
   });
 };
 

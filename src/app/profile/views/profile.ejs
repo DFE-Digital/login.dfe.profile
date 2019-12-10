@@ -1,3 +1,14 @@
+<% if (locals.approverRequests && locals.approverRequests.length > 0) { %>
+    <div class="panel panel-border-narrow alert-default" tabindex="0">
+        <% if (locals.approverRequests.length === 1) { %>
+            <p>There is <strong class="bold-small"><%= locals.approverRequests.length %> request</strong> you need to
+                action - <a href=<%=locals.servicesUrl%>/access-requests>view requests</a></p>
+        <% } else { %>
+            <p>There are <strong class="bold-small"><%= locals.approverRequests.length %> requests</strong> you need to
+                action - <a href=<%=locals.servicesUrl%>/access-requests>view requests</a></p>
+        <% } %>
+    </div>
+<% } %>
 <% if (locals.flash.info) { %>
 <div class="notification notification-success" tabindex="-1">
     <%= locals.flash.info %>

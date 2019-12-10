@@ -1,7 +1,7 @@
 'use strict';
 
 const { getServicesForUser } = require('../../infrastructure/access');
-const { getOrganisationsAssociatedWithUser } = require('../../infrastructure/services');
+const { getOrganisationsAssociatedWithUser, getPendingRequestsForApproval } = require('../../infrastructure/services');
 
 const APPROVER = 10000;
 
@@ -36,6 +36,9 @@ const setUserContext = async (req, res, next) => {
     try {
       if (req.userOrganisations) {
         res.locals.isApprover = req.userOrganisations.filter(x => x.role.id === 10000).length > 0;
+      }
+      if(res.locals.isApprover){
+        req.approverRequests = await getPendingRequestsForApproval(req.user.sub, req.id);
       }
     } catch (e) {
       return e;
