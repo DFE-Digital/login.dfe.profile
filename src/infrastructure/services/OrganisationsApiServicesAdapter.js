@@ -206,6 +206,18 @@ const getOrganisationsAssociatedWithUser = async (userId, correlationId) => {
   });
 };
 
+const getPendingRequestsForApproval = async (userId, correlationId) => {
+  const token = await jwtStrategy(config.organisations.service).getBearerToken();
+  return await rp({
+    uri: `${config.organisations.service.url}/organisations/requests-for-approval/${userId}`,
+    headers: {
+      authorization: `Bearer ${token}`,
+      'x-correlation-id': correlationId,
+    },
+    json: true,
+  });
+};
+
 module.exports = {
   getServicesForUser,
   getAvailableServicesForUser,
@@ -220,4 +232,5 @@ module.exports = {
   getOrganisation,
   putUserInOrganisation,
   getOrganisationsAssociatedWithUser,
+  getPendingRequestsForApproval,
 };
