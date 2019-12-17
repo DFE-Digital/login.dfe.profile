@@ -15,6 +15,7 @@ const getComplete = async (req, res) => {
   res.render('register/views/complete', {
     clientName: client.name,
     redirectUri: invitation.origin.redirectUri,
+    isMigrated: invitation.isMigrated,
     hideNav: true,
     title: 'Registration complete - DfE Sign-in',
   });
