@@ -17,7 +17,7 @@ const signUserOut = (req, res) => {
     });
     const idToken = req.user.id_token;
     const issuer = passport._strategies.oidc._issuer;
-    let returnUrl = `${config.hostingEnvironment.protocol}://${config.hostingEnvironment.host}:${config.hostingEnvironment.port}/signout/complete`;
+    let returnUrl = `${config.hostingEnvironment.servicesUrl}/signout`;
     if (req.query.redirect_uri) {
       returnUrl = req.query.redirect_uri;
     }
