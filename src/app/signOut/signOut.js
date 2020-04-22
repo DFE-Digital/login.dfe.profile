@@ -8,7 +8,7 @@ const config = require('./../../infrastructure/config');
 const logger = require('../../infrastructure/logger');
 
 const signUserOut = (req, res) => {
-  if (req.user && req.user.id_token) {
+  if ((req.user && req.user.id_token) || req.query.redirected === 'true') {
     logger.audit('User logged out', {
       type: 'Sign-out',
       userId: req.user.sub,
