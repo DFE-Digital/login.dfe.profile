@@ -84,8 +84,7 @@ const init = async () => {
     keys: [config.hostingEnvironment.sessionSecret],
     maxAge: expiryInMinutes * 60000, // Expiry in milliseconds
     httpOnly: true,
-    secure: true,
-    domain: 'signin.education.gov.uk'
+    secure: true
   }));
   app.use((req, res, next) => {
     req.session.now = Date.now();
