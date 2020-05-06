@@ -36,7 +36,12 @@ const signUserOut = (req, res) => {
     }
     res.redirect(returnUrl);
   } else {
-    res.redirect(req.query.redirect_uri ? req.query.redirect_uri : '/');
+    if(req.query.redirect_uri) {
+      res.redirect(req.query.redirect_uri ? req.query.redirect_uri : '/');
+    }else{
+      const returnUrl = `${config.hostingEnvironment.servicesUrl}/signout?redirected=true`;
+      res.redirect(returnUrl);
+    }
   }
 };
 
