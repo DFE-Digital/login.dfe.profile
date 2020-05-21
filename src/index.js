@@ -18,24 +18,13 @@ const sanitization = require('login.dfe.sanitization');
 const { getErrorHandler, ejsErrorPages } = require('login.dfe.express-error-handling');
 const registerRoutes = require('./routes');
 const setCorrelationId = require('express-mw-correlation-id');
-const KeepAliveAgent = require('agentkeepalive');
 const { setUserContext } = require('./infrastructure/utils');
 const configSchema = require('./infrastructure/config/schema');
 
 configSchema.validate();
 
-http.GlobalAgent = new KeepAliveAgent({
-  maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
-  maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,
-  timeout: config.hostingEnvironment.agentKeepAlive.timeout,
-  keepAliveTimeout: config.hostingEnvironment.agentKeepAlive.keepAliveTimeout,
-});
-https.GlobalAgent = new KeepAliveAgent({
-  maxSockets: config.hostingEnvironment.agentKeepAlive.maxSockets,
-  maxFreeSockets: config.hostingEnvironment.agentKeepAlive.maxFreeSockets,
-  timeout: config.hostingEnvironment.agentKeepAlive.timeout,
-  keepAliveTimeout: config.hostingEnvironment.agentKeepAlive.keepAliveTimeout,
-});
+https.globalAgent.maxSockets = http.globalAgent.maxSockets =
+  config.hostingEnvironment.agentKeepAlive.maxSockets || 50;
 
 const init = async () => {
   const app = express();
