@@ -17,9 +17,9 @@ const signUserOut = (req, res) => {
     });
     const idToken = req.user.id_token;
     const issuer = passport._strategies.oidc._issuer;
-    let returnUrl = `${config.hostingEnvironment.servicesUrl}/signout?redirected=true`;
+    let returnUrl = `${config.hostingEnvironment.servicesUrl}/signout`;
     if (req.query.redirect_uri) {
-      returnUrl += `&redirect_uri=${req.query.redirect_uri}`;
+      returnUrl = req.query.redirect_uri;
     }
     req.logout();
     res.redirect(url.format(Object.assign(url.parse(issuer.end_session_endpoint), {
@@ -36,7 +36,12 @@ const signUserOut = (req, res) => {
     }
     res.redirect(returnUrl);
   } else {
-    res.redirect(req.query.redirect_uri ? req.query.redirect_uri : '/');
+    if(req.query.redirect_uri) {
+      res.redirect(req.query.redirect_uri ? req.query.redirect_uri : '/');
+    }else{
+      const returnUrl = `${config.hostingEnvironment.servicesUrl}/signout?redirected=true`;
+      res.redirect(returnUrl);
+    }
   }
 };
 
