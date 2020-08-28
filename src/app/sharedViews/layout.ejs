@@ -27,7 +27,9 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', '<%=locals.gaTrackingId || 'UA-114739594-1'%>');
+      gtag('config', '<%=locals.gaTrackingId || 'UA-114739594-1'%>', {
+        cookie_flags: 'secure'
+      });
     </script>
 </head>
 <body>
