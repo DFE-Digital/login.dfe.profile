@@ -6,7 +6,7 @@ const { getOrganisationsAssociatedWithUser, getPendingRequestsForApproval } = re
 const APPROVER = 10000;
 
 const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated() || req.baseUrl === '/signout') {
+  if (req.isAuthenticated()) {
     return next();
   }
 
