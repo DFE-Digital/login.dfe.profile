@@ -1,0 +1,26 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+    - repository: devopsTemplates
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/operations-devops-pipeline-templates
+    - repository: config
+      type: github
+      endpoint: DfE-Digital
+      name: DFE-Digital/login.dfe.config
+
+trigger:
+  branches:
+    include:
+    - feature/yaml-pipeline
+
+variables:
+- group: platform-global
+
+stages:
+- template: /Application/node/stages/signin-master-stage.yml@devopsTemplates
+  parameters:
+    applicationName: profile
+    resourceGroupSuffix: pfl-failover
+    armTemplateName: template-failover.json
