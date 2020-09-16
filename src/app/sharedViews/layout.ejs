@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<%include ../../../node_modules/dfe-frontend-toolkit/app/views/concepts/components/cookie-banner.html %>
+<%-include(process.cwd()+'/node_modules/dfe-frontend-toolkit/app/views/concepts/components/cookie-banner.html') %>
 
 <div class="wrapper">
     <%if(app.environmentBannerMessage) {%>
