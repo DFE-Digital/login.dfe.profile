@@ -6,7 +6,8 @@ const { getOrganisationsAssociatedWithUser, getPendingRequestsForApproval } = re
 const APPROVER = 10000;
 
 const isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated() || req.baseUrl === '/signout') {
+  const serviceType = req.query? req.query.service_type:null;
+  if (req.isAuthenticated() || (req.baseUrl === '/signout' && serviceType !== 'saml')) {
     return next();
   }
 
