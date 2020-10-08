@@ -95,7 +95,7 @@ const init = async () => {
   app.use(setUserContext);
 
   // Setup global locals for layouts and views
-  let assetsUrl = config.hostingEnvironment.assetsUrl || 'https://rawgit.com/DFE-Digital/dfe.ui.toolkit/master/dist/';
+  let assetsUrl = config.assets.url;
   assetsUrl = assetsUrl.endsWith('/') ? assetsUrl.substr(0, assetsUrl.length - 1) : assetsUrl;
   Object.assign(app.locals, {
     urls: {
@@ -109,6 +109,9 @@ const init = async () => {
       environmentBannerMessage: config.hostingEnvironment.environmentBannerMessage,
     },
     gaTrackingId: config.hostingEnvironment.gaTrackingId,
+    assets: {
+      version: config.assets.version
+    },
   });
 
   registerRoutes(app, csrf);
