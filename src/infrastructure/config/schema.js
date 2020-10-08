@@ -34,7 +34,7 @@ const schema = new SimpleSchema({
   applications: schemas.apiClient,
   identifyingParty: identifyingPartySchema,
   toggles: togglesSchema,
-  assetSettings: schemas.assetSettings
+  assetSettings: schemas.assetSettings,
 });
 
 module.exports.validate = () => {
