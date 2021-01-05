@@ -20,7 +20,6 @@ const registerRoutes = require('./routes');
 const setCorrelationId = require('express-mw-correlation-id');
 const { setUserContext } = require('./infrastructure/utils');
 const configSchema = require('./infrastructure/config/schema');
-const uuid = require('uuid/v4');
 
 configSchema.validate();
 
@@ -78,7 +77,6 @@ const init = async () => {
   }));
   app.use((req, res, next) => {
     req.session.now = Date.now();
-    req.session.gaClientId = req.session.gaClientId || uuid();
     next();
   });
 

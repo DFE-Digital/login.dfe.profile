@@ -46,8 +46,6 @@ const setUserContext = async (req, res, next) => {
       return e;
     }
   }
-
-  res.locals.gaClientId = req.session.gaClientId;
   next();
 };
 
