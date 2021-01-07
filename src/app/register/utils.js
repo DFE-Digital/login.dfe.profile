@@ -28,8 +28,9 @@ const getBannerDetails = async (req) => {
   const clientId = getClientId(req);
 
   const client = await getServiceById(clientId, req.id);
+
   if (!client || !client.id) {
-    return null;
+    return {};
   }
 
   const allBannersForService = await listAllBannersForService(client.id, req.id);

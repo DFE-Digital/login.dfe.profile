@@ -1,9 +1,9 @@
 jest.mock('./../../../../src/app/register/utils');
-jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
+jest.mock('./../../../../src/infrastructure/config', () => require('../../../utils/jestMocks').mockConfig());
 
-const { mockRequest, mockResponse } = require('./../../../utils/jestMocks');
-const { validateRP } = require('./../../../../src/app/register/utils');
-const getDetails = require('./../../../../src/app/register/getDetails');
+const { mockRequest, mockResponse } = require('../../../utils/jestMocks');
+const { validateRP, getBannerDetails } = require('../../../../src/app/register/utils');
+const getDetails = require('../../../../src/app/register/getDetails');
 
 const res = mockResponse();
 
@@ -15,6 +15,8 @@ describe('when requesting user details for registration', () => {
       clientId: 'client1',
       redirectUri: 'https://relying.party',
     });
+
+    getBannerDetails.mockReset().mockReturnValue({});
 
     req = mockRequest({
       query: {
@@ -61,7 +63,6 @@ describe('when requesting user details for registration', () => {
       validationMessages: {},
     });
   });
-
 
   it('then it should return 400 status if RP invalid', async () => {
     validateRP.mockReset().mockReturnValue(false);
