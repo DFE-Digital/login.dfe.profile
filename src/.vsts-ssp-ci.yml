@@ -1,0 +1,23 @@
+name: $(BuildDefinitionName)_tag-$(BuildID)_at-$(Date:yyyyMMdd)$(Rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: github
+    endpoint: DfE-Digital
+    name: DFE-Digital/login.dfe.profile
+    ref: NSA-3397    
+trigger:
+  branches:
+    include:
+    - NSA-3397
+    exclude:
+    - master
+    - release/*
+    - develop
+    - hotfix/*
+stages:
+
+  - stage: preDeploy
+    displayName: preDeploy
+    jobs:
+    - template: predeploy.yml

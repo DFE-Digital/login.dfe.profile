@@ -1,0 +1,80 @@
+jobs:
+- job: Phase_1
+  displayName: Phase 1
+  cancelTimeoutInMinutes: 1
+  pool:
+    vmImage: windows-2019
+    demands:
+    - node.js
+    - npm
+  steps:
+  - checkout: self
+    clean: true
+  - task: Npm@1
+    displayName: npm install
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: true
+      customCommand: install --force --json
+  - task: Npm@1
+    displayName: npm test
+    continueOnError: True
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: false
+      customCommand: test --force
+  - task: Npm@1
+    displayName: npm clean up
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: false
+      customCommand: prune --production --json
+  - task: Npm@1
+    displayName: npm prune fix
+    inputs:
+      command: custom
+      workingDir: $(Build.Repository.LocalPath)
+      verbose: false
+      customCommand: install --production --json
+  - task: CopyFiles@2
+    displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)\Publish'
+    inputs:
+      SourceFolder: $(System.DefaultWorkingDirectory)
+      Contents: >-
+        app_data\**
+
+        azure\**
+
+        config\**
+
+        node_modules\**
+
+        src\**
+
+        external_modules\**
+
+        package.json
+
+        web.config
+      TargetFolder: $(System.DefaultWorkingDirectory)\Publish
+      CleanTargetFolder: true
+  - task: ArchiveFiles@1
+    displayName: 'Archive files '
+    inputs:
+      rootFolder: $(System.DefaultWorkingDirectory)\Publish
+      includeRootFolder: false
+  - task: CopyFiles@2
+    displayName: Copy any database scripts
+    inputs:
+      SourceFolder: $(System.DefaultWorkingDirectory)
+      Contents: database_scripts\**
+      TargetFolder: $(Build.ArtifactStagingDirectory)\
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Build Artifact
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)\
+      ArtifactName: Drop
+...
