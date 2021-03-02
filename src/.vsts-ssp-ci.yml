@@ -9,9 +9,10 @@ resources:
 trigger:
   branches:
     include:
-    - NSA-3397
+    - master
     exclude:
     - master
+    - NSA-3397
     - release/*
     - develop
     - hotfix/*

@@ -71,6 +71,30 @@
             "metadata": {
                 "description": "The name of the Resource Group that contains the Key Vault"
             }
+        },
+        "auditServiceBusConnectionString": {
+            "type": "string",
+            "metadata": {
+                "description": "ASB Connection String"
+            }
+        },
+        "auditServiceBusTopicName": {
+            "type": "string",
+            "metadata": {
+                "description": "ASB Topic Name"
+            }
+        },
+        "auditServiceBusSubscriptionName": {
+            "type": "string",
+            "metadata": {
+                "description": "ASB Subscription Name"
+            }
+        },
+        "environmentId": {
+            "type": "string",
+            "metadata": {
+                "description": "Environment Identifier"
+            }
         }
     },
     "variables": {
@@ -165,6 +189,14 @@
                     },
                     "certificateThumbprint": {
                         "value": "[reference(concat(parameters('appServiceName'), '-certificate')).outputs.certificateThumbprint.value]"
+                    },
+                    "additionalAppSettings": {
+                        "value": {
+                            "ENVIRONMENT_ID": "[parameters('environmentId')]",
+                            "QUEUE_CONNECTION_STRING": "[parameters('auditServiceBusConnectionString')]",
+                            "TOPIC_NAME": "[parameters('auditServiceBusTopicName')]",
+                            "SUBSCRIPTION_NAME": "[parameters('auditServiceBusSubscriptionName')]"
+                        }
                     }
                 }
             },
