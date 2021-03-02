@@ -26,6 +26,6 @@ variables:
 stages:
 - template: /Application/node/stages/signin-master-standalone-stage.yml@devopsTemplates
   parameters:
-    applicationName: profile
-    resourceGroupSuffix: pfl-failover
-    armTemplateName: template-failover.json
+    applicationName: pfl
+    resourceGroupSuffix: pfl
+    armTemplateName: template.json
