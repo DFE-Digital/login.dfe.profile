@@ -26,6 +26,6 @@ variables:
 stages:
 - template: /Application/node/stages/signin-master-standalone-stage.yml@devopsTemplates
   parameters:
-    applicationName: pfl
+    applicationName: profile
     resourceGroupSuffix: pfl
     armTemplateName: template.json
