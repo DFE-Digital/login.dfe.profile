@@ -28,7 +28,7 @@
         },
         "nodeVersion": {
             "type": "string",
-            "defaultValue": "12.9.0",
+            "defaultValue": "10.16.0",
             "metadata": {
                 "description": "The default NodeJS version that the App Service will run"
             }
@@ -70,30 +70,6 @@
             "type": "string",
             "metadata": {
                 "description": "The name of the Resource Group that contains the Key Vault"
-            }
-        },
-        "auditServiceBusConnectionString": {
-            "type": "string",
-            "metadata": {
-                "description": "ASB Connection String"
-            }
-        },
-        "auditServiceBusTopicName": {
-            "type": "string",
-            "metadata": {
-                "description": "ASB Topic Name"
-            }
-        },
-        "auditServiceBusSubscriptionName": {
-            "type": "string",
-            "metadata": {
-                "description": "ASB Subscription Name"
-            }
-        },
-        "environmentId": {
-            "type": "string",
-            "metadata": {
-                "description": "Environment Identifier"
             }
         }
     },
@@ -159,7 +135,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/Shared/app-service-azure-config.json",
+                    "uri": "https://raw.githubusercontent.com/DFE-Digital/login.dfe.infrastructure/master/Shared/app-service.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -189,18 +165,6 @@
                     },
                     "certificateThumbprint": {
                         "value": "[reference(concat(parameters('appServiceName'), '-certificate')).outputs.certificateThumbprint.value]"
-                    },
-                    "additionalAppSettings": {
-                        "value": {
-							"ENVIRONMENT_ID": "[parameters('environmentId')]",
-                            "QUEUE_CONNECTION_STRING": "[parameters('auditServiceBusConnectionString')]",
-                            "TOPIC_NAME": "[parameters('auditServiceBusTopicName')]",
-                            "SUBSCRIPTION_NAME": "[parameters('auditServiceBusSubscriptionName')]",
-                            "WEBSITE_HEALTHCHECK_MAXPINGFAILURES": "4"
-                        }
-                    },
-                     "healthCheckPath": {
-                        "value": "/healthCheck"
                     }
                 }
             },
