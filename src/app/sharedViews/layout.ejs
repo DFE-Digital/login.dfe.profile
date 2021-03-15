@@ -77,7 +77,7 @@
                 <div class="pull-right">
                     <li><a href="/" class="<%= locals.currentPage === 'profile' ? 'current' : '' %>">Profile</a></li>
                     <li><a href="<%=locals.urls.help%>/contact">Help</a></li>
-                    <li><a href="/signout">Sign out</a></li>
+                    <li><a href="/signout" onclick='signOut()'>Sign out</a></li>
                 </div>
             </ul>
         </nav>
@@ -147,6 +147,14 @@
 </script>
 <script src="<%= locals.urls.assetsUrl %>/javascript/app.min.js?version=<%= locals.assets.version %>"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<%=locals.gaTrackingId || 'UA-114739594-1'%>"></script>
+
+<script>
+    function signOut(){
+        <% if (locals.isApprover) { %>
+        updateCookieReviewUsersBanner();
+        <% } %>
+    }
+</script>
 
 </body>
 </html>
