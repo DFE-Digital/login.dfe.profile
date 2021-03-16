@@ -1,9 +1,9 @@
 jest.mock('./../../../../src/infrastructure/applications');
-jest.mock('./../../../../src/infrastructure/config', () => require('./../../../utils/jestMocks').mockConfig());
+jest.mock('./../../../../src/infrastructure/config', () => require('../../../utils/jestMocks').mockConfig());
 
-const { mockRequest } = require('./../../../utils/jestMocks');
-const { getApplication } = require('./../../../../src/infrastructure/applications');
-const { validateRP } = require('./../../../../src/app/register/utils');
+const { mockRequest } = require('../../../utils/jestMocks');
+const { getApplication } = require('../../../../src/infrastructure/applications');
+const { validateRP } = require('../../../../src/app/register/utils');
 
 describe('when validating a relying party for registration', () => {
   let req;
@@ -42,7 +42,6 @@ describe('when validating a relying party for registration', () => {
 
   it('then it should return null if client not found', async () => {
     getApplication.mockReturnValue(null);
-
     const actual = await validateRP(req);
 
     expect(actual).toBeNull();

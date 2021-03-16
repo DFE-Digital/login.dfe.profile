@@ -1,3 +1,13 @@
+<!-- Banner -->
+<% if(locals.header) { %>
+    <div class="notification notification-information" tabindex="-1">
+        <h2><%=locals.header%></h2>
+        <% if(locals.headerMessage) { %>
+            <p><%-locals.headerMessage.replace('__helplink__',locals.urls.help)%></p>
+        <%}%>
+    </div>
+<%}%>
+
 <div class="grid-row">
     <div class="col-8">
         <h1 class="heading-xlarge">
