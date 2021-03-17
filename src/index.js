@@ -34,7 +34,8 @@ const init = async () => {
       action: 'deny',
     },
     hsts:{
-      maxAge: 123456,
+      maxAge: 31536000,
+      preload: true,
     }
   }));
   app.use(setCorrelationId(true));
