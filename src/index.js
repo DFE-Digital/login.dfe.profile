@@ -33,6 +33,9 @@ const init = async () => {
     frameguard: {
       action: 'deny',
     },
+    hsts:{
+      maxAge: 123456,
+    }
   }));
   app.use(setCorrelationId(true));
 
