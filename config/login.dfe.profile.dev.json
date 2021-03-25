@@ -4,7 +4,7 @@
       "enabled": false,
       "host": "127.0.0.1",
       "port": 6379,
-      "auth": ""
+      "auth": "04c1e947-2462-43bc-aa28-e82a7ca13316"
     },
     "logLevel": "debug",
     "applicationName": "Profile"
