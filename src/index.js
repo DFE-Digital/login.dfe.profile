@@ -28,16 +28,26 @@ https.globalAgent.maxSockets = http.globalAgent.maxSockets =
 
 const init = async () => {
   const app = express();
-  app.use(helmet({
-    noCache: true,
-    frameguard: {
-      action: 'deny',
-    },
-    hsts:{
-      maxAge: 31536000,
-      preload: true,
-    }
-  }));
+  if(config.hostingEnvironment.skipHsts){
+    app.use(helmet({
+      noCache: true,
+      frameguard: {
+        action: 'deny',
+      }
+    }));
+  }else {
+    app.use(helmet({
+      noCache: true,
+      frameguard: {
+        action: 'deny',
+      },
+      hsts: {
+        maxAge: 31536000,
+        preload: true,
+      }
+    }));
+  }
+
   app.use(setCorrelationId(true));
 
   if (config.hostingEnvironment.env !== 'dev') {
