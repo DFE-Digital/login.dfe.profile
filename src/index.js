@@ -28,11 +28,15 @@ https.globalAgent.maxSockets = http.globalAgent.maxSockets =
 
 const init = async () => {
   const app = express();
-  if(config.hostingEnvironment.skipHsts){
+  if(config.hostingEnvironment.env !== 'dev' && config.hostingEnvironment.hstsMaxAge){
     app.use(helmet({
       noCache: true,
       frameguard: {
         action: 'deny',
+      },
+      hsts: {
+        maxAge: config.hostingEnvironment.hstsMaxAge,
+        preload: true,
       }
     }));
   }else {
@@ -40,10 +44,6 @@ const init = async () => {
       noCache: true,
       frameguard: {
         action: 'deny',
-      },
-      hsts: {
-        maxAge: 31536000,
-        preload: true,
       }
     }));
   }
