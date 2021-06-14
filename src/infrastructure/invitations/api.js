@@ -1,29 +1,35 @@
 const config = require('./../config');
 const rp = require('login.dfe.request-promise-retry');
 const jwtStrategy = require('login.dfe.jwt-strategies');
+const logger = require('./../../infrastructure/logger');
 
 const createInvitation = async (firstName, lastName, email, clientId, redirectUri) => {
-  const token = await jwtStrategy(config.directories.service).getBearerToken();
-  const invitation = await rp({
-    method: 'POST',
-    uri: `${config.directories.service.url}/invitations`,
-    headers: {
-      authorization: `bearer ${token}`,
-      'content-type': 'application/json',
-    },
-    body: {
-      firstName,
-      lastName,
-      email,
-      origin: {
-        clientId,
-        redirectUri,
+  try {
+    const token = await jwtStrategy(config.directories.service).getBearerToken();
+    const invitation = await rp({
+      method: 'POST',
+      uri: `${config.directories.service.url}/invitations`,
+      headers: {
+        authorization: `bearer ${token}`,
+        'content-type': 'application/json',
       },
-      selfStarted: true,
-    },
-    json: true,
-  });
-  return invitation ? invitation.id : undefined;
+      body: {
+        firstName,
+        lastName,
+        email,
+        origin: {
+          clientId,
+          redirectUri,
+        },
+        selfStarted: true,
+      },
+      json: true,
+    });
+    return invitation ? invitation.id : undefined;    
+  } catch (e) {
+    logger.error(`Faild to create invitation. Error-${e}`);
+    throw e;
+  }
 };
 
 const getInvitationById = async (id) => {

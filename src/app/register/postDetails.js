@@ -1,6 +1,7 @@
 const { validateRP } = require('./utils');
 const { emailPolicy } = require('login.dfe.validation');
 const { createInvitation } = require('./../../infrastructure/invitations');
+const logger = require('./../../infrastructure/logger');
 const uuid = require('uuid/v4');
 
 const validateInput = async (req) => {
@@ -40,29 +41,34 @@ const sendInvitation = async (model, rpDetails) => {
 };
 
 const postDetails = async (req, res) => {
-  const rpDetails = await validateRP(req);
-  if (!rpDetails) {
-    return res.status(400).render('register/views/invalidRedirectUri');
+  try {
+    const rpDetails = await validateRP(req);
+    if (!rpDetails) {
+      return res.status(400).render('register/views/invalidRedirectUri');
+    }
+  
+    const model = await validateInput(req);
+    if (!model.isValid) {
+      model.csrfToken = req.csrfToken();
+      return res.render('register/views/details', model);
+    }
+  
+    const invitationId = await sendInvitation(model, rpDetails);
+  
+    req.session.registration = {
+      invitationId,
+      firstName: model.firstName,
+      lastName: model.lastName,
+      email: model.email,
+      clientId: rpDetails.clientId,
+      redirectUri: rpDetails.redirectUri,
+    };
+  
+    return res.redirect(`/register/${invitationId}`);  
+  } catch (e) {
+    logger.error(`Faild to send the invitation. Error-${e}`);
+    throw e
   }
-
-  const model = await validateInput(req);
-  if (!model.isValid) {
-    model.csrfToken = req.csrfToken();
-    return res.render('register/views/details', model);
-  }
-
-  const invitationId = await sendInvitation(model, rpDetails);
-
-  req.session.registration = {
-    invitationId,
-    firstName: model.firstName,
-    lastName: model.lastName,
-    email: model.email,
-    clientId: rpDetails.clientId,
-    redirectUri: rpDetails.redirectUri,
-  };
-
-  return res.redirect(`/register/${invitationId}`);
 };
 
 module.exports = postDetails;
