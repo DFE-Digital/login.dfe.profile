@@ -21,7 +21,7 @@
   "homepage": "https://github.com/DFE-Digital/login.dfe.profile#readme",
   "dependencies": {
     "agentkeepalive": "^3.4.1",
-    "applicationinsights": "^1.0.2",
+    "applicationinsights": "^1.8.10",
     "body-parser": "^1.18.1",
     "cookie-parser": "^1.4.3",
     "cookie-session": "^2.0.0-beta.3",
@@ -31,12 +31,12 @@
     "email-validator": "^1.1.1",
     "eslint-plugin-jest": "^21.15.0",
     "express": "^4.16.3",
-    "express-ejs-layouts": "^2.3.1",
+    "express-ejs-layouts": "^2.5.1",
     "express-flash-2": "^1.0.1",
     "express-mw-correlation-id": "^4.0.0",
-    "express-session": "^1.15.6",
+    "express-session": "^1.17.2",
     "helmet": "^3.21.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "login.dfe.async-retry": "git+https://github.com/DFE-Digital/login.dfe.async-retry.git#v1.0",
     "login.dfe.audit.winston-sequelize-transport": "github:DFE-Digital/login.dfe.audit.winston-sequelize-transport#v2.12",
     "login.dfe.config.schema.common": "git+https://github.com/DFE-Digital/login.dfe.config.schema.common.git#v1.9.2",
@@ -52,17 +52,17 @@
     "openid-client": "^1.20.0",
     "passport": "^0.4.0",
     "request-promise": "^4.2.2",
-    "simpl-schema": "^1.5.6",
+    "simpl-schema": "^1.12.0",
     "uuid": "^3.2.1",
     "winston": "^2.4.1"
   },
   "devDependencies": {
     "eslint": "^6.5.1",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
-    "node-mocks-http": "^1.6.7"
+    "node-mocks-http": "^1.10.1"
   },
   "jest": {
     "testEnvironment": "node",
