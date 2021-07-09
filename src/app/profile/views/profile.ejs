@@ -16,6 +16,7 @@
         <% } %>
     </div>
 <% } %>
+
 <% if (locals.flash.info) { %>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -25,11 +26,7 @@
         </div>
     </div>
 <% } %>
-<% if (locals.flash.info) { %>
-<div class="notification notification-success" tabindex="-1">
-    <%= locals.flash.info %>
-</div>
-<% } %>
+
 <% if(locals.pendingEmail) { %>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -39,7 +36,7 @@
                 <p class="govuk-body">
                     <form method="post" action="/change-email/cancel">
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
-                        <button class="button-link">Cancel change email</button>
+                        <button class="button-text govuk-!-font-size-19">Cancel change email</button>
                     </form>
                 </p>
             </div>
