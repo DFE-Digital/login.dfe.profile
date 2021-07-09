@@ -6,12 +6,9 @@ const healthCheck = require('login.dfe.healthcheck');
 const profile = require('./app/profile');
 const changePassword = require('./app/changePassword');
 const signOut = require('./app/signOut');
-const help = require('./app/help');
-const terms = require('./app/terms');
 const register = require('./app/register');
 const changeEmail = require('./app/changeEmail');
 const editDetails = require('./app/editDetails');
-const addOrganisation = require('./app/addOrganisation');
 
 const routes = (app, csrf) => {
   // auth callbacks
@@ -58,12 +55,9 @@ const routes = (app, csrf) => {
   app.use('/', profile(csrf));
   app.use('/change-password', changePassword(csrf));
   app.use('/signout', signOut(csrf));
-  app.use('/help', help(csrf));
-  app.use('/terms', terms(csrf));
   app.use('/register', register(csrf));
   app.use('/edit-details', editDetails(csrf));
   app.use('/change-email', changeEmail(csrf));
-  // app.use('/add-organisation', addOrganisation(csrf));
   app.get('*', (req, res) => {
     res.status(404).render('errors/views/notFound');
   });
