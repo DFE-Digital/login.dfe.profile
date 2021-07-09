@@ -1,32 +1,40 @@
-<div class="grid-row">
-    <div class="col-12">
-        <h1 class="heading-xlarge">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
             Edit my details
         </h1>
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-            <div class="form-group <%= locals.validationMessages.givenName ? 'form-group-error' : '' %>">
-                <label class="form-label" for="givenName">First name</label>
+            <div class="govuk-form-group <%= (locals.validationMessages.givenName !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label" for="givenName">
+                    First name
+                </label>
                 <% if (locals.validationMessages.givenName) { %>
-                <p class="error-message" id="validation-first-name"><%=locals.validationMessages.givenName%></p>
+                    <span id="validation-first-name" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.givenName %>
+                    </span>
                 <% } %>
                 <div>
-                    <input class="form-control" id="givenName" name="givenName" type="text" value="<%=givenName%>"
+                    <input type="text" id="givenName" name="givenName" value="<%=givenName%>" class="govuk-input govuk-!-width-one-half"
                         <% if (locals.validationMessages.givenName) { %> aria-invalid="true" aria-describedby="validation-first-name" <% } %>/>
                 </div>
             </div>
-            <div class="form-group <%= locals.validationMessages.familyName ? 'form-group-error' : '' %>">
-                <label class="form-label" for="givenName">Last name</label>
+            <div class="govuk-form-group <%= (locals.validationMessages.familyName !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label" for="givenName">
+                    Last name
+                </label>
                 <% if (locals.validationMessages.familyName) { %>
-                <p class="error-message" id="validation-last-name"><%=locals.validationMessages.familyName%></p>
+                    <span id="validation-last-name" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.familyName %>
+                    </span>
                 <% } %>
                 <div>
-                    <input class="form-control" id="familyName" name="familyName" type="text" value="<%=familyName%>"
-                            <% if (locals.validationMessages.familyName) { %> aria-invalid="true" aria-describedby="validation-last-name" <% } %>/>
+                    <input type="text" id="familyName" name="familyName" value="<%=familyName%>" class="govuk-input govuk-!-width-one-half"
+                        <% if (locals.validationMessages.familyName) { %> aria-invalid="true" aria-describedby="validation-last-name" <% } %>/>
                 </div>
             </div>
-            <div class="submit-buttons">
-                <button type="submit" class="button">Save</button>
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button">Save</button>
             </div>
         </form>
     </div>
