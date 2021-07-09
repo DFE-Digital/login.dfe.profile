@@ -6,7 +6,7 @@
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
             <div class="govuk-form-group <%= (locals.validationMessages.givenName !== undefined) ? 'govuk-form-group--error' : '' %>">
-                <label class="govuk-label" for="givenName">
+                <label class="govuk-label govuk-label--s" for="givenName">
                     First name
                 </label>
                 <% if (locals.validationMessages.givenName) { %>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="govuk-form-group <%= (locals.validationMessages.familyName !== undefined) ? 'govuk-form-group--error' : '' %>">
-                <label class="govuk-label" for="givenName">
+                <label class="govuk-label govuk-label--s" for="givenName">
                     Last name
                 </label>
                 <% if (locals.validationMessages.familyName) { %>
