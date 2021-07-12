@@ -1,29 +1,20 @@
-<div class="grid-row">
-    <div class="col-8">
-        <div class="govuk-box-highlight">
-            <h1 class="heading-xlarge">
-                Registration complete
-            </h1>
-            <p class="font-medium">
-                <% if (locals.isMigrated) { %>
-                    You have successfully set up your DfE Sign-in account.
-                <% } else { %>
-                Your DfE Sign-in account is ready to use. You will need your email address and password to sign in to your DfE Sign-in account.
-                <% } %>
-            </p>
+<div id="main-wrapper" class="govuk-main-wrapper">
+    
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-panel govuk-panel--confirmation">
+                <h1 class="govuk-panel__title">
+                    Registration complete
+                </h1>
+                <div class="govuk-panel__body">
+                    Your DfE Sign-in account is ready to use. You will need your email address and password to sign in to your DfE Sign-in account.
+                </div>
+            </div>
+
+            <div class="govuk-button-group">
+                <a class="govuk-button" href="<%=redirectUri%>">Return to <%=clientName%></a>
+            </div>
         </div>
-
-        <% if (locals.isMigrated) { %>
-            <h2 class="heading-medium">What happens next?</h2>
-
-            <p>From 2 March you will have to access the Manage Your Education and Skills Funding service through this DfE account.</p>
-
-            <p>Continue accessing this service as normal (through IDAMs) until this date.</p>
-
-            <p>We will email you on 2 March to remind you of the changeover.</p>
-
-            <p><a href="<%= locals.urls.survey %>" target="_blank" title="This is a new service, your feedback will help us to improve it">What did you think of this Service?</a> (takes 30 seconds)</p>
-        <% } %>
-        <p><a class="button" href="<%=redirectUri%>">Return to <%=clientName%></a></p>
     </div>
+
 </div>

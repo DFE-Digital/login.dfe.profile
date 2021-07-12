@@ -1,32 +1,41 @@
-<div class="row">
-    <div class="col-8">
-        <h1 class="heading-xlarge">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
             Resend verification email
         </h1>
 
-        <p>A verification email was send to <%= locals.existingEmail %>.</p>
-        <p>If this email address is incorrect then you can change it below.</p>
+        <p class="govuk-body">A verification email was send to <%= locals.existingEmail %>.</p>
+        <p class="govuk-body">If this email address is incorrect then you can change it below.</p>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-12">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+
         <form method="post" id="form-resend-invitation">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-            <fieldset>
-                <legend class="vh">Edit <%= locals.existingEmail %></legend>
-                <div class="form-group <%= (locals.validationMessages.email !== undefined) ? 'form-group-error' : '' %>">
-                    <label class="form-label" for="email">Email address </label>
+
+            <fieldset class="govuk-fieldset">
+                <legend class="govuk-visually-hidden">Edit <%= locals.existingEmail %></legend>
+
+                <div class="govuk-form-group <%= (locals.validationMessages.email !== undefined) ? 'govuk-form-group--error' : '' %>">
+                    <label class="govuk-label" for="email">Email address </label>
                     <% if (locals.validationMessages.email !== undefined) { %>
-                    <p class="error-message" id="validation-email"><%=locals.validationMessages.email %></p>
+                        <span id="validation-email" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.email %>
+                        </span>
                     <% } %>
-                    <input class="form-control" id="email" name="email" type="text" <% if (locals.validationMessages.email !== undefined) { %> aria-invalid="true" aria-describedby="validation-email" <% } %> value="<%=email%>">
+                    <input class="govuk-input" id="email" name="email" type="email"
+                           <% if (locals.validationMessages.email !== undefined) { %>aria-invalid="true" aria-describedby="validation-email"<% } %>
+                           value="<%=locals.email%>">
                 </div>
             </fieldset>
-            <div class="form-submit submit-buttons">
-                <button type="submit" class="button">Submit</button>
-                <a href="/register/<%= locals.invitationId %>" class="button button-secondary">Cancel</a>
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button">Submit</button>
+                <a href="/register/<%= locals.invitationId %>" class="govuk-button govuk-button--secondary">Cancel</a>
             </div>
         </form>
+
     </div>
 </div>
