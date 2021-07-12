@@ -57,6 +57,7 @@ const mockConfig = (customConfig) => {
     search: {
       type: 'static',
     },
+    loggerSettings: {},
   };
   return Object.assign(defaultConfig, customConfig || {});
 };
