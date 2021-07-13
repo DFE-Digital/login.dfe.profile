@@ -1,65 +1,75 @@
 <!-- Banner -->
 <% if(locals.header) { %>
-    <div class="notification notification-information" tabindex="-1">
-        <h2><%=locals.header%></h2>
+    <div class="notification notification-information">
+        <h2 class="govuk-heading-m">
+            <%=locals.header%>
+        </h2>
         <% if(locals.headerMessage) { %>
-            <p><%-locals.headerMessage.replace('__helplink__',locals.urls.help)%></p>
+            <p class="govuk-body"><%-locals.headerMessage.replace('__helplink__',locals.urls.help)%></p>
         <%}%>
     </div>
-<%}%>
+<% } %>
 
-<div class="grid-row">
-    <div class="col-8">
-        <h1 class="heading-xlarge">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
             Create a DfE Sign-in account
         </h1>
-        <p>If you already have a DfE Sign-in account <a href="<%= locals.redirectUri %>">sign in</a>.</p>
+        <p class="govuk-body">If you already have a DfE Sign-in account <a class="govuk-link-bold" href="<%= locals.redirectUri %>">sign in</a>.</p>
     </div>
 </div>
-<div class="grid-row">
-    <div class="col-6">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
-            <div class="form-group <%= locals.validationMessages.firstName ? 'form-group-error' : '' %>">
-                <label class="form-label" for="firstName">First name</label>
-                <% if (locals.validationMessages.firstName) { %>
-                <p class="error-message" id="validation-firstName"><%=locals.validationMessages.firstName%></p>
+            <div class="govuk-form-group <%= (locals.validationMessages.firstName !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label" for="firstName">First name</label>
+                <% if (locals.validationMessages.firstName !== undefined) { %>
+                    <span id="validation-firstName" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.firstName %>
+                    </span>
                 <% } %>
-                <div>
-                    <input class="form-control full-width" id="firstName" name="firstName" type="text" value="<%=firstName%>"
-                            <% if (locals.validationMessages.firstName) { %> aria-invalid="true" aria-describedby="validation-firstName" <% } %> />
-                </div>
-            </div>
-            <div class="form-group <%= locals.validationMessages.lastName ? 'form-group-error' : '' %>">
-                <label class="form-label" for="lastName">Last name</label>
-                <% if (locals.validationMessages.lastName) { %>
-                <p class="error-message" id="validation-lastName"><%=locals.validationMessages.lastName%></p>
-                <% } %>
-                <div>
-                    <input class="form-control full-width" id="lastName" name="lastName" type="text" value="<%=lastName%>"
-                            <% if (locals.validationMessages.lastName) { %> aria-invalid="true" aria-describedby="validation-lastName" <% } %> />
-                </div>
-            </div>
-            <div class="form-group <%= locals.validationMessages.email ? 'form-group-error' : '' %>">
-                <label class="form-label" for="email">Email address
-                    <span class="form-hint">You will receive an email to verify this address</span>
-                </label>
-                <% if (locals.validationMessages.email) { %>
-                <p class="error-message" id="validation-email"><%=locals.validationMessages.email%></p>
-                <% } %>
-                <div>
-                    <input class="form-control full-width" id="email" name="email" type="text" value="<%=email%>"
-                            <% if (locals.validationMessages.email) { %> aria-invalid="true" aria-describedby="validation-email" <% } %> />
-                </div>
+                <input class="govuk-input" id="firstName" name="firstName" type="text"
+                <% if (locals.validationMessages.firstName !== undefined) { %>
+                       aria-invalid="true" aria-describedby="validation-firstName"
+                        <% } %>
+                       value="<%=locals.firstName%>">
             </div>
 
-            <div class="panel panel-border-wide">
-                <p>By continuing you accept the <a target="_blank" href="<%=locals.urls.interactions%>/terms">terms and conditions</a>.</p>
+            <div class="govuk-form-group <%= (locals.validationMessages.lastName !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label" for="lastName">Last name </label>
+                <% if (locals.validationMessages.lastName !== undefined) { %>
+                    <span id="validation-lastName" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.lastName %>
+                    </span>
+                <% } %>
+                <input class="govuk-input" id="lastName" name="lastName" type="text"
+                       <% if (locals.validationMessages.lastName !== undefined) { %>aria-invalid="true" aria-describedby="validation-lastName"<% } %>
+                       value="<%=locals.lastName%>">
             </div>
 
-            <div class="submit-buttons">
-                <button type="submit" class="button">Continue</button>
+            <div class="govuk-form-group <%= (locals.validationMessages.email !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label" for="email">Email address </label>
+                <p class="govuk-hint govuk-!-margin-top-1">You will receive an email to verify this address</p>
+                <% if (locals.validationMessages.email !== undefined) { %>
+                    <span id="validation-email" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.email %>
+                    </span>
+                <% } %>
+                <input class="govuk-input" id="email" name="email" type="email"
+                       <% if (locals.validationMessages.email !== undefined) { %>aria-invalid="true" aria-describedby="validation-email"<% } %>
+                       value="<%=locals.email%>">
+            </div>
+
+            <div class="govuk-inset-text">
+                <p class="govuk-body">
+                    By continuing you accept the <a class="govuk-link-bold" target="_blank" href="<%=locals.urls.interactions%>/terms">terms and conditions</a>.
+                </p>
+            </div>
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button">Continue</button>
             </div>
         </form>
     </div>

@@ -1,45 +1,60 @@
-<div class="grid-row">
-    <div class="col-12">
-        <h1 class="heading-xlarge">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
             Change my password
         </h1>
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
-                <div class="form-group <%= locals.validationMessages.oldPassword ? 'form-group-error' : '' %>">
-                    <label class="form-label" for="oldPassword">Current password</label>
-                    <% if (locals.validationMessages.oldPassword) { %>
-                    <p class="error-message" id="validation-old-password"><%=locals.validationMessages.oldPassword%></p>
-                    <% } %>
-                    <div class="show-password">
-                        <input class="form-control" id="oldPassword" name="oldPassword" type="password" maxlength="64"
-                            <% if (locals.validationMessages.oldPassword) { %> aria-invalid="true" aria-describedby="validation-old-password" <% } %> />
-                    </div>
+            <div class="govuk-form-group <%= (locals.validationMessages.oldPassword !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label govuk-label--s" for="oldPassword">
+                    Current password
+                </label>
+                <% if (locals.validationMessages.oldPassword) { %>
+                    <span id="validation-old-password" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.oldPassword %>
+                    </span>
+                <% } %>
+                <div class="show-password">
+                    <input class="password-input govuk-input govuk-!-width-one-half govuk-!-margin-right-1"
+                        id="oldPassword" name="oldPassword" type="password" maxlength="64"
+                        <% if (locals.validationMessages.oldPassword) { %> aria-invalid="true" aria-describedby="validation-old-password" <% } %> />
                 </div>
-                <div class="form-group <%= locals.validationMessages.newPassword ? 'form-group-error' : '' %>">
-                    <label class="form-label" for="newPassword">Create new password</label>
-                    <p class="form-hint">Your password needs to be a minimum of 12 characters</p>
-                    <% if (locals.validationMessages.newPassword) { %>
-                    <p class="error-message" id="validation-new-password"><%=locals.validationMessages.newPassword%></p>
-                    <% } %>
-                    <div class="show-password">
-                        <input class="form-control" id="newPassword" name="newPassword" type="password" maxlength="64"
-                            <% if (locals.validationMessages.newPassword) { %> aria-invalid="true" aria-describedby="validation-new-password" <% } %>/>
-                    </div>
+            </div>
+            <div class="govuk-form-group <%= (locals.validationMessages.newPassword !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label govuk-label--s" for="newPassword">
+                    Create new password
+                </label>
+                <p class="govuk-hint govuk-!-margin-top-1">Your password needs to be a minimum of 12 characters</p>
+                <% if (locals.validationMessages.newPassword) { %>
+                    <span id="validation-new-password" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.newPassword %>
+                    </span>
+                <% } %>
+                <div class="show-password">
+                    <input class="password-input govuk-input govuk-!-width-one-half govuk-!-margin-right-1"
+                        id="newPassword" name="newPassword" type="password" maxlength="64"
+                        <% if (locals.validationMessages.newPassword) { %> aria-invalid="true" aria-describedby="validation-new-password" <% } %>/>
                 </div>
-                <div class="form-group <%= locals.validationMessages.confirmPassword ? 'form-group-error' : '' %>">
-                    <label class="form-label" for="confirmPassword">Confirm new password</label>
-                    <% if (locals.validationMessages.confirmPassword) { %>
-                    <p class="error-message" id="validation-confirm-password"><%=locals.validationMessages.confirmPassword%></p>
-                    <% } %>
-                    <div class="show-password">
-                        <input class="form-control" id="confirmPassword" name="confirmPassword" type="password" maxlength="64"
-                            <% if (locals.validationMessages.confirmPassword) { %> aria-invalid="true" aria-describedby="validation-confirm-password" <% } %>/>
-                    </div>
+            </div>
+            <div class="govuk-form-group <%= (locals.validationMessages.confirmPassword !== undefined) ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label govuk-label--s" for="confirmPassword">
+                    Confirm new password
+                </label>
+                <% if (locals.validationMessages.confirmPassword) { %>
+                    <span id="validation-confirm-password" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.confirmPassword %>
+                    </span>
+                <% } %>
+                <div class="show-password">
+                    <input class="password-input govuk-input govuk-!-width-one-half govuk-!-margin-right-1"
+                        id="confirmPassword" name="confirmPassword" type="password" maxlength="64"
+                        <% if (locals.validationMessages.confirmPassword) { %> aria-invalid="true" aria-describedby="validation-confirm-password" <% } %>/>
                 </div>
-                <div class="submit-buttons">
-                    <button type="submit" class="button">Save</button>
-                </div>
+            </div>
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button">Save</button>
+            </div>
         </form>
     </div>
 </div>

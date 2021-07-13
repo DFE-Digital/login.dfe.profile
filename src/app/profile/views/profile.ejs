@@ -1,56 +1,91 @@
 <% if (locals.approverRequests && locals.approverRequests.length > 0) { %>
     <div class="panel panel-border-narrow alert-default" tabindex="0">
         <% if (locals.approverRequests.length === 1) { %>
-            <p>There is <strong class="bold-small"><%= locals.approverRequests.length %> request</strong> you need to
-                action - <a href=<%=locals.servicesUrl%>/access-requests>view requests</a></p>
+        <p class="govuk-body">There is <strong
+                class="govuk-!-font-size-19 govuk-!-font-weight-bold"><%= locals.approverRequests.length %>
+                request</strong>
+            you need to action - <a class="govuk-link-bold" href="/access-requests">view requests</a>
+        </p>
         <% } else { %>
-            <p>There are <strong class="bold-small"><%= locals.approverRequests.length %> requests</strong> you need to
-                action - <a href=<%=locals.servicesUrl%>/access-requests>view requests</a></p>
+        <p class="govuk-body">There are <strong
+                class="govuk-!-font-size-19 govuk-!-font-weight-bold"><%= locals.approverRequests.length %>
+                requests</strong> you need to action - <a class="govuk-link-bold"
+                href="/access-requests">view
+                requests</a>
+        </p>
         <% } %>
     </div>
 <% } %>
+
 <% if (locals.flash.info) { %>
-<div class="notification notification-success" tabindex="-1">
-    <%= locals.flash.info %>
-</div>
-<% } %>
-<% if(locals.pendingEmail) { %>
-<div class="notification notification-information" tabindex="0">
-    <h2>Pending email address change</h2>
-    <p>Waiting for you to confirm the new email address of <%=pendingEmail%>.</p>
-    <p>
-    <form method="post" action="/change-email/cancel">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
-        <button class="button-text">Cancel change email</button>
-    </form>
-    </p>
-</div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="notification notification-success">
+                <%= locals.flash.info %>
+            </div>
+        </div>
+    </div>
 <% } %>
 
-<div class="row">
-    <div class="col-8">
-        <h1 class="heading-xlarge">
+<% if(locals.pendingEmail) { %>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="notification notification-information" tabindex="0">
+                <h2 class="govuk-heading-m">Pending email address change</h2>
+                <p class="govuk-body">Waiting for you to confirm the new email address of <%=pendingEmail%>.</p>
+                <p class="govuk-body">
+                    <form method="post" action="/change-email/cancel">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                        <button class="button-text govuk-!-font-size-19">Cancel change email</button>
+                    </form>
+                </p>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">
             Profile
         </h1>
-        <dl class="inline">
-            <dt>First name</dt>
-            <dd><%= locals.user.given_name %></dd>
-            <dt>Last name</dt>
-            <dd><%= locals.user.family_name %></dd>
-            <dt>Email</dt>
-            <dd><%= locals.user.email %></dd>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    First name
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <%= locals.user.given_name %>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Last name
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <%= locals.user.family_name %>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Email
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <%= locals.user.email %>
+                </dd>
+            </div>
         </dl>
     </div>
-    <div class="col-4">
-        <aside>
-            <h2 class="heading-medium">Actions</h2>
-            <nav class="subnav">
-                <ul>
-                    <li><a href="/edit-details">Edit my details</a></li>
-                    <li><a href="/change-password">Change my password</a></li>
-                    <li><a href="/change-email">Change my email address</a></li>
-                </ul>
-            </nav>
+
+    <div class="govuk-grid-column-one-third pull-right">
+        <aside class="govuk-!-margin-top-9">
+            <h2 class="govuk-heading-m">Actions</h2>
+            <ul class="govuk-list">
+                <li><a class="govuk-link-bold" href="/edit-details">Edit my details</a></li>
+                <li><a class="govuk-link-bold" href="/change-password">Change my password</a></li>
+                <li><a class="govuk-link-bold" href="/change-email">Change my email address</a></li>
+            </ul>
         </aside>
     </div>
+
 </div>

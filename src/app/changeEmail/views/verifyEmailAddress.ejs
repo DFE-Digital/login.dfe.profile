@@ -1,40 +1,40 @@
 <%if(locals.includeResend) {%>
-<div class="notification notification-information" tabindex="0">
-    <h2>Email confirmation sent</h2>
-    <div class="inline-wrap">
-        <p>We've sent an email to <%=newEmail%>. Your new email address will not be saved until you have completed this confirmation step.</p>
-        <form class="inline" method="post" action="/change-email">
-            <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
-            <input type="hidden" name="newEmail" value="<%=newEmail%>" />
-            <button type="submit" class="button-text">Resend email</button>
-        </form>
+    <div class="notification notification-information" tabindex="0">
+        <h2 class="notification-header govuk-!-font-size-24">Email confirmation sent</h2>
+        <div class="inline-wrap">
+            <p class="govuk-body">We've sent an email to <%=newEmail%>. Your new email address will not be saved until you have completed this confirmation step.</p>
+            <form class="inline" method="post" action="/change-email">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
+                <input type="hidden" name="newEmail" value="<%=newEmail%>" />
+                <button type="submit" class="button-text govuk-!-font-size-19">Resend email</button>
+            </form>
+        </div>
     </div>
-</div>
 <%}%>
-<div class="grid-row">
-    <div class="col-8">
-        <h1 class="heading-xlarge">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-xl">
             Confirm your new email address
         </h1>
-        <p class="lede">Enter your verification code to confirm and save your new email address.</p>
-    </div>
-</div>
-<div class="grid-row">
-    <div class="col-12">
+        <p class="govuk-body-l">Enter your verification code to confirm and save your new email address.</p>
+
         <form method="post" id="form-change-password">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>" />
 
-            <div class="form-group <%= locals.validationMessages.code ? 'form-group-error' : '' %>">
-                <label class="form-label" for="code">Verification code</label>
-                <% if (locals.validationMessages.code) { %>
-                <p class="error-message" id="validation-code"><%=locals.validationMessages.code%></p>
+            <div class="govuk-form-group <%= locals.validationMessages.code !== undefined ? 'govuk-form-group--error' : '' %>">
+                <label class="govuk-label govuk-label--s" for="code">Verification code</label>
+                <% if (locals.validationMessages.code !== undefined) { %>
+                    <span id="validation-code" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> <%= locals.validationMessages.code %>
+                    </span>
                 <% } %>
-                <input class="form-control char-width-8" id="code" name="code" type="text" value="<%=code%>"
-                        <% if (locals.validationMessages.code) { %> aria-invalid="true" aria-describedby="validation-code" <% } %> />
+                <input class="govuk-input govuk-!-width-one-quarter" id="code" name="code" type="text" value="<%=code%>" maxlength="8" 
+                        <% if (locals.validationMessages.code !== undefined) { %> aria-invalid="true" aria-describedby="validation-code" <% } %>>
 
             </div>
-            <div class="submit-buttons">
-                <button type="submit" class="button">Continue</button>
+
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button">Continue</button>
             </div>
         </form>
     </div>
