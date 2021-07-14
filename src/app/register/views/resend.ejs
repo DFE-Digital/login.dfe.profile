@@ -19,7 +19,7 @@
                 <legend class="govuk-visually-hidden">Edit <%= locals.existingEmail %></legend>
 
                 <div class="govuk-form-group <%= (locals.validationMessages.email !== undefined) ? 'govuk-form-group--error' : '' %>">
-                    <label class="govuk-label" for="email">Email address </label>
+                    <label class="govuk-label govuk-label--s" for="email">Email address </label>
                     <% if (locals.validationMessages.email !== undefined) { %>
                         <span id="validation-email" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span> <%=locals.validationMessages.email %>
